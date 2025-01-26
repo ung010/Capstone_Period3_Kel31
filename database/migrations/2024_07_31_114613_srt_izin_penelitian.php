@@ -13,19 +13,19 @@ return new class extends Migration
     {
         Schema::create('srt_izin_plt', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('no_surat')->nullable();
-            $table->string('nama_mhw')->nullable();
-            $table->string('lampiran');
-            $table->string('nama_lmbg');
+            $table->string('no_surat', 50)->nullable();
+            $table->string('nama_mhw', 50)->nullable();
             $table->tinyInteger('semester');
-            $table->string('jbt_lmbg');
-            $table->string('kota_lmbg');
-            $table->string('almt_lmbg');
-            $table->string('judul_data');
-            $table->string('jenis_surat');
+            $table->string('lampiran', 15);
+            $table->string('nama_lmbg', 60);
+            $table->string('jbt_lmbg', 50);
+            $table->string('kota_lmbg', 40);
+            $table->string('almt_lmbg', 70);
+            $table->string('judul_data', 45);
+            $table->string('jenis_surat', 35);
             $table->date('tanggal_surat');
-            $table->text('catatan_surat')->nullable()->default('-');
-            $table->string('file_pdf')->nullable();
+            $table->string('catatan_surat', 280)->nullable()->default('-');
+            // $table->string('file_pdf')->nullable();
             $table->enum('role_surat', ['tolak' ,'mahasiswa', 'admin', 'supervisor_akd', 'manajer', 'wd1'])->default('admin');
             $table->unsignedBigInteger('users_id')->nullable();
             $table->unsignedBigInteger('prd_id')->nullable();

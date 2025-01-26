@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Faker\Factory as Faker;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -110,11 +111,11 @@ class DatabaseSeeder extends Seeder
                 'id' => $id,
                 'nama' => $faker->firstName . ' ' . $faker->lastName,
                 'nmr_unik' => '211201' . $faker->unique()->numerify('########'),
-                'email' => $faker->unique()->userName . '@students.undip.ac.id',
+                'email' => Str::lower($faker->firstName) . '@students.undip.ac.id',
                 'password' => Hash::make('1234567'),
                 'role' => $faker->randomElement(['non_mahasiswa', 'mahasiswa']),
                 'status' => $faker->randomElement(['mahasiswa', 'alumni']),
-                'nowa' => $faker->phoneNumber,
+                'nowa' => preg_replace('/[^0-9]/', '', $faker->phoneNumber),
                 'kota' => $faker->city,
                 'nama_ibu' => $faker->firstName($gender) . ' ' . $faker->lastName,
                 'tanggal_lahir' => $faker->date($format = 'Y-m-d', $max = '2008-01-01', $min = '1999-01-01',),

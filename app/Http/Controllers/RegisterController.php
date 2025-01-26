@@ -48,7 +48,7 @@ class RegisterController extends Controller
       'nowa' => 'required',
       'status' => 'required',
       'almt_asl' => 'required',
-      'password' => 'required|min:8',
+      'password' => 'required|min:8|max:20',
       'prd_id' => 'required',
       'foto' => 'required|mimes:jpeg,jpg,png|image|max:2048'
     ], [
@@ -62,6 +62,7 @@ class RegisterController extends Controller
       'password.required' => 'Password wajib diisi',
       'nama_ibu.required' => 'Nama ibu wajib diisi',
       'password.min' => 'Password minimal 8 karakter',
+      'password.max' => 'Password maximal 20 karakter',
       'kota.required' => 'Tempat lahir wajib diisi',
       'tanggal_lahir.required' => 'Tanggal lahir wajib diisi',
       'status.required' => 'Wajib mengisi pilihan mahasiswa / alumni',
@@ -71,7 +72,7 @@ class RegisterController extends Controller
       'foto.required' => 'Foto wajib diisi',
       'foto.mimes' => 'Foto wajib berbentuk JPEG, JPG, dan PNG',
       'foto.image' => 'File harus berupa gambar',
-      'foto.max' => 'Ukuran file gambar maksimal adalah 2048 kilobyte'
+      'foto.max' => 'Ukuran file gambar maksimal adalah 2 Mb'
     ]);
 
     $foto = $request->file('foto');

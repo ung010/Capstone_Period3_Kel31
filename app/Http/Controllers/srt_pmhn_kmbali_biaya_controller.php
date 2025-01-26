@@ -102,9 +102,9 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
     public function create(Request $request)
     {
         $validated = $request->validate([
-            'skl' => 'required|mimes:pdf|max:500',
-            'bukti_bayar' => 'required|mimes:pdf|max:500',
-            'buku_tabung' => 'required|mimes:pdf|max:500',
+            'skl' => 'required|mimes:pdf|max:10240',
+            'bukti_bayar' => 'required|mimes:pdf|max:10240',
+            'buku_tabung' => 'required|mimes:pdf|max:10240',
         ], [
             'skl.required' => 'SKL wajib diisi',
             'bukti_bayar.required' => 'Bukti Bayar wajib diisi',
@@ -112,9 +112,9 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
             'skl.mimes' => 'SKL wajib bertipe PDF',
             'bukti_bayar.mimes' => 'Bukti bayar wajib bertipe PDF',
             'buku_tabung.mimes' => 'Buku tabungan wajib bertipe PDF',
-            'skl.max' => 'Ukuran file SKL melebihi 500 Kilobytes',
-            'bukti_bayar.max' => 'Ukuran file Bukti Bayar melebihi 500 Kilobytes',
-            'buku_tabung.max' => 'Ukuran file Buku Tabungan melebihi 500 Kilobytes',
+            'skl.max' => 'Ukuran file SKL melebihi 10 Mb',
+            'bukti_bayar.max' => 'Ukuran file Bukti Bayar melebihi 10 Mb',
+            'buku_tabung.max' => 'Ukuran file Buku Tabungan melebihi 10 Mb',
         ]);
 
         $user = Auth::user();

@@ -13,21 +13,21 @@ return new class extends Migration
     {
         Schema::create('legalisir', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('no_resi')->default('-');
+            $table->string('no_resi', 40)->default('-');
             $table->enum('jenis_lgl', ['ijazah' ,'transkrip', 'ijazah_transkrip']);
             $table->enum('ambil', ['ditempat' ,'dikirim']);
-            $table->string('nama_mhw')->nullable();
-            $table->string('file_ijazah')->nullable();
-            $table->string('file_transkrip')->nullable();
-            $table->string('keperluan');
+            $table->string('nama_mhw', 50)->nullable();
+            $table->string('file_ijazah', 50)->nullable();
+            $table->string('file_transkrip', 50)->nullable();
+            $table->string('keperluan', 70);
             $table->date('tgl_lulus');
-            $table->string('almt_kirim')->nullable();
-            $table->string('kcmt_kirim')->nullable();
+            $table->string('almt_kirim', 70)->nullable();
+            $table->string('kcmt_kirim', 40)->nullable();
             $table->integer('kdps_kirim')->nullable();
-            $table->string('klh_kirim')->nullable();
-            $table->string('kota_kirim')->nullable();
+            $table->string('klh_kirim', 40)->nullable();
+            $table->string('kota_kirim', 40)->nullable();
             $table->date('tanggal_surat');
-            $table->text('catatan_surat')->nullable()->default('-');
+            $table->string('catatan_surat', 280)->nullable()->default('-');
             $table->enum('role_surat', ['tolak' ,'mahasiswa', 'alumni', 'admin', 'supervisor_akd', 'dekan'])->default('admin');
             $table->unsignedBigInteger('users_id')->nullable();
             $table->unsignedBigInteger('prd_id')->nullable();

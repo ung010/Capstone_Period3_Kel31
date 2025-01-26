@@ -21,6 +21,7 @@
                                 <th>NIM</th>
                                 <th>Departemen</th>
                                 <th>Program Studi</th>
+                                <th>No Handphone</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -33,6 +34,7 @@
                                     <td>{{ $item->nmr_unik }}</td>
                                     <td>{{ $item->nama_dpt }}</td>
                                     <td>{{ $item->nama_prd }}</td>
+                                    <td>{{ $item->nowa }}</td>
                                     <td>
                                         <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
                                             data-bs-target="#editUser" data-id="{{ $item->id }}"
@@ -114,6 +116,7 @@
                                 <th>NIM</th>
                                 <th>Departemen</th>
                                 <th>Program Studi</th>
+                                <th>No Handphone</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -126,6 +129,7 @@
                                     <td>{{ $item->nmr_unik }}</td>
                                     <td>{{ $item->nama_dpt }}</td>
                                     <td>{{ $item->nama_prd }}</td>
+                                    <td>{{ $item->nowa }}</td>
                                     <td>
                                         <form action="{{ route('admin.restore', $item->id) }}" method="POST"
                                             onsubmit="return confirm('Apakah Anda yakin ingin mengembalikan akun ini?')">

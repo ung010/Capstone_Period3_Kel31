@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('srt_pmhn_kmbali_biaya', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('no_surat')->nullable();
-            $table->string('nama_mhw')->nullable();
-            $table->string('skl')->nullable();
-            $table->string('buku_tabung')->nullable();
-            $table->string('bukti_bayar')->nullable();
-            $table->string('file_pdf')->nullable();
+            $table->string('no_surat', 50)->nullable();
+            $table->string('nama_mhw', 50)->nullable();
+            $table->string('skl', 50)->nullable();
+            $table->string('buku_tabung', 50)->nullable();
+            $table->string('bukti_bayar', 50)->nullable();
+            // $table->string('file_pdf')->nullable();
             $table->date('tanggal_surat');
-            $table->text('catatan_surat')->nullable()->default('-');
+            $table->string('catatan_surat', 280)->nullable()->default('-');
             $table->enum('role_surat', ['tolak' ,'mahasiswa', 'admin', 'supervisor_sd', 'manajer', 'wd2'])->default('admin');
             $table->unsignedBigInteger('users_id')->nullable();
             $table->unsignedBigInteger('prd_id')->nullable();

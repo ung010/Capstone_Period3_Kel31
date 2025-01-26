@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('srt_bbs_pnjm', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('no_surat')->nullable();
-            $table->string('nama_mhw')->nullable();
-            $table->text('almt_smg');
-            $table->string('dosen_wali');
+            $table->string('no_surat', 50)->nullable();
+            $table->string('nama_mhw', 50)->nullable();
+            $table->string('almt_smg', 70);
+            $table->string('dosen_wali', 50);
             $table->date('tanggal_surat');
-            $table->text('catatan_surat')->nullable()->default('-');
+            $table->string('catatan_surat', 280)->nullable()->default('-');
             $table->enum('role_surat', ['tolak' ,'mahasiswa', 'admin', 'supervisor_sd', 'manajer'])->default('admin');
             $table->unsignedBigInteger('users_id')->nullable();
             $table->unsignedBigInteger('prd_id')->nullable();

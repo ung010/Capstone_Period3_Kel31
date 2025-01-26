@@ -128,6 +128,7 @@ class AdminController extends Controller
         'users.nama',
         'users.nmr_unik',
         'users.status',
+        'users.nowa',
         'users.email',
         'prodi.dpt_id',
         'departement.nama_dpt',
@@ -144,6 +145,7 @@ class AdminController extends Controller
         'users.nama',
         'users.nmr_unik',
         'users.email',
+        'users.nowa',
         'departement.nama_dpt',
         'prodi.nama_prd',
       )
@@ -369,7 +371,7 @@ class AdminController extends Controller
     $users->catatan_user = $request->catatan_user;
 
     $users->save();
-    return redirect()->route('admin.verifikasi')->with('success', 'Catatan berhasil ditambahkan');
+    return redirect()->route('admin.verifikasi')->with('success', 'Penolakan verifikasi berhasil dilakukan');
   }
 
   function verifikasi($id)

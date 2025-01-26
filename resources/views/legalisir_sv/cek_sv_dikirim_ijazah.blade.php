@@ -14,7 +14,8 @@
                 <div class="card-header d-flex align-items-center gap-2">
                     <a class="btn btn-secondary btn-fixed-size" href="/legalisir/sv/ditempat/ijazah">Ijazah</a>
                     <a class="btn btn-secondary btn-fixed-size" href="/legalisir/sv/ditempat/transkrip">Transkrip</a>
-                    <a class="btn btn-secondary btn-fixed-size" href="/legalisir/sv/ditempat/ijz_trs">Ijazah dan Transkrip</a>
+                    <a class="btn btn-secondary btn-fixed-size" href="/legalisir/sv/ditempat/ijz_trs">Ijazah dan
+                        Transkrip</a>
                 </div>
             </div>
         </div>
@@ -45,8 +46,7 @@
                 <br>
                 <div class="d-flex justify-content-center align-items-center align-content-center gap-3">
                     <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#tolakModal">Tolak</button>
-                    <form action="{{ route('legalisir_sv.setuju_sv_dikirim_ijazah', $legalisir->id) }}"
-                        method="POST">
+                    <form action="{{ route('legalisir_sv.setuju_sv_dikirim_ijazah', $legalisir->id) }}" method="POST">
                         @csrf
                         <button type="submit" class="btn btn-success">Setujui</button>
                     </form>
@@ -64,7 +64,8 @@
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="catatan_surat" class="form-label">Alasan Legalisir Ditolak</label>
-                            <textarea class="form-control" id="catatan_surat" name="catatan_surat" rows="3"></textarea>
+                            <textarea class="form-control" id="catatan_surat" name="catatan_surat" rows="3" maxlength="250" oninput="updateCharacterCount()"></textarea>
+                            <small id="charCount" class="form-text text-muted">0/250 karakter</small>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -85,8 +86,15 @@
                 textarea.value += suffix;
             }
         });
-    </script>
 
+        function updateCharacterCount() {
+            var maxLength = 250;
+            var currentLength = document.getElementById('catatan_surat').value.length;
+            var charCount = document.getElementById('charCount');
+
+            charCount.textContent = currentLength + '/' + maxLength + ' karakter';
+        }
+    </script>
 @endsection
 
 @section('script')

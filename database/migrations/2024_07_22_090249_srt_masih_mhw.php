@@ -13,16 +13,16 @@ return new class extends Migration
     {
         Schema::create('srt_masih_mhw', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('no_surat')->nullable();
-            $table->string('nama_mhw')->nullable();
+            $table->string('no_surat', 50)->nullable();
+            $table->string('nama_mhw', 50)->nullable();
+            $table->tinyInteger('semester');
             $table->year('thn_awl');
             $table->year('thn_akh');
-            $table->text('almt_smg');
-            $table->text('tujuan_buat_srt');
-            $table->tinyInteger('semester');
+            $table->string('almt_smg', 80);
+            $table->string('tujuan_buat_srt', 90);
             $table->date('tanggal_surat');
-            $table->text('catatan_surat')->nullable()->default('-');
-            $table->string('file_pdf')->nullable();
+            $table->string('catatan_surat', 280)->nullable()->default('-');
+            // $table->string('file_pdf')->nullable();
             $table->enum('tujuan_akhir', ['manajer' ,'wd']);
             $table->enum('role_surat', ['tolak' ,'mahasiswa', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer', 'wd1'])->default('admin');
             $table->unsignedBigInteger('users_id')->nullable();

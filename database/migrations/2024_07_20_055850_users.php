@@ -13,25 +13,35 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('nama');
-            $table->string('nmr_unik')->unique();
-            $table->string('nowa')->nullable();
-            $table->string('email');
-            $table->string('kota')->nullable();
+            $table->string('nama', 50);
+            $table->string('nmr_unik', 50)->unique();
+            $table->string('nowa', 15)->nullable();
+            $table->string('email', 80);
+            $table->string('kota', 50)->nullable();
             $table->date('tanggal_lahir')->nullable();
-            $table->string('almt_asl')->nullable();
-            $table->string('foto')->nullable();
-            $table->string('nama_ibu')->nullable();
-            $table->string('password');
+            $table->string('almt_asl', 80)->nullable();
+            $table->string('foto', 50)->nullable();
+            $table->string('nama_ibu', length: 25)->nullable();
+            $table->string('password', 65);
             $table->enum('status', ['mahasiswa', 'alumni']);
-            $table->enum('role', ['non_mahasiswa', 'del_mahasiswa', 'mahasiswa', 'admin', 'supervisor_akd', 'supervisor_sd', 'manajer', 'wd1', 'wd2'])->default('non_mahasiswa');
-            $table->text('catatan_user')->nullable()->default('-');
+            $table->enum('role', [
+                'non_mahasiswa',
+                'del_mahasiswa',
+                'mahasiswa',
+                'admin',
+                'supervisor_akd',
+                'supervisor_sd',
+                'manajer',
+                'wd1',
+                'wd2'
+            ])->default('non_mahasiswa');
+            $table->string('catatan_user')->nullable()->default('-');
             $table->unsignedBigInteger('prd_id')->nullable();
             $table->foreign('prd_id')->references('id')->on('prodi')->onDelete('cascade')->onUpdate('cascade')->nullable();
-            $table->rememberToken();
+            // $table->rememberToken();
             $table->timestamps();
         });
-        
+
     }
 
     /**

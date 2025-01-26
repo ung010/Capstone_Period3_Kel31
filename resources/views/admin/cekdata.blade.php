@@ -44,29 +44,30 @@
     </div>
 
     <div class="modal fade" id="catatanModal" tabindex="-1" aria-labelledby="catatanModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form action="{{ route('admin.catatan', $user->id) }}" method="POST">
-                        @csrf
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="catatanModalLabel">Tambah Catatan</h5>
-                            <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close">
-                            </button>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="{{ route('admin.catatan', $user->id) }}" method="POST">
+                    @csrf
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="catatanModalLabel">Tambah Catatan</h5>
+                        <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="catatan_user" class="form-label">Catatan dari admin</label>
+                            <textarea class="form-control" id="catatan_user" name="catatan_user" rows="3" maxlength="250"
+                                oninput="updateCharacterCount()"></textarea>
                         </div>
-                        <div class="modal-body">
-                            <div class="mb-3">
-                                <label for="catatan_user" class="form-label">Catatan dari admin</label>
-                                <textarea class="form-control" id="catatan_user" name="catatan_user" rows="3"></textarea>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Kirim</button>
-                        </div>
-                    </form>
-                </div>
+                        <div id="charCount" class="text-muted">0/250 karakter</div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Kirim</button>
+                    </div>
+                </form>
             </div>
         </div>
+    </div>
 @endsection
 
 @section('script')
@@ -74,5 +75,13 @@
         $(document).ready(function() {
             $('#table').DataTable();
         });
+
+        function updateCharacterCount() {
+            const textarea = document.getElementById('catatan_user');
+            const charCount = document.getElementById('charCount');
+            const currentLength = textarea.value.length;
+            const maxLength = 250;
+            charCount.textContent = currentLength + '/' + maxLength + ' karakter';
+        }
     </script>
 @endsection
