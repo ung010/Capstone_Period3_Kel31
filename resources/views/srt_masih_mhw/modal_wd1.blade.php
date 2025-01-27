@@ -6,7 +6,9 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="catatan_surat" class="form-label">Alasan Surat Ditolak</label>
-                        <textarea class="form-control" id="catatan_surat" name="catatan_surat" rows="3"></textarea>
+                        <textarea class="form-control" id="catatan_surat" name="catatan_surat" rows="3" maxlength="250"
+                            oninput="updateCharacterCount()"></textarea>
+                        <small id="charCount" class="form-text text-muted">0/250 karakter</small>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -26,4 +28,12 @@
             textarea.value += suffix;
         }
     });
+
+    function updateCharacterCount() {
+        var maxLength = 250;
+        var currentLength = document.getElementById('catatan_surat').value.length;
+        var charCount = document.getElementById('charCount');
+
+        charCount.textContent = currentLength + '/' + maxLength + ' karakter';
+    }
 </script>

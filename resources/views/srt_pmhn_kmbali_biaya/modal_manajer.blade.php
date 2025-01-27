@@ -1,12 +1,15 @@
 <div class="modal fade" id="tolakModal" tabindex="-1" aria-labelledby="tolakModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="{{ route('srt_pmhn_kmbali_biaya.manajer_tolak', $srt_pmhn_kmbali_biaya->id) }}" method="POST" id="tolakForm">
+            <form action="{{ route('srt_pmhn_kmbali_biaya.manajer_tolak', $srt_pmhn_kmbali_biaya->id) }}" method="POST"
+                id="tolakForm">
                 @csrf
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="catatan_surat" class="form-label">Alasan Surat Ditolak</label>
-                        <textarea class="form-control" id="catatan_surat" name="catatan_surat" rows="3"></textarea>
+                        <textarea class="form-control" id="catatan_surat" name="catatan_surat" rows="3" maxlength="250"
+                            oninput="updateCharacterCount()"></textarea>
+                        <small id="charCount" class="form-text text-muted">0/250 karakter</small>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -27,4 +30,12 @@
             textarea.value += suffix;
         }
     });
+
+    function updateCharacterCount() {
+        var maxLength = 250;
+        var currentLength = document.getElementById('catatan_surat').value.length;
+        var charCount = document.getElementById('charCount');
+
+        charCount.textContent = currentLength + '/' + maxLength + ' karakter';
+    }
 </script>
