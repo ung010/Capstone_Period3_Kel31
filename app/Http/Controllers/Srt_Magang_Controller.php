@@ -45,8 +45,8 @@ class Srt_Magang_Controller extends Controller
                 'users.id as users_id',
                 'prodi.id as prd_id',
                 'departement.id as dpt_id',
-                'users.nama',
-                'users.nmr_unik',
+                'users.nama as nama_mhw',
+                'users.nim_nip',
                 'users.nowa',
                 'users.email',
                 'departement.nama_dpt',
@@ -64,8 +64,8 @@ class Srt_Magang_Controller extends Controller
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%")
-                    ->orWhere('users.nmr_unik', 'like', "%{$search}%")
+                $q->where('users.nama', 'like', "%{$search}%")
+                    ->orWhere('users.nim_nip', 'like', "%{$search}%")
                     ->orWhere('users.nowa', 'like', "%{$search}%")
                     ->orWhere('almt_smg', 'like', "%{$search}%")
                     ->orWhere('semester', 'like', "%{$search}%")
@@ -128,7 +128,6 @@ class Srt_Magang_Controller extends Controller
             'id' => $id_surat,
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
-            'nama_mhw' => $user->nama,
             'ipk' => $request->ipk,
             'sksk' => $request->sksk,
             'almt_smg' => $request->almt_smg,
@@ -212,12 +211,11 @@ class Srt_Magang_Controller extends Controller
                 'srt_magang.id',
                 'srt_magang.no_surat',
                 'srt_magang.tanggal_surat',
-                'srt_magang.nama_mhw',
                 'users.id as users_id',
                 'prodi.id as prodi_id',
                 'departement.id as departement_id',
                 'users.nama',
-                'users.nmr_unik',
+                'users.nim_nip',
                 'users.nowa',
                 'users.email',
                 'departement.nama_dpt',
@@ -269,19 +267,18 @@ class Srt_Magang_Controller extends Controller
         $search = $request->input('search');
 
         $query = DB::table('srt_magang')
+            ->join('users', 'srt_magang.users_id', '=', 'users.id')
             ->select(
-                'id',
-                'nama_mhw',
-                'role_surat',
+                'srt_magang.id',
+                'users.nama as nama_mhw',
+                'srt_magang.role_surat',
             )
-            ->whereIn('role_surat', ['admin', 'supervisor_akd', 'manajer', 'wd1'])
-            ->orderByRaw("FIELD(role_surat, 'admin', 'supervisor_akd', 'manajer', 'wd1')")
+            ->where('role_surat', 'admin')
             ->orderBy('tanggal_surat', 'asc');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%")
-                    ->orWhere('role_surat', 'LIKE', "%{$search}%");
+                $q->where('users.nama', 'like', "%{$search}%");
             });
         }
 
@@ -306,7 +303,7 @@ class Srt_Magang_Controller extends Controller
 //         'prodi.id as prodi_id',
 //         'departement.id as departement_id',
 //         'users.nama',
-//         'users.nmr_unik',
+//         'users.nim_nip',
 //         'users.nowa',
 //         'users.email',
 //         'departement.nama_dpt',
@@ -407,7 +404,7 @@ class Srt_Magang_Controller extends Controller
                 'prodi.id as prodi_id',
                 'departement.id as departement_id',
                 'users.nama',
-                'users.nmr_unik',
+                'users.nim_nip',
                 'users.nowa',
                 'users.foto',
                 'users.email',
@@ -473,18 +470,18 @@ class Srt_Magang_Controller extends Controller
             ->orderBy('tanggal_surat', 'asc')
             ->select(
                 'srt_magang.id',
-                'srt_magang.nama_mhw',
+                'users.nama as nama_mhw',
                 'srt_magang.tanggal_surat',
                 'srt_magang.nama_lmbg',
-                'users.nmr_unik',
+                'users.nim_nip',
                 'prodi.nama_prd'
             );
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%")
+                $q->where('users.nama', 'like', "%{$search}%")
                     ->orWhere('nama_lmbg', 'like', "%{$search}%")
-                    ->orWhere('users.nmr_unik', 'like', "%{$search}%")
+                    ->orWhere('users.nim_nip', 'like', "%{$search}%")
                     ->orWhere('prodi.nama_prd', 'like', "%{$search}%");
             });
         }
@@ -507,7 +504,7 @@ class Srt_Magang_Controller extends Controller
                 'prodi.id as prodi_id',
                 'departement.id as departement_id',
                 'users.nama',
-                'users.nmr_unik',
+                'users.nim_nip',
                 'users.nowa',
                 'users.foto',
                 'users.email',
@@ -567,18 +564,18 @@ class Srt_Magang_Controller extends Controller
             ->orderBy('tanggal_surat', 'asc')
             ->select(
                 'srt_magang.id',
-                'srt_magang.nama_mhw',
+                'users.nama as nama_mhw',
                 'srt_magang.tanggal_surat',
                 'srt_magang.nama_lmbg',
-                'users.nmr_unik',
+                'users.nim_nip',
                 'prodi.nama_prd',
             );
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%")
+                $q->where('users.nama', 'like', "%{$search}%")
                     ->orWhere('nama_lmbg', 'like', "%{$search}%")
-                    ->orWhere('users.nmr_unik', 'like', "%{$search}%")
+                    ->orWhere('users.nim_nip', 'like', "%{$search}%")
                     ->orWhere('prodi.nama_prd', 'like', "%{$search}%");
             });
         }
@@ -601,7 +598,7 @@ class Srt_Magang_Controller extends Controller
                 'prodi.id as prodi_id',
                 'departement.id as departement_id',
                 'users.nama',
-                'users.nmr_unik',
+                'users.nim_nip',
                 'users.nowa',
                 'users.foto',
                 'users.email',
@@ -660,18 +657,18 @@ class Srt_Magang_Controller extends Controller
             ->orderBy('tanggal_surat', 'asc')
             ->select(
                 'srt_magang.id',
-                'srt_magang.nama_mhw',
+                'users.nama as nama_mhw',
                 'srt_magang.tanggal_surat',
                 'srt_magang.nama_lmbg',
-                'users.nmr_unik',
+                'users.nim_nip',
                 'prodi.nama_prd',
             );
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%")
+                $q->where('users.nama', 'like', "%{$search}%")
                     ->orWhere('nama_lmbg', 'like', "%{$search}%")
-                    ->orWhere('users.nmr_unik', 'like', "%{$search}%")
+                    ->orWhere('users.nim_nip', 'like', "%{$search}%")
                     ->orWhere('prodi.nama_prd', 'like', "%{$search}%");
             });
         }
@@ -694,7 +691,7 @@ class Srt_Magang_Controller extends Controller
                 'prodi.id as prodi_id',
                 'departement.id as departement_id',
                 'users.nama',
-                'users.nmr_unik',
+                'users.nim_nip',
                 'users.nowa',
                 'users.foto',
                 'users.email',

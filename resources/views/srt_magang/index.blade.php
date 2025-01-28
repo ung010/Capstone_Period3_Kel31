@@ -37,7 +37,7 @@
                             <td>{{ $item->nama_lmbg }}</td>
                             <td>{{ $item->almt_lmbg }}</td>
                             <td>
-                                {{ $item->nama }} / {{ $item->nmr_unik }}
+                                {{ $item->nama_mhw }} / {{ $item->nim_nip }}
                             </td>
                             <td>{{ $item->semester }}</td>
                             <td>{{ $item->almt_smg }} / {{ $item->nowa }}</td>
@@ -91,7 +91,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="">NIM</label>
-                                <input type="number" id="nmr_unik" name="nmr_unik" value="{{ $user->nmr_unik }}"
+                                <input type="number" id="nim_nip" name="nim_nip" value="{{ $user->nim_nip }}"
                                     class="form-control" readonly>
                             </div>
                             <div class="form-group">

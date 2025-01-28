@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('survey', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->enum('rating', ['sangat_puas' ,'puas', 'netral', 'kurang_puas', 'tidak_puas']);
-            $table->string('nama_mhw', 50)->nullable();
+            // $table->string('nama_mhw', 50)->nullable();
             $table->string('feedback')->nullable();
             $table->date('tanggal_survey');
             $table->unsignedBigInteger('users_id')->nullable();

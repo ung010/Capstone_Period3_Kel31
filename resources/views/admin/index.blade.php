@@ -134,11 +134,11 @@
                 </div>
             </a>
         </div>
-        <div class="d-flex gap-5 justify-content-center align-items-stretch align-content-center">
+        <div class="d-flex gap-5 justify-content-center align-items-stretch align-content-center mt-5">
             <a href="/admin/verif_user" class="card flex-even" style="background-color: #5bc3ca; text-decoration: none;">
                 <div class="card-body row">
                     <div class="d-flex align-items-center justify-content-center gap-3 mb-3">
-                        <h4 class="card-title">Verifikasi akun Mahasiswa</h4>
+                        <h4 class="card-title">Akun Mahasiswa yang belum terverifikasi</h4>
                     </div>
                     <div class="d-flex align-items-center justify-content-center">
                         <h5 class="card-title">{{ $verif_akun }}</h5>

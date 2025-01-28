@@ -30,7 +30,7 @@
                         <tr>
                             <td>{{ $no++ }}</td>
                             <td>{{ $item->nama }}</td>
-                            <td>{{ $item->nmr_unik }}</td>
+                            <td>{{ $item->nim_nip }}</td>
                             <td>{{ $item->nama_dpt }}</td>
                             <td>{{ $item->nama_prd }}</td>
                             <td>

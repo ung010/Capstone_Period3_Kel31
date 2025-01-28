@@ -45,8 +45,8 @@ class Srt_Izin_Penelitian_Controller extends Controller
                 'users.id as users_id',
                 'prodi.id as prd_id',
                 'departement.id as dpt_id',
-                'users.nama',
-                'users.nmr_unik',
+                'users.nama as nama_mhw',
+                'users.nim_nip',
                 'users.nowa',
                 'users.email',
                 'users.almt_asl',
@@ -62,8 +62,8 @@ class Srt_Izin_Penelitian_Controller extends Controller
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%")
-                    ->orWhere('users.nmr_unik', 'like', "%{$search}%")
+                $q->where('users.nama', 'like', "%{$search}%")
+                    ->orWhere('users.nim_nip', 'like', "%{$search}%")
                     ->orWhere('semester', 'like', "%{$search}%")
                     ->orWhere('nama_lmbg', 'like', "%{$search}%")
                     ->orWhere('judul_data', 'like', "%{$search}%")
@@ -120,7 +120,6 @@ class Srt_Izin_Penelitian_Controller extends Controller
             'id' => $id_surat,
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
-            'nama_mhw' => $user->nama,
             'lampiran' => $request->lampiran,
             'jenis_surat' => $request->jenis_surat,
             'semester' => $request->semester,
@@ -199,12 +198,11 @@ class Srt_Izin_Penelitian_Controller extends Controller
                 'srt_izin_plt.id',
                 'srt_izin_plt.no_surat',
                 'srt_izin_plt.tanggal_surat',
-                'srt_izin_plt.nama_mhw',
                 'users.id as users_id',
                 'prodi.id as prodi_id',
                 'departement.id as dpt_id',
-                'users.nama',
-                'users.nmr_unik',
+                'users.nama as nama_mhw',
+                'users.nim_nip',
                 'users.nowa',
                 'users.email',
                 'users.almt_asl',
@@ -243,7 +241,7 @@ class Srt_Izin_Penelitian_Controller extends Controller
         // $mpdf->WriteHTML($html);
         $pdf = Pdf::loadView('srt_izin_plt.view', compact('srt_izin_plt', 'qrCodePath'));
 
-        $namaMahasiswa = $srt_izin_plt->nama;
+        $namaMahasiswa = $srt_izin_plt->nama_mhw;
         $tanggalSurat = Carbon::now('Asia/Jakarta')->format('Y-m-d');
         $fileName = 'Surat_Izin_Penelitian_' . str_replace(' ', '_', $namaMahasiswa) . '_' . $tanggalSurat . '.pdf';
         // $mpdf->Output($fileName, 'D');
@@ -255,19 +253,18 @@ class Srt_Izin_Penelitian_Controller extends Controller
         $search = $request->input('search');
 
         $query = DB::table('srt_izin_plt')
+            ->join('users', 'srt_izin_plt.users_id', '=', 'users.id')
             ->select(
-                'id',
-                'nama_mhw',
-                'role_surat',
+                'srt_izin_plt.id',
+                'users.nama as nama_mhw',
+                'srt_izin_plt.role_surat',
             )
-            ->whereIn('role_surat', ['admin', 'supervisor_akd', 'manajer', 'wd1'])
-            ->orderByRaw("FIELD(role_surat, 'admin', 'supervisor_akd', 'manajer', 'wd1')")
-            ->orderBy('tanggal_surat', 'asc');
+            ->where('srt_izin_plt.role_surat', 'admin')
+            ->orderBy('srt_izin_plt.tanggal_surat', 'asc');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%")
-                    ->orWhere('role_surat', 'LIKE', "%{$search}%");
+                $q->where('users.nama', 'like', "%{$search}%");
             });
         }
 
@@ -292,7 +289,7 @@ class Srt_Izin_Penelitian_Controller extends Controller
     //             'prodi.id as prodi_id',
     //             'departement.id as dpt_id',
     //             'users.nama',
-    //             'users.nmr_unik',
+    //             'users.nim_nip',
     //             'users.nowa',
     //             'users.email',
     //             'users.almt_asl',
@@ -390,7 +387,7 @@ class Srt_Izin_Penelitian_Controller extends Controller
                 'prodi.id as prd_id',
                 'departement.id as dpt_id',
                 'users.nama',
-                'users.nmr_unik',
+                'users.nim_nip',
                 'users.nowa',
                 'users.almt_asl',
                 'users.foto',
@@ -454,18 +451,18 @@ class Srt_Izin_Penelitian_Controller extends Controller
             ->orderBy('tanggal_surat', 'asc')
             ->select(
                 'srt_izin_plt.id',
-                'srt_izin_plt.nama_mhw',
                 'srt_izin_plt.tanggal_surat',
                 'srt_izin_plt.nama_lmbg',
-                'users.nmr_unik',
+                'users.nama as nama_mhw',
+                'users.nim_nip',
                 'prodi.nama_prd'
             );
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%")
+                $q->where('users.nama', 'like', "%{$search}%")
                     ->orWhere('nama_lmbg', 'like', "%{$search}%")
-                    ->orWhere('users.nmr_unik', 'like', "%{$search}%")
+                    ->orWhere('users.nim_nip', 'like', "%{$search}%")
                     ->orWhere('prodi.nama_prd', 'like', "%{$search}%");
             });
         }
@@ -488,7 +485,7 @@ class Srt_Izin_Penelitian_Controller extends Controller
                 'prodi.id as prd_id',
                 'departement.id as dpt_id',
                 'users.nama',
-                'users.nmr_unik',
+                'users.nim_nip',
                 'users.nowa',
                 'users.almt_asl',
                 'users.foto',
@@ -546,18 +543,18 @@ class Srt_Izin_Penelitian_Controller extends Controller
             ->orderBy('tanggal_surat', 'asc')
             ->select(
                 'srt_izin_plt.id',
-                'srt_izin_plt.nama_mhw',
                 'srt_izin_plt.tanggal_surat',
                 'srt_izin_plt.nama_lmbg',
-                'users.nmr_unik',
+                'users.nama as nama_mhw',
+                'users.nim_nip',
                 'prodi.nama_prd',
             );
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%")
+                $q->where('users.nama', 'like', "%{$search}%")
                     ->orWhere('nama_lmbg', 'like', "%{$search}%")
-                    ->orWhere('users.nmr_unik', 'like', "%{$search}%")
+                    ->orWhere('users.nim_nip', 'like', "%{$search}%")
                     ->orWhere('prodi.nama_prd', 'like', "%{$search}%");
             });
         }
@@ -580,7 +577,7 @@ class Srt_Izin_Penelitian_Controller extends Controller
                 'prodi.id as prd_id',
                 'departement.id as dpt_id',
                 'users.nama',
-                'users.nmr_unik',
+                'users.nim_nip',
                 'users.nowa',
                 'users.almt_asl',
                 'users.foto',
@@ -638,18 +635,18 @@ class Srt_Izin_Penelitian_Controller extends Controller
             ->orderBy('tanggal_surat', 'asc')
             ->select(
                 'srt_izin_plt.id',
-                'srt_izin_plt.nama_mhw',
                 'srt_izin_plt.tanggal_surat',
                 'srt_izin_plt.nama_lmbg',
-                'users.nmr_unik',
+                'users.nama as nama_mhw',
+                'users.nim_nip',
                 'prodi.nama_prd',
             );
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%")
+                $q->where('users.nama', 'like', "%{$search}%")
                     ->orWhere('nama_lmbg', 'like', "%{$search}%")
-                    ->orWhere('users.nmr_unik', 'like', "%{$search}%")
+                    ->orWhere('users.nim_nip', 'like', "%{$search}%")
                     ->orWhere('prodi.nama_prd', 'like', "%{$search}%");
             });
         }
@@ -672,7 +669,7 @@ class Srt_Izin_Penelitian_Controller extends Controller
                 'prodi.id as prd_id',
                 'departement.id as dpt_id',
                 'users.nama',
-                'users.nmr_unik',
+                'users.nim_nip',
                 'users.nowa',
                 'users.almt_asl',
                 'users.foto',

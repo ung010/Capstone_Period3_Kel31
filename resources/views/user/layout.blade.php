@@ -18,34 +18,64 @@
     <nav class="navbar navbar-expand">
         <div class="container-fluid d-flex gap-2 justify-content-between px-4" style="overflow-y:unset">
             <div class="d-flex gap-5 align-items-center">
-                <div class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle navbar-text" href="#" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="{{ $user->foto ? asset('storage/foto/mahasiswa/' . $user->foto) : asset('asset/default avatar.png') }}"
-                            alt="avatar" class="rounded-circle" style="width: 40px; height: 40px">
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/user/my_account">My
-                                Account</a></li>
-                        <li><a class="dropdown-item" href="/logout">Logout</a></li>
-                    </ul>
-                </div>
-                <a href="{{ route('mahasiswa.index') }}" class="navbar-text">DASHBOARD</a>
-                <div class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle navbar-text" href="#" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">PERSURATAN</a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/srt_mhw_asn">Surat Keterangan Masih Kuliah (Bagi
-                        ASN)</a></li>
-                        <li><a class="dropdown-item" href="/srt_masih_mhw">Surat Keterangan Masih Mahasiswa</a></li>
-                        <li><a class="dropdown-item" href="/srt_magang">Surat Izin Magang</a></li>
-                        <li><a class="dropdown-item" href="/srt_izin_plt">Surat Izin Penelitian</a></li>
-                        <li><a class="dropdown-item" href="/srt_pmhn_kmbali_biaya">Surat Permohonan Pengembalian Biaya
-                                Pendidikan</a></li>
-                        <li><a class="dropdown-item" href="/srt_bbs_pnjm">Surat Bebas Pinjam</a></li>
-                    </ul>
-                </div>
-                <a href="/legalisir" class="navbar-text">LEGALISIR</a>
+                @if (auth()->user()->role === 'mahasiswa')
+                    <div class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle navbar-text" href="#" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="{{ $user->foto ? asset('storage/foto/mahasiswa/' . $user->foto) : asset('asset/default avatar.png') }}"
+                                alt="avatar" class="rounded-circle" style="width: 40px; height: 40px">
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/user/my_account">My
+                                    Account</a></li>
+                            <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                        </ul>
+                    </div>
+                    <a href="{{ route('mahasiswa.index') }}" class="navbar-text">DASHBOARD</a>
+                    <div class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle navbar-text" href="#" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">PERSURATAN</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/srt_mhw_asn">Surat Keterangan Masih Kuliah (Bagi
+                                    ASN)</a></li>
+                            <li><a class="dropdown-item" href="/srt_masih_mhw">Surat Keterangan Masih Mahasiswa</a></li>
+                            <li><a class="dropdown-item" href="/srt_magang">Surat Izin Magang</a></li>
+                            <li><a class="dropdown-item" href="/srt_izin_plt">Surat Izin Penelitian</a></li>
+                            <li><a class="dropdown-item" href="/srt_pmhn_kmbali_biaya">Surat Permohonan Pengembalian
+                                    Biaya
+                                    Pendidikan</a></li>
+                            <li><a class="dropdown-item" href="/srt_bbs_pnjm">Surat Bebas Pinjam</a></li>
+                        </ul>
+                    </div>
+                    <a href="/legalisir" class="navbar-text">LEGALISIR</a>
+                @else
+                    <div class="nav-item dropdown">
+                        <a class="navbar-text" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="{{ $user->foto ? asset('storage/foto/mahasiswa/' . $user->foto) : asset('asset/default avatar.png') }}"
+                                alt="avatar" class="rounded-circle" style="width: 40px; height: 40px">
+                        </a>
+                    </div>
+                    <a class="navbar-text disabled" aria-disabled="true">DASHBOARD</a>
+                    <div class="nav-item dropdown">
+                        <a class="nav-link navbar-text disabled" href="#" role="button" aria-expanded="false"
+                            aria-disabled="true">PERSURATAN</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item disabled" href="#" aria-disabled="true">Surat Keterangan
+                                    Masih Kuliah (Bagi ASN)</a></li>
+                            <li><a class="dropdown-item disabled" href="#" aria-disabled="true">Surat Keterangan
+                                    Masih Mahasiswa</a></li>
+                            <li><a class="dropdown-item disabled" href="/srt_magang">Surat Izin Magang</a></li>
+                            <li><a class="dropdown-item disabled" href="#" aria-disabled="true">Surat Izin
+                                    Penelitian</a></li>
+                            <li><a class="dropdown-item disabled" href="/srt_pmhn_kmbali_biaya">Surat Permohonan
+                                    Pengembalian
+                                    Biaya Pendidikan</a></li>
+                            <li><a class="dropdown-item disabled" href="#" aria-disabled="true">Surat Bebas
+                                    Pinjam</a></li>
+                        </ul>
+                    </div>
+                    <a class="navbar-text disabled" aria-disabled="true">LEGALISIR</a>
+                @endif
             </div>
             <div class="d-flex gap-2 align-items-center">
                 <p class="navbar-text">LAYANAN ADMINISTRASI MAHASISWA</p>
@@ -91,6 +121,13 @@
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    </script>
+    <script>
+        document.querySelectorAll('.disabled').forEach(function(element) {
+            element.addEventListener('click', function(event) {
+                event.preventDefault(); // Mencegah klik
+            });
+        });
     </script>
     @yield('script')
 </body>

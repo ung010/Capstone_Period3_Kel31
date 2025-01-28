@@ -13,7 +13,6 @@ class legalisir extends Model
     protected $fillable = [
         'no_resi',
         'id',
-        'nama_mhw',
         'jenis_lgl',
         'file_ijazah',
         'file_transkrip',
@@ -39,7 +38,6 @@ class legalisir extends Model
     protected $hidden = [
         'no_resi',
         'id',
-        'nama_mhw',
         'jenis_lgl',
         'file_ijazah',
         'file_transkrip',

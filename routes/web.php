@@ -231,26 +231,26 @@ Route::middleware('auth')->group(function () {
     Route::get('/srt_masih_mhw/manajer/download/{id}', [srt_masih_mhwController::class, 'download_manajer'])->name('srt_masih_mhw.download_manajer')->
     middleware('UserAkses:mahasiswa');
 
-    route::get('/srt_masih_mhw/admin', [srt_masih_mhwController::class, 'admin'])->name('srt_masih_mhw.admin')
+    route::get('/srt_masih_mhw/admin/manajer', [srt_masih_mhwController::class, 'admin'])->name('srt_masih_mhw.admin')
     ->middleware('UserAkses:admin');
-    Route::get('/srt_masih_mhw/admin/search', [srt_masih_mhwController::class, 'admin'])->name('srt_masih_mhw.admin_search')
+    Route::get('/srt_masih_mhw/admin/manajer/search', [srt_masih_mhwController::class, 'admin'])->name('srt_masih_mhw.admin_search')
     ->middleware('UserAkses:admin');
-    Route::get('/srt_masih_mhw/admin/cek_surat/{id}', [srt_masih_mhwController::class, 'cek_surat_admin'])->name('srt_masih_mhw.cek_data')
+    Route::get('/srt_masih_mhw/admin/manajer/cek_surat/{id}', [srt_masih_mhwController::class, 'cek_surat_admin'])->name('srt_masih_mhw.cek_data')
     ->middleware('UserAkses:admin');
-    Route::post('/srt_masih_mhw/admin/cek_surat/setuju/{id}',  [srt_masih_mhwController::class, 'setuju'])->name('srt_masih_mhw.setuju')
+    Route::post('/srt_masih_mhw/admin/manajer/cek_surat/setuju/{id}',  [srt_masih_mhwController::class, 'setuju'])->name('srt_masih_mhw.setuju')
     ->middleware('UserAkses:admin');
-    Route::post('/srt_masih_mhw/admin/cek_surat/tolak/{id}',  [srt_masih_mhwController::class, 'tolak'])->name('srt_masih_mhw.tolak')
+    Route::post('/srt_masih_mhw/admin/manajer/cek_surat/tolak/{id}',  [srt_masih_mhwController::class, 'tolak'])->name('srt_masih_mhw.tolak')
     ->middleware('UserAkses:admin');
 
-    route::get('/srt_masih_mhw/manajer_wd', [srt_masih_mhwController::class, 'wd'])->name('srt_masih_mhw.wd')
+    route::get('/srt_masih_mhw/admin/wd', [srt_masih_mhwController::class, 'wd'])->name('srt_masih_mhw.wd')
     ->middleware('UserAkses:admin');
-    Route::get('/srt_masih_mhw/manajer_wd/search', [srt_masih_mhwController::class, 'wd'])->name('srt_masih_mhw.admin_wd_search')
+    Route::get('/srt_masih_mhw/admin/wd/search', [srt_masih_mhwController::class, 'wd'])->name('srt_masih_mhw.admin_wd_search')
     ->middleware('UserAkses:admin');
-    Route::get('/srt_masih_mhw/manajer_wd/cek_surat/{id}', [srt_masih_mhwController::class, 'wd_cek'])->name('srt_masih_mhw.cek_wd')
+    Route::get('/srt_masih_mhw/admin/wd/cek_surat/{id}', [srt_masih_mhwController::class, 'wd_cek'])->name('srt_masih_mhw.cek_wd')
     ->middleware('UserAkses:admin');
-    Route::post('/srt_masih_mhw/manajer_wd/cek_surat/setuju/{id}',  [srt_masih_mhwController::class, 'wd_setuju'])->name('srt_masih_mhw.wd_setuju')
+    Route::post('/srt_masih_mhw/admin/wd/cek_surat/setuju/{id}',  [srt_masih_mhwController::class, 'wd_setuju'])->name('srt_masih_mhw.wd_setuju')
     ->middleware('UserAkses:admin');
-    Route::post('/srt_masih_mhw/manajer_wd/cek_surat/tolak/{id}',  [srt_masih_mhwController::class, 'wd_tolak'])->name('srt_masih_mhw.wd_tolak')
+    Route::post('/srt_masih_mhw/admin/wd/cek_surat/tolak/{id}',  [srt_masih_mhwController::class, 'wd_tolak'])->name('srt_masih_mhw.wd_tolak')
     ->middleware('UserAkses:admin');
     // Route::post('/srt_masih_mhw/manajer_wd/unggah/{id}', [srt_masih_mhwController::class, 'wd_unggah'])->name('srt_masih_mhw.wd_unggah')->
     // middleware('UserAkses:admin');

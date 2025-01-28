@@ -29,13 +29,13 @@
                                 <tr>
                                     <td>{{ $no++ }}</td>
                                     <td>{{ $item->nama }}</td>
-                                    <td>{{ $item->nmr_unik }}</td>
+                                    <td>{{ $item->nim_nip }}</td>
                                     <td>{{ $item->email }}</td>
                                     <td>
                                         <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
                                             data-bs-target="#editUser" data-id="{{ $item->id }}"
                                             data-nama="{{ $item->nama }}" data-email="{{ $item->email }}"
-                                            data-nip="{{ $item->nmr_unik }}">
+                                            data-nip="{{ $item->nim_nip }}">
                                             Edit
                                         </button>
                                     </td>
@@ -63,8 +63,8 @@
                             <input type="text" name="nama" class="form-control" id="edit-nama">
                         </div>
                         <div class="form-group">
-                            <label for="nmr_unik" class="form-label">NIP</label>
-                            <input type="number" name="nmr_unik" class="form-control" id="edit-nmr_unik">
+                            <label for="nim_nip" class="form-label">NIP</label>
+                            <input type="number" name="nim_nip" class="form-control" id="edit-nim_nip">
                         </div>
                         <div class="form-group">
                             <label for="email" class="form-label">Email</label>
@@ -102,8 +102,8 @@
                             <input type="text" name="nama" class="form-control" id="edit-nama">
                         </div>
                         <div class="form-group">
-                            <label for="nmr_unik" class="form-label">NIP</label>
-                            <input type="number" name="nmr_unik" class="form-control" id="edit-nmr_unik">
+                            <label for="nim_nip" class="form-label">NIP</label>
+                            <input type="number" name="nim_nip" class="form-control" id="edit-nim_nip">
                         </div>
                         <div class="form-group">
                             <label for="email" class="form-label">Email</label>
@@ -144,7 +144,7 @@
             var email = button.data('email');
 
             $('#edit-nama').val(nama);
-            $('#edit-nmr_unik').val(nip);
+            $('#edit-nim_nip').val(nip);
             $('#edit-email').val(email);
 
             var modal = $(this);

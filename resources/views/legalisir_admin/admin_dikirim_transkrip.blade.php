@@ -67,7 +67,7 @@
                                     </td>
                                     <td>
                                         @if ($item->role_surat == 'dekan')
-                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                            <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
                                                 data-target="#uploadModal" data-id="{{ $item->id }}"
                                                 data-nama="{{ $item->nama_mhw }}">
                                                 Kirim
@@ -101,13 +101,6 @@
                             <label for="no_resi">No Resi</label>
                             <input type="text" class="form-control" id="no_resi" name="no_resi" required>
                         </div>
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="diambil_ditempat"
-                                name="diambil_ditempat">
-                            <label class="form-check-label" for="diambil_ditempat">Diambil Ditempat</label>
-                            <br>
-                            *Centang apabila surat diambil ditempat
-                        </div>
                         <input type="hidden" id="id" name="id">
                     </div>
                     <div class="modal-footer">
@@ -122,26 +115,6 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script>
-        $('#uploadModal').on('show.bs.modal', function(event) {
-            var button = $(event.relatedTarget);
-            var id = button.data('id');
-            var modal = $(this);
-
-            modal.find('#id').val(id);
-            modal.find('form').attr('action', '/legalisir/admin/dikirim/transkrip/no_resi/' + id);
-
-            $('#diambil_ditempat').change(function() {
-                if (this.checked) {
-                    $('#no_resi').val('Diambil Ditempat');
-                    $('#no_resi').prop('disabled', true);
-                } else {
-                    $('#no_resi').val('');
-                    $('#no_resi').prop('disabled', false);
-                }
-            });
-        });
-    </script>
 @endsection
 
 @section('script')

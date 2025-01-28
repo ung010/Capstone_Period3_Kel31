@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('srt_magang', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('no_surat', 50)->nullable();
-            $table->string('nama_mhw', 50)->nullable();
+            // $table->string('nama_mhw', 50)->nullable();
             $table->string('almt_smg', 80);
             $table->tinyInteger('semester');
             $table->integer('sksk');

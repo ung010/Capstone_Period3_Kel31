@@ -17,7 +17,7 @@
                 </div>
                 <div class="d-flex flex-column">
                     <h4>Nama : {{ $user->nama }}</h4>
-                    <p>NIM: {{ $user->nmr_unik }}</p>
+                    <p>NIM: {{ $user->nim_nip }}</p>
                     <p>Tempat Tanggal Lahir: {{ $user->ttl }}</p>
                     <p>Nama Ibu: {{ $user->nama_ibu }}</p>
                     <p>Departemen: {{ $user->nama_dpt }}</p>

@@ -13,7 +13,6 @@ class srt_bbs_pnjm extends Model
     protected $fillable = [
         'no_surat',
         'id',
-        'nama_mhw',
         'almt_smg',
         'dosen_wali',
         'catatan_surat',
@@ -31,7 +30,6 @@ class srt_bbs_pnjm extends Model
     protected $hidden = [
         'no_surat',
         'id',
-        'nama_mhw',
         'almt_smg',
         'dosen_wali',
         'catatan_surat',

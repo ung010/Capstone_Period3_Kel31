@@ -25,7 +25,7 @@
                 <div class="d-flex flex-column">
                     <p>Nama: {{ $srt_masih_mhw->nama }}</p>
                     <p>Tempat, Tanggal Lahir: {{ $srt_masih_mhw->ttl }}</p>
-                    <p>NIM: {{ $srt_masih_mhw->nmr_unik }}</p>
+                    <p>NIM: {{ $srt_masih_mhw->nim_nip }}</p>
                     <p>Alamat Asal: {{ $srt_masih_mhw->almt_asl }}</p>
                     <p>Departemen: {{ $srt_masih_mhw->nama_dpt }}</p>
                     <p>Program Studi: {{ $srt_masih_mhw->nama_prd }}</p>

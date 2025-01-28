@@ -13,7 +13,6 @@ class Srt_Magang extends Model
     protected $fillable = [
         'no_surat',
         'id',
-        'nama_mhw',
         'almt_smg',
         'semester',
         'sksk',
@@ -38,7 +37,6 @@ class Srt_Magang extends Model
     protected $hidden = [
         'no_surat',
         'id',
-        'nama_mhw',
         'almt_smg',
         'semester',
         'sksk',

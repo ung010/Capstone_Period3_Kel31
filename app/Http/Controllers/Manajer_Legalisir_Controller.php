@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\DB;
 //             ->orderBy('tanggal_surat', 'asc')
 //             ->select(
 //                 'legalisir.id',
-//                 'users.nmr_unik',
+//                 'users.nim_nip',
 //                 'legalisir.nama_mhw',
 //                 'legalisir.keperluan',
 //                 'prodi.nama_prd',
@@ -31,7 +31,7 @@ use Illuminate\Support\Facades\DB;
 //             $query->where(function ($q) use ($search) {
 //                 $q->where('nama_mhw', 'like', "%{$search}%")
 //                     ->orWhere('keperluan', 'LIKE', "%{$search}%")
-//                     ->orWhere('users.nmr_unik', 'LIKE', "%{$search}%")
+//                     ->orWhere('users.nim_nip', 'LIKE', "%{$search}%")
 //                     ->orWhere('prodi.nama_prd', 'like', "%{$search}%");
 //             });
 //         }
@@ -66,7 +66,7 @@ use Illuminate\Support\Facades\DB;
 //             ->orderBy('tanggal_surat', 'asc')
 //             ->select(
 //                 'legalisir.id',
-//                 'users.nmr_unik',
+//                 'users.nim_nip',
 //                 'legalisir.nama_mhw',
 //                 'legalisir.keperluan',
 //                 'prodi.nama_prd'
@@ -76,7 +76,7 @@ use Illuminate\Support\Facades\DB;
 //             $query->where(function ($q) use ($search) {
 //                 $q->where('nama_mhw', 'like', "%{$search}%")
 //                     ->orWhere('keperluan', 'LIKE', "%{$search}%")
-//                     ->orWhere('users.nmr_unik', 'LIKE', "%{$search}%")
+//                     ->orWhere('users.nim_nip', 'LIKE', "%{$search}%")
 //                     ->orWhere('prodi.nama_prd', 'like', "%{$search}%");
 //             });
 //         }
@@ -111,7 +111,7 @@ use Illuminate\Support\Facades\DB;
 //             ->orderBy('tanggal_surat', 'asc')
 //             ->select(
 //                 'legalisir.id',
-//                 'users.nmr_unik',
+//                 'users.nim_nip',
 //                 'legalisir.nama_mhw',
 //                 'legalisir.keperluan',
 //                 'prodi.nama_prd',
@@ -121,7 +121,7 @@ use Illuminate\Support\Facades\DB;
 //             $query->where(function ($q) use ($search) {
 //                 $q->where('nama_mhw', 'like', "%{$search}%")
 //                     ->orWhere('keperluan', 'LIKE', "%{$search}%")
-//                     ->orWhere('users.nmr_unik', 'LIKE', "%{$search}%")
+//                     ->orWhere('users.nim_nip', 'LIKE', "%{$search}%")
 //                     ->orWhere('prodi.nama_prd', 'like', "%{$search}%");
 //             });
 //         }
@@ -156,7 +156,7 @@ use Illuminate\Support\Facades\DB;
 //             ->orderBy('tanggal_surat', 'asc')
 //             ->select(
 //                 'legalisir.id',
-//                 'users.nmr_unik',
+//                 'users.nim_nip',
 //                 'legalisir.nama_mhw',
 //                 'legalisir.keperluan',
 //                 'prodi.nama_prd',
@@ -166,7 +166,7 @@ use Illuminate\Support\Facades\DB;
 //             $query->where(function ($q) use ($search) {
 //                 $q->where('nama_mhw', 'like', "%{$search}%")
 //                     ->orWhere('keperluan', 'LIKE', "%{$search}%")
-//                     ->orWhere('users.nmr_unik', 'LIKE', "%{$search}%")
+//                     ->orWhere('users.nim_nip', 'LIKE', "%{$search}%")
 //                     ->orWhere('prodi.nama_prd', 'like', "%{$search}%");
 //             });
 //         }
@@ -201,7 +201,7 @@ use Illuminate\Support\Facades\DB;
 //             ->orderBy('tanggal_surat', 'asc')
 //             ->select(
 //                 'legalisir.id',
-//                 'users.nmr_unik',
+//                 'users.nim_nip',
 //                 'legalisir.nama_mhw',
 //                 'legalisir.keperluan',
 //                 'prodi.nama_prd',
@@ -211,7 +211,7 @@ use Illuminate\Support\Facades\DB;
 //             $query->where(function ($q) use ($search) {
 //                 $q->where('nama_mhw', 'like', "%{$search}%")
 //                     ->orWhere('keperluan', 'LIKE', "%{$search}%")
-//                     ->orWhere('users.nmr_unik', 'LIKE', "%{$search}%")
+//                     ->orWhere('users.nim_nip', 'LIKE', "%{$search}%")
 //                     ->orWhere('prodi.nama_prd', 'like', "%{$search}%");
 //             });
 //         }
@@ -246,7 +246,7 @@ use Illuminate\Support\Facades\DB;
 //             ->orderBy('tanggal_surat', 'asc')
 //             ->select(
 //                 'legalisir.id',
-//                 'users.nmr_unik',
+//                 'users.nim_nip',
 //                 'legalisir.nama_mhw',
 //                 'legalisir.keperluan',
 //                 'prodi.nama_prd',
@@ -256,7 +256,7 @@ use Illuminate\Support\Facades\DB;
 //             $query->where(function ($q) use ($search) {
 //                 $q->where('nama_mhw', 'like', "%{$search}%")
 //                     ->orWhere('keperluan', 'LIKE', "%{$search}%")
-//                     ->orWhere('users.nmr_unik', 'LIKE', "%{$search}%")
+//                     ->orWhere('users.nim_nip', 'LIKE', "%{$search}%")
 //                     ->orWhere('prodi.nama_prd', 'like', "%{$search}%");
 //             });
 //         }

@@ -22,7 +22,6 @@ class srt_mhw_asn extends Model
     protected $fillable = [
         'no_surat',
         'id',
-        'nama_mhw',
         'nim_mhw',
         'nowa_mhw',
         'nama_ortu',
@@ -43,7 +42,6 @@ class srt_mhw_asn extends Model
     protected $hidden = [
         'no_surat',
         'id',
-        'nama_mhw',
         'nim_mhw',
         'nowa_mhw',
         'nama_ortu',

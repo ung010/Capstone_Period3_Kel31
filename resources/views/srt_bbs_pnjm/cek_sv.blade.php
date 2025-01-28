@@ -15,7 +15,7 @@
                 </div>
                 <div class="d-flex flex-column">
                     <p>Nama: {{ $srt_bbs_pnjm->nama_mhw }}</p>
-                    <p>NIM: {{ $srt_bbs_pnjm->nmr_unik }}</p>
+                    <p>NIM: {{ $srt_bbs_pnjm->nim_nip }}</p>
                     <p>Program Studi: {{ $srt_bbs_pnjm->nama_prd }}</p>
                     <p>Alamat di Semarang: {{ $srt_bbs_pnjm->almt_smg }}</p>
                     <p>No Whatsapp: {{ $srt_bbs_pnjm->nowa }}</p>

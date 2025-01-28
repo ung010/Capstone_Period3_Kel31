@@ -41,7 +41,7 @@ class MahasiswaController extends Controller
         'prodi.id as prd_id',
         'departement.id as dpt_id',
         'users.nama',
-        'users.nmr_unik',
+        'users.nim_nip',
         'users.nowa',
         'users.email',
         'users.kota',
@@ -73,7 +73,7 @@ class MahasiswaController extends Controller
 
     $request->validate([
       'nama' => 'required',
-      'nmr_unik' => 'required|unique:users,nmr_unik,' . $userId,
+      'nim_nip' => 'required|unique:users,nim_nip,' . $userId,
       'email' => 'required|email|unique:users,email,' . $userId,
       'kota' => 'required',
       'tanggal_lahir' => 'required',
@@ -85,8 +85,8 @@ class MahasiswaController extends Controller
       'foto' => 'image|mimes:jpeg,png,jpg|max:2048'
     ], [
       'nama.required' => 'Nama wajib diisi',
-      'nmr_unik.required' => 'NIM wajib diisi',
-      'nmr_unik.unique' => 'NIM sudah digunakan, silakan masukkan NIM yang lain',
+      'nim_nip.required' => 'NIM wajib diisi',
+      'nim_nip.unique' => 'NIM sudah digunakan, silakan masukkan NIM yang lain',
       'email.required' => 'Email wajib diisi',
       'email.email' => 'Email harus valid',
       'email.unique' => 'Email sudah digunakan, silakan masukkan Email yang lain',
@@ -103,7 +103,7 @@ class MahasiswaController extends Controller
 
     DB::table('users')->where('id', $userId)->update([
       'nama' => $request->nama,
-      'nmr_unik' => $request->nmr_unik,
+      'nim_nip' => $request->nim_nip,
       'email' => $request->email,
       'kota' => $request->kota,
       'tanggal_lahir' => $request->tanggal_lahir,

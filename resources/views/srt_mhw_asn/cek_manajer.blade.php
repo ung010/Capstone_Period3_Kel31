@@ -15,7 +15,7 @@
                 </div>
                 <div class="d-flex flex-column">
                     <p>Nama: {{ $srt_mhw_asn->nama }}</p>
-                    <p>NIM: {{ $srt_mhw_asn->nmr_unik }}</p>
+                    <p>NIM: {{ $srt_mhw_asn->nim_nip }}</p>
                     <p>Departemen: {{ $srt_mhw_asn->nama_dpt }}</p>
                     <p>Program Studi: {{ $srt_mhw_asn->nama_prd }}</p>
                     <p>Tahun Ajaran: {{ $srt_mhw_asn->thn_awl }} / {{ $srt_mhw_asn->thn_akh }}</p>

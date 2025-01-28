@@ -47,7 +47,7 @@
                 </div>
                 <div class="form-group mb-3">
                     <label for="">NIM</label>
-                    <input type="number" name="nmr_unik" value="{{ Session::get('nmr_unik') }}" class="form-control">
+                    <input type="number" name="nim_nip" value="{{ Session::get('nim_nip') }}" class="form-control">
                 </div>
                 <div class="form-group mb-3">
                     <label for="">Tempat Lahir</label>

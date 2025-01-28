@@ -48,7 +48,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="">NIM</label>
-                                <input type="text" id="nim_mhw" name="nim_mhw" value="{{ $user->nmr_unik }}"
+                                <input type="text" id="nim_mhw" name="nim_mhw" value="{{ $user->nim_nip }}"
                                     class="form-control" readonly>
                             </div>
                             <div class="form-group">
@@ -113,16 +113,16 @@
             </div>
         </div>
     </div>
-    
+
     <script>
         function validateYearInput(input) {
             input.value = input.value.slice(0, 4);
         }
-    
+
         document.getElementById('thn_awl').addEventListener('input', function() {
             validateYearInput(this);
         });
-    
+
         document.getElementById('thn_akh').addEventListener('input', function() {
             validateYearInput(this);
         });

@@ -44,12 +44,12 @@
                         <div class="d-flex flex-column gap-2">
                             <div class="form-group">
                                 <label for="">Nama Mahasiswa</label>
-                                <input type="text" id="nama_mhw" name="nama_mhw" value="{{ $user->nama }}"
+                                <input type="text" id="nama_mhw" name="nama_mhw" value="{{ $user->nama_mhw }}"
                                     class="form-control" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="">NIM</label>
-                                <input type="number" id="nmr_unik" name="nmr_unik" value="{{ $user->nmr_unik }}"
+                                <input type="number" id="nim_nip" name="nim_nip" value="{{ $user->nim_nip }}"
                                     class="form-control" readonly>
                             </div>
                             <div class="form-group">
@@ -65,10 +65,10 @@
                             <div class="form-group d-flex">
                                 <label for="" class="col-4">Tahun Ajaran</label>
                                 <div class="col-8 d-flex">
-                                    <input type="number" name="thn_awl" id="thn_awl" class="form-control" 
+                                    <input type="number" name="thn_awl" id="thn_awl" class="form-control"
                                     value="{{ $data->thn_awl }}" min="2000" max="2100" maxlength="4" required>
                                     <p class="m-0" style="padding: 0 10px; line-height: 2;">/</p>
-                                    <input type="number" name="thn_akh" id="thn_akh" class="form-control" 
+                                    <input type="number" name="thn_akh" id="thn_akh" class="form-control"
                                     value="{{ $data->thn_akh }}" min="2000" max="2100" maxlength="4" required>
                                 </div>
                             </div>
@@ -121,11 +121,11 @@
         function validateYearInput(input) {
             input.value = input.value.slice(0, 4);
         }
-    
+
         document.getElementById('thn_awl').addEventListener('input', function() {
             validateYearInput(this);
         });
-    
+
         document.getElementById('thn_akh').addEventListener('input', function() {
             validateYearInput(this);
         });

@@ -67,7 +67,7 @@ class SurveySeeder extends Seeder
                 DB::table('survey')->insert([
                     'id' => $id,
                     'users_id' => $user->id,
-                    'nama_mhw' => $user->nama,
+                    // 'nama_mhw' => $user->nama,
                     'rating' => $rating,
                     'feedback' => $faker_survey->randomElement($feedback),
                     'tanggal_survey' => $tanggal_survey,

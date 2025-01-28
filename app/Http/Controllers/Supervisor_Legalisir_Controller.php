@@ -22,17 +22,17 @@ class Supervisor_Legalisir_Controller extends Controller
             ->select(
 
                 'legalisir.id',
-                'legalisir.nama_mhw',
+                'users.nama as nama_mhw',
                 'legalisir.keperluan',
                 'prodi.nama_prd',
-                'users.nmr_unik'
+                'users.nim_nip'
             );
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%")
+                $q->where('users.nama', 'like', "%{$search}%")
                     ->orWhere('keperluan', 'LIKE', "%{$search}%")
-                    ->orWhere('users.nmr_unik', 'LIKE', "%{$search}%")
+                    ->orWhere('users.nim_nip', 'LIKE', "%{$search}%")
                     ->orWhere('prodi.nama_prd', 'like', "%{$search}%");
             });
         }
@@ -54,8 +54,8 @@ class Supervisor_Legalisir_Controller extends Controller
                 'users.id as users_id',
                 'prodi.id as prd_id',
                 'departement.id as dpt_id',
-                'users.nama',
-                'users.nmr_unik',
+                'users.nama as nama_mhw',
+                'users.nim_nip',
                 'users.nowa',
                 'users.almt_asl',
                 'departement.nama_dpt',
@@ -120,18 +120,18 @@ class Supervisor_Legalisir_Controller extends Controller
             ->where('jenis_lgl', 'transkrip')
             ->orderBy('tanggal_surat', 'asc')
             ->select(
-                'users.nmr_unik',
+                'users.nim_nip',
                 'legalisir.id',
-                'legalisir.nama_mhw',
+                'users.nama as nama_mhw',
                 'legalisir.keperluan',
                 'prodi.nama_prd'
             );
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%")
+                $q->where('users.nama', 'like', "%{$search}%")
                     ->orWhere('keperluan', 'LIKE', "%{$search}%")
-                    ->orWhere('users.nmr_unik', 'LIKE', "%{$search}%")
+                    ->orWhere('users.nim_nip', 'LIKE', "%{$search}%")
                     ->orWhere('prodi.nama_prd', 'like', "%{$search}%");
             });
         }
@@ -153,8 +153,8 @@ class Supervisor_Legalisir_Controller extends Controller
                 'users.id as users_id',
                 'prodi.id as prd_id',
                 'departement.id as dpt_id',
-                'users.nama',
-                'users.nmr_unik',
+                'users.nama as nama_mhw',
+                'users.nim_nip',
                 'users.nowa',
                 'users.almt_asl',
                 'departement.nama_dpt',
@@ -217,18 +217,18 @@ class Supervisor_Legalisir_Controller extends Controller
             ->where('jenis_lgl', 'ijazah_transkrip')
             ->orderBy('tanggal_surat', 'asc')
             ->select(
-                'users.nmr_unik',
+                'users.nim_nip',
                 'legalisir.id',
-                'legalisir.nama_mhw',
+                'users.nama as nama_mhw',
                 'legalisir.keperluan',
                 'prodi.nama_prd'
             );
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%")
+                $q->where('users.nama', 'like', "%{$search}%")
                     ->orWhere('keperluan', 'LIKE', "%{$search}%")
-                    ->orWhere('users.nmr_unik', 'LIKE', "%{$search}%")
+                    ->orWhere('users.nim_nip', 'LIKE', "%{$search}%")
                     ->orWhere('prodi.nama_prd', 'like', "%{$search}%");
             });
         }
@@ -250,8 +250,8 @@ class Supervisor_Legalisir_Controller extends Controller
                 'users.id as users_id',
                 'prodi.id as prd_id',
                 'departement.id as dpt_id',
-                'users.nama',
-                'users.nmr_unik',
+                'users.nama as nama_mhw',
+                'users.nim_nip',
                 'users.nowa',
                 'users.almt_asl',
                 'departement.nama_dpt',
@@ -314,18 +314,18 @@ class Supervisor_Legalisir_Controller extends Controller
             ->where('jenis_lgl', 'ijazah')
             ->orderBy('tanggal_surat', 'asc')
             ->select(
-                'users.nmr_unik',
+                'users.nim_nip',
                 'legalisir.id',
-                'legalisir.nama_mhw',
+                'users.nama as nama_mhw',
                 'legalisir.keperluan',
                 'prodi.nama_prd'
             );
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%")
+                $q->where('users.nama', 'like', "%{$search}%")
                     ->orWhere('keperluan', 'LIKE', "%{$search}%")
-                    ->orWhere('users.nmr_unik', 'LIKE', "%{$search}%")
+                    ->orWhere('users.nim_nip', 'LIKE', "%{$search}%")
                     ->orWhere('prodi.nama_prd', 'like', "%{$search}%");
             });
         }
@@ -347,8 +347,8 @@ class Supervisor_Legalisir_Controller extends Controller
                 'users.id as users_id',
                 'prodi.id as prd_id',
                 'departement.id as dpt_id',
-                'users.nama',
-                'users.nmr_unik',
+                'users.nama as nama_mhw',
+                'users.nim_nip',
                 'users.nowa',
                 'users.almt_asl',
                 'departement.nama_dpt',
@@ -410,18 +410,18 @@ class Supervisor_Legalisir_Controller extends Controller
             ->where('jenis_lgl', 'transkrip')
             ->orderBy('tanggal_surat', 'asc')
             ->select(
-                'users.nmr_unik',
+                'users.nim_nip',
                 'legalisir.id',
-                'legalisir.nama_mhw',
+                'users.nama as nama_mhw',
                 'legalisir.keperluan',
                 'prodi.nama_prd'
             );
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%")
+                $q->where('users.nama', 'like', "%{$search}%")
                     ->orWhere('keperluan', 'LIKE', "%{$search}%")
-                    ->orWhere('users.nmr_unik', 'LIKE', "%{$search}%")
+                    ->orWhere('users.nim_nip', 'LIKE', "%{$search}%")
                     ->orWhere('prodi.nama_prd', 'like', "%{$search}%");
             });
         }
@@ -443,8 +443,8 @@ class Supervisor_Legalisir_Controller extends Controller
                 'users.id as users_id',
                 'prodi.id as prd_id',
                 'departement.id as dpt_id',
-                'users.nama',
-                'users.nmr_unik',
+                'users.nama as nama_mhw',
+                'users.nim_nip',
                 'users.nowa',
                 'users.almt_asl',
                 'departement.nama_dpt',
@@ -506,18 +506,18 @@ class Supervisor_Legalisir_Controller extends Controller
             ->where('jenis_lgl', 'ijazah_transkrip')
             ->orderBy('tanggal_surat', 'asc')
             ->select(
-                'users.nmr_unik',
+                'users.nim_nip',
                 'legalisir.id',
-                'legalisir.nama_mhw',
+                'users.nama as nama_mhw',
                 'legalisir.keperluan',
                 'prodi.nama_prd',
             );
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%")
+                $q->where('users.nama', 'like', "%{$search}%")
                     ->orWhere('keperluan', 'LIKE', "%{$search}%")
-                    ->orWhere('users.nmr_unik', 'LIKE', "%{$search}%")
+                    ->orWhere('users.nim_nip', 'LIKE', "%{$search}%")
                     ->orWhere('prodi.nama_prd', 'like', "%{$search}%");
             });
         }
@@ -539,8 +539,8 @@ class Supervisor_Legalisir_Controller extends Controller
                 'users.id as users_id',
                 'prodi.id as prd_id',
                 'departement.id as dpt_id',
-                'users.nama',
-                'users.nmr_unik',
+                'users.nama as nama_mhw',
+                'users.nim_nip',
                 'users.nowa',
                 'users.almt_asl',
                 'departement.nama_dpt',

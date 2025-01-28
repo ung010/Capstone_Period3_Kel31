@@ -28,12 +28,10 @@
                                 <tr>
                                     <td>{{ $no++ }}</td>
                                     <td>{{ $item->nama_mhw }}</td>
-                                    <td>{{ $item->nmr_unik }}</td>
+                                    <td>{{ $item->nim_nip }}</td>
                                     <td>
-                                        <td>
-                                            <a href='{{ url('/srt_pmhn_kmbali_biaya/manajer/cek_surat/' . $item->id) }}'
-                                                class="btn btn-warning btn-sm">Cek</a>
-                                        </td>
+                                        <a href='{{ url('/srt_pmhn_kmbali_biaya/manajer/cek_surat/' . $item->id) }}'
+                                            class="btn btn-warning btn-sm">Cek</a>
                                     </td>
                                 </tr>
                             @endforeach

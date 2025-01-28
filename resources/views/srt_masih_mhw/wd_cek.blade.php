@@ -12,8 +12,8 @@
             <br>
             <div class="card d-inline-block">
                 <div class="card-header d-flex align-items-center gap-2">
-                    <a href="/srt_masih_mhw/admin" class="btn btn-secondary btn-fixed-size-one">MANAJER</a>
-                    <a href="/srt_masih_mhw/manajer_wd" class="btn btn-secondary btn-fixed-size-one">WAKIL DEKAN</a>
+                    <a href="/srt_masih_mhw/admin/manajer" class="btn btn-secondary btn-fixed-size-one">MANAJER</a>
+                    <a href="/srt_masih_mhw/admin/wd" class="btn btn-secondary btn-fixed-size-one">WAKIL DEKAN</a>
                 </div>
             </div>
         </div>
@@ -25,7 +25,7 @@
                 <div class="d-flex flex-column">
                     <p>Nama: {{ $srt_masih_mhw->nama }}</p>
                     <p>Tempat, Tanggal Lahir: {{ $srt_masih_mhw->ttl }}</p>
-                    <p>NIM: {{ $srt_masih_mhw->nmr_unik }}</p>
+                    <p>NIM: {{ $srt_masih_mhw->nim_nip }}</p>
                     <p>Alamat Asal: {{ $srt_masih_mhw->almt_asl }}</p>
                     <p>Departemen: {{ $srt_masih_mhw->nama_dpt }}</p>
                     <p>Program Studi: {{ $srt_masih_mhw->nama_prd }}</p>
@@ -45,7 +45,7 @@
         </div>
     </div>
 
-    @include('srt_masih_mhw.modal_manajer')
+    @include('srt_masih_mhw.modal')
 @endsection
 
 @section('script')

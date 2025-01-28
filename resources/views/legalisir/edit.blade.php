@@ -59,7 +59,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="">Nama Mahasiswa</label>
-                                <input type="text" id="nama_mhw" name="nama_mhw" value="{{ $user->nama }}"
+                                <input type="text" id="nama_mhw" name="nama_mhw" value="{{ $user->nama_mhw }}"
                                     class="form-control" readonly>
                             </div>
                             <div class="form-group">
@@ -176,7 +176,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="">Nama Mahasiswa</label>
-                                <input type="text" id="nama_mhw" name="nama_mhw" value="{{ $user->nama }}"
+                                <input type="text" id="nama_mhw" name="nama_mhw" value="{{ $user->nama_mhw }}"
                                     class="form-control" readonly>
                             </div>
                             <div class="form-group">
@@ -284,7 +284,7 @@
             </div>
         </div>
     </div>
-    
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var jenisLegalisir = document.getElementById('jenis_lgl');
@@ -351,7 +351,7 @@
 
         kodeposInput.addEventListener('input', function() {
             this.value = this.value.replace(/[^0-9]/g, '');
-            
+
             if (this.value.length > 5) {
                 this.value = this.value.slice(0, 5);
             }

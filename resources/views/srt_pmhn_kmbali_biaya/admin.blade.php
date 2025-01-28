@@ -19,7 +19,7 @@
                                 <th>No</th>
                                 <th>Nama Mahasiswa</th>
                                 <th>Cek Data</th>
-                                <th>Status</th>
+                                {{-- <th>Status</th> --}}
                                 {{-- <th>Unduh</th>
                                 <th>Dikirim</th> --}}
                             </tr>
@@ -31,14 +31,10 @@
                                     <td>{{ $no++ }}</td>
                                     <td>{{ $item->nama_mhw }}</td>
                                     <td>
-                                        @if ($item->role_surat == 'admin')
-                                            <a href='{{ url('/srt_pmhn_kmbali_biaya/admin/cek_surat/' . $item->id) }}'
-                                                class="btn btn-warning btn-sm">Cek Data</a>
-                                        @else
-                                            <button class="btn btn-secondary btn-sm" disabled>Cek Data</button>
-                                        @endif
+                                        <a href='{{ url('/srt_pmhn_kmbali_biaya/admin/cek_surat/' . $item->id) }}'
+                                            class="btn btn-warning btn-sm">Cek Data</a>
                                     </td>
-                                    <td>
+                                    {{-- <td>
                                         @if ($item->role_surat == 'admin')
                                             Verif Admin
                                         @elseif ($item->role_surat == 'supervisor_akd')
@@ -50,7 +46,7 @@
                                         @else
                                             Ditolak
                                         @endif
-                                    </td>
+                                    </td> --}}
                                     {{-- <td>
                                         @if ($item->role_surat == 'manajer_sukses')
                                             <a href='{{ url('/srt_pmhn_kmbali_biaya/admin/download/' . $item->id) }}'
@@ -79,7 +75,7 @@
         </div>
     </div>
 
-     <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel"
+     {{-- <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel"
             aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -104,7 +100,7 @@
                     </form>
                 </div>
             </div>
-        </div>
+        </div> --}}
 @endsection
 
 @section('script')
@@ -114,7 +110,7 @@
         });
     </script>
 
-    <script>
+    {{-- <script>
         $('#uploadModal').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget);
             var id = button.data('id');
@@ -127,5 +123,5 @@
             form.attr('action', action.replace(':id', id));
             modal.find('.modal-title').text('Unggah Surat Permohonan Pengembalian Biaya Pendidikan: ' + nama);
         });
-    </script>
+    </script> --}}
 @endsection

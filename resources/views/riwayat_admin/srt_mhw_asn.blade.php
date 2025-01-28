@@ -11,17 +11,36 @@
                     </div>
                 </div>
                 <br>
-                <div class="card d-inline-block">
-                <div class="card-header d-flex align-items-center gap-2">
-                        <a class="btn btn-secondary btn-fixed-size-custom" href="/riwayat_srt/admin/srt_mhw_asn">Keterangan Masih Kuliah</a>
-                        <a class="btn btn-secondary btn-fixed-size-custom" href="/riwayat_srt/admin/srt_masih_mhw">Keterangan Mahasiswa</a>
-                        <a class="btn btn-secondary btn-fixed-size-custom" href="/riwayat_srt/admin/srt_izin_plt">Penelitian</a>
-                        <a class="btn btn-secondary btn-fixed-size-custom" href="/riwayat_srt/admin/legalisir">Legalisir</a>
-                    </div>
-                    <div class="card-header d-flex align-items-center gap-2">
-                        <a class="btn btn-secondary btn-fixed-size-custom" href="/riwayat_srt/admin/srt_pmhn_kmbali_biaya">Pengembalian Biaya Pendidikan</a>
-                        <a class="btn btn-secondary btn-fixed-size-custom" href="/riwayat_srt/admin/srt_bbs_pnjm">Bebas Pinjam</a>
-                        <a class="btn btn-secondary btn-fixed-size-custom" href="/riwayat_srt/admin/srt_magang">Magang</a>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="container">
+                            <div class="row g-2 justify-content-center">
+                                <div class="col-md-3 col-sm-6">
+                                    <a class="btn btn-secondary w-100" href="/riwayat_srt/admin/srt_mhw_asn">Keterangan Masih Kuliah</a>
+                                </div>
+                                <div class="col-md-3 col-sm-6">
+                                    <a class="btn btn-secondary w-100" href="/riwayat_srt/admin/srt_masih_mhw">Keterangan Mahasiswa</a>
+                                </div>
+                                <div class="col-md-3 col-sm-6">
+                                    <a class="btn btn-secondary w-100" href="/riwayat_srt/admin/srt_izin_plt">Penelitian</a>
+                                </div>
+                                <div class="col-md-3 col-sm-6">
+                                    <a class="btn btn-secondary w-100" href="/riwayat_srt/admin/legalisir">Legalisir</a>
+                                </div>
+                            </div>
+
+                            <div class="row g-2 justify-content-center mt-2">
+                                <div class="col-md-4 col-sm-6">
+                                    <a class="btn btn-secondary w-100" href="/riwayat_srt/admin/srt_pmhn_kmbali_biaya">Pengembalian Biaya Pendidikan</a>
+                                </div>
+                                <div class="col-md-4 col-sm-6">
+                                    <a class="btn btn-secondary w-100" href="/riwayat_srt/admin/srt_bbs_pnjm">Bebas Pinjam</a>
+                                </div>
+                                <div class="col-md-4 col-sm-6">
+                                    <a class="btn btn-secondary w-100" href="/riwayat_srt/admin/srt_magang">Magang</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

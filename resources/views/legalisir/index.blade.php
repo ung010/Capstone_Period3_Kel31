@@ -34,8 +34,8 @@
                     @foreach ($data as $item)
                         <tr>
                             <td>{{ $no++ }}</td>
-                            <td> {{ $item->nama }}</td>
-                            <td>{{ $item->nmr_unik }}</td>
+                            <td> {{ $item->nama_mhw }}</td>
+                            <td>{{ $item->nim_nip }}</td>
                             <td>
                                 {{ $item->nama_dpt }}
                             </td>
@@ -95,7 +95,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="">Nama Mahasiswa</label>
-                                <input type="text" id="nama_mhw" name="nama_mhw" value="{{ $user->nama }}"
+                                <input type="text" id="nama_mhw" name="nama_mhw" value="{{ $user->nama_mhw }}"
                                     class="form-control" readonly>
                             </div>
                             <div class="form-group">

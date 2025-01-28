@@ -15,21 +15,22 @@ class Admin_Legalisir_Controller extends Controller
         $search = $request->input('search');
 
         $query = DB::table('legalisir')
+            ->join('users', 'legalisir.users_id', '=', 'users.id')
             ->select(
-                'id',
-                'nama_mhw',
-                'role_surat',
+                'legalisir.id',
+                'users.nama as nama_mhw',
+                'legalisir.role_surat',
             )
-            ->whereIn('role_surat', ['admin', 'supervisor_akd', 'manajer', 'dekan'])
-            ->orderByRaw("FIELD(role_surat, 'dekan', 'admin', 'supervisor_akd', 'manajer')")
-            ->orderBy('tanggal_surat', 'asc')
-            ->where('ambil', 'dikirim')
-            ->where('jenis_lgl', 'ijazah');
+            ->whereIn('legalisir.role_surat', ['admin', 'supervisor_akd', 'dekan'])
+            ->orderByRaw("FIELD(legalisir.role_surat, 'dekan', 'admin', 'supervisor_akd')")
+            ->orderBy('legalisir.tanggal_surat', 'asc')
+            ->where('legalisir.ambil', 'dikirim')
+            ->where('legalisir.jenis_lgl', 'ijazah');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%")
-                    ->orWhere('role_surat', 'LIKE', "%{$search}%");
+                $q->where('users.nama', 'like', "%{$search}%")
+                    ->orWhere('legalisir.role_surat', 'LIKE', "%{$search}%");
             });
         }
 
@@ -41,21 +42,35 @@ class Admin_Legalisir_Controller extends Controller
     public function unduh_kirim_ijazah($id)
     {
         $legalisir = DB::table('legalisir')
-            ->where('id', $id)
-            ->where('jenis_lgl', 'ijazah')
-            ->where('ambil', 'dikirim')
+            ->join('users', 'legalisir.users_id', '=', 'users.id')
+            ->select(
+                'legalisir.id',
+                'users.nama as nama_mhw',
+                'users.nim_nip',
+                'legalisir.file_ijazah'
+            )
+            ->where('legalisir.id', $id)
+            ->where('legalisir.jenis_lgl', 'ijazah')
+            ->where('legalisir.ambil', 'dikirim')
             ->first();
 
-        if (!$legalisir) {
-            return redirect()->back()->withErrors('Data tidak ditemukan atau tidak valid.');
+        if (! $legalisir) {
+            return redirect()->back()->withErrors('Data tidak ditemukan di database.');
         }
 
-        $filePath = public_path('storage/pdf/legalisir/ijazah/' . $legalisir->file_ijazah);
-        if (!file_exists($filePath)) {
-            return redirect()->back()->withErrors('File tidak ditemukan.');
+        if (! $legalisir->file_ijazah) {
+            return redirect()->back()->withErrors('File belum diunggah ke sistem.');
         }
 
-        return response()->download($filePath, $legalisir->file_ijazah);
+        $filePath = public_path('storage/pdf/legalisir/ijazah/'.$legalisir->file_ijazah);
+
+        if (! file_exists($filePath)) {
+            return redirect()->back()->withErrors('File tidak ditemukan di storage.');
+        }
+
+        $downloadFileName = $legalisir->nama_mhw.'_'.$legalisir->nim_nip.'_Dikirim_Ijazah.pdf';
+
+        return response()->download($filePath, $downloadFileName);
     }
 
     function cek_kirim_ijazah($id)
@@ -70,8 +85,8 @@ class Admin_Legalisir_Controller extends Controller
                 'users.id as users_id',
                 'prodi.id as prd_id',
                 'departement.id as dpt_id',
-                'users.nama',
-                'users.nmr_unik',
+                'users.nama as nama_mhw',
+                'users.nim_nip',
                 'users.nowa',
                 'users.almt_asl',
                 'departement.nama_dpt',
@@ -127,7 +142,7 @@ class Admin_Legalisir_Controller extends Controller
 
         $isDiambilDitempat = $request->has('diambil_ditempat');
 
-        if (!$isDiambilDitempat) {
+        if (! $isDiambilDitempat) {
             $request->validate([
                 'no_resi' => 'required',
             ], [
@@ -140,7 +155,7 @@ class Admin_Legalisir_Controller extends Controller
 
         $legalisir->save();
 
-        return redirect()->route('legalisir_admin.admin_dikirim_ijazah')->with('success', 'Informasi pengiriman telah diperbarui.');
+        return redirect()->route('legalisir_admin.admin_dikirim_ijazah')->with('success', 'No resi telah dikirimkan');
     }
 
     function kirim_transkrip(Request $request)
@@ -148,21 +163,22 @@ class Admin_Legalisir_Controller extends Controller
         $search = $request->input('search');
 
         $query = DB::table('legalisir')
+            ->join('users', 'legalisir.users_id', '=', 'users.id')
             ->select(
-                'id',
-                'nama_mhw',
-                'role_surat',
+                'legalisir.id',
+                'users.nama as nama_mhw',
+                'legalisir.role_surat',
             )
-            ->whereIn('role_surat', ['admin', 'supervisor_akd', 'manajer', 'dekan'])
-            ->orderByRaw("FIELD(role_surat, 'dekan', 'admin', 'supervisor_akd', 'manajer')")
-            ->orderBy('tanggal_surat', 'asc')
-            ->where('ambil', 'dikirim')
-            ->where('jenis_lgl', 'transkrip');
+            ->whereIn('legalisir.role_surat', ['admin', 'supervisor_akd', 'dekan'])
+            ->orderByRaw("FIELD(legalisir.role_surat, 'dekan', 'admin', 'supervisor_akd')")
+            ->orderBy('legalisir.tanggal_surat', 'asc')
+            ->where('legalisir.ambil', 'dikirim')
+            ->where('legalisir.jenis_lgl', 'transkrip');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%")
-                    ->orWhere('role_surat', 'LIKE', "%{$search}%");
+                $q->where('users.nama', 'like', "%{$search}%")
+                    ->orWhere('legalisir.role_surat', 'LIKE', "%{$search}%");
             });
         }
 
@@ -174,21 +190,35 @@ class Admin_Legalisir_Controller extends Controller
     public function unduh_kirim_transkrip($id)
     {
         $legalisir = DB::table('legalisir')
-            ->where('id', $id)
-            ->where('jenis_lgl', 'transkrip')
-            ->where('ambil', 'dikirim')
+            ->join('users', 'legalisir.users_id', '=', 'users.id')
+            ->select(
+                'legalisir.id',
+                'users.nama as nama_mhw',
+                'users.nim_nip',
+                'legalisir.file_transkrip'
+            )
+            ->where('legalisir.id', $id)
+            ->where('legalisir.jenis_lgl', 'transkrip')
+            ->where('legalisir.ambil', 'dikirim')
             ->first();
 
-        if (!$legalisir) {
-            return redirect()->back()->withErrors('Data tidak ditemukan atau tidak valid.');
+        if (! $legalisir) {
+            return redirect()->back()->withErrors('Data tidak ditemukan di database.');
         }
 
-        $filePath = public_path('storage/pdf/legalisir/transkrip/' . $legalisir->file_transkrip);
-        if (!file_exists($filePath)) {
-            return redirect()->back()->withErrors('File tidak ditemukan.');
+        if (! $legalisir->file_transkrip) {
+            return redirect()->back()->withErrors('File belum diunggah ke sistem.');
         }
 
-        return response()->download($filePath, $legalisir->file_transkrip);
+        $filePath = public_path('storage/pdf/legalisir/transkrip/'.$legalisir->file_transkrip);
+
+        if (! file_exists($filePath)) {
+            return redirect()->back()->withErrors('File tidak ditemukan di storage.');
+        }
+
+        $downloadFileName = $legalisir->nama_mhw.'_'.$legalisir->nim_nip.'_Dikirim_Transkrip.pdf';
+
+        return response()->download($filePath, $downloadFileName);
     }
 
     function cek_kirim_transkrip($id)
@@ -203,8 +233,8 @@ class Admin_Legalisir_Controller extends Controller
                 'users.id as users_id',
                 'prodi.id as prd_id',
                 'departement.id as dpt_id',
-                'users.nama',
-                'users.nmr_unik',
+                'users.nama as nama_mhw',
+                'users.nim_nip',
                 'users.nowa',
                 'users.almt_asl',
                 'departement.nama_dpt',
@@ -260,7 +290,7 @@ class Admin_Legalisir_Controller extends Controller
 
         $isDiambilDitempat = $request->has('diambil_ditempat');
 
-        if (!$isDiambilDitempat) {
+        if (! $isDiambilDitempat) {
             $request->validate([
                 'no_resi' => 'required',
             ], [
@@ -273,7 +303,7 @@ class Admin_Legalisir_Controller extends Controller
 
         $legalisir->save();
 
-        return redirect()->route('legalisir_admin.admin_dikirim_transkrip')->with('success', 'Informasi pengiriman telah diperbarui.');
+        return redirect()->route('legalisir_admin.admin_dikirim_transkrip')->with('success', 'No resi telah dikirimkan');
     }
 
     function kirim_ijz_trs(Request $request)
@@ -281,21 +311,22 @@ class Admin_Legalisir_Controller extends Controller
         $search = $request->input('search');
 
         $query = DB::table('legalisir')
+            ->join('users', 'legalisir.users_id', '=', 'users.id')
             ->select(
-                'id',
-                'nama_mhw',
-                'role_surat',
+                'legalisir.id',
+                'users.nama as nama_mhw',
+                'legalisir.role_surat',
             )
-            ->whereIn('role_surat', ['admin', 'supervisor_akd', 'manajer', 'dekan'])
-            ->orderByRaw("FIELD(role_surat, 'dekan', 'admin', 'supervisor_akd', 'manajer')")
-            ->orderBy('tanggal_surat', 'asc')
-            ->where('ambil', 'dikirim')
-            ->where('jenis_lgl', 'ijazah_transkrip');
+            ->whereIn('legalisir.role_surat', ['admin', 'supervisor_akd', 'dekan'])
+            ->orderByRaw("FIELD(legalisir.role_surat, 'dekan', 'admin', 'supervisor_akd')")
+            ->orderBy('legalisir.tanggal_surat', 'asc')
+            ->where('legalisir.ambil', 'dikirim')
+            ->where('legalisir.jenis_lgl', 'ijazah_transkrip');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%")
-                    ->orWhere('role_surat', 'LIKE', "%{$search}%");
+                $q->where('users.nama', 'like', "%{$search}%")
+                    ->orWhere('legalisir.role_surat', 'LIKE', "%{$search}%");
             });
         }
 
@@ -307,34 +338,62 @@ class Admin_Legalisir_Controller extends Controller
     public function unduh_kirim_ijz_trs($id)
     {
         $legalisir = DB::table('legalisir')
-            ->where('id', $id)
-            ->where('jenis_lgl', 'ijazah_transkrip')
-            ->where('ambil', 'dikirim')
+            ->join('users', 'legalisir.users_id', '=', 'users.id')
+            ->select(
+                'legalisir.id',
+                'users.nama as nama_mhw',
+                'users.nim_nip',
+                'legalisir.file_ijazah',
+                'legalisir.file_transkrip'
+            )
+            ->where('legalisir.id', $id)
+            ->where('legalisir.jenis_lgl', 'ijazah_transkrip')
+            ->where('legalisir.ambil', 'dikirim')
             ->first();
 
-        if (!$legalisir) {
-            return redirect()->back()->withErrors('Data tidak ditemukan atau tidak valid.');
+        if (! $legalisir) {
+            return redirect()->back()->withErrors('Data tidak ditemukan di database.');
         }
 
-        $fileIjazahPath = public_path('storage/pdf/legalisir/ijazah/' . $legalisir->file_ijazah);
-        $fileTranskripPath = public_path('storage/pdf/legalisir/transkrip/' . $legalisir->file_transkrip);
-
-        if (!file_exists($fileIjazahPath) || !file_exists($fileTranskripPath)) {
-            return redirect()->back()->withErrors('File tidak ditemukan.');
+        if (! $legalisir->file_ijazah || ! $legalisir->file_transkrip) {
+            return redirect()->back()->withErrors('File belum diunggah ke sistem.');
         }
 
-        $zipFileName = 'files.zip';
+        $fileIjazahPath = public_path('storage/pdf/legalisir/ijazah/'.$legalisir->file_ijazah);
+        $fileTranskripPath = public_path('storage/pdf/legalisir/transkrip/'.$legalisir->file_transkrip);
+
+        if (! file_exists($fileIjazahPath) || ! file_exists($fileTranskripPath)) {
+            return redirect()->back()->withErrors('File tidak ditemukan di storage.');
+        }
+
+        $zipFileName = $legalisir->nama_mhw.'_'.$legalisir->nim_nip.'_Dikirim.zip';
+        $zipPath = storage_path('app/'.$zipFileName);
+
+        if (file_exists($zipPath)) {
+            unlink($zipPath);
+        }
+
         $zip = new \ZipArchive();
-        $zipPath = storage_path('app/' . $zipFileName);
-
         if ($zip->open($zipPath, \ZipArchive::CREATE) !== TRUE) {
             return redirect()->back()->withErrors('Gagal membuat file ZIP.');
         }
 
-        $zip->addFile($fileIjazahPath, 'ijazah.pdf');
-        $zip->addFile($fileTranskripPath, 'transkrip.pdf');
+        if (! $zip->addFile($fileIjazahPath, $legalisir->nama_mhw.'_'.$legalisir->nim_nip.'_Dikirim_Ijazah.pdf')) {
+            $zip->close();
+            unlink($zipPath);
+            return redirect()->back()->withErrors('Gagal menambahkan file ijazah ke ZIP.');
+        }
 
-        $zip->close();
+        if (! $zip->addFile($fileTranskripPath, $legalisir->nama_mhw.'_'.$legalisir->nim_nip.'_Dikirim_Transkrip.pdf')) {
+            $zip->close();
+            unlink($zipPath);
+            return redirect()->back()->withErrors('Gagal menambahkan file transkrip ke ZIP.');
+        }
+
+        if (! $zip->close()) {
+            unlink($zipPath);
+            return redirect()->back()->withErrors('Gagal menyimpan file ZIP.');
+        }
 
         return response()->download($zipPath)->deleteFileAfterSend(true);
     }
@@ -351,8 +410,8 @@ class Admin_Legalisir_Controller extends Controller
                 'users.id as users_id',
                 'prodi.id as prd_id',
                 'departement.id as dpt_id',
-                'users.nama',
-                'users.nmr_unik',
+                'users.nama as nama_mhw',
+                'users.nim_nip',
                 'users.nowa',
                 'users.almt_asl',
                 'departement.nama_dpt',
@@ -408,7 +467,7 @@ class Admin_Legalisir_Controller extends Controller
 
         $isDiambilDitempat = $request->has('diambil_ditempat');
 
-        if (!$isDiambilDitempat) {
+        if (! $isDiambilDitempat) {
             $request->validate([
                 'no_resi' => 'required',
             ], [
@@ -421,7 +480,7 @@ class Admin_Legalisir_Controller extends Controller
 
         $legalisir->save();
 
-        return redirect()->route('legalisir_admin.admin_dikirim_ijz_trs')->with('success', 'Informasi pengiriman telah diperbarui.');
+        return redirect()->route('legalisir_admin.admin_dikirim_ijz_trs')->with('success', 'No resi telah dikirimkan');
     }
 
     function ditempat_ijazah(Request $request)
@@ -429,21 +488,22 @@ class Admin_Legalisir_Controller extends Controller
         $search = $request->input('search');
 
         $query = DB::table('legalisir')
+            ->join('users', 'legalisir.users_id', '=', 'users.id')
             ->select(
-                'id',
-                'nama_mhw',
-                'role_surat',
+                'legalisir.id',
+                'users.nama as nama_mhw',
+                'legalisir.role_surat',
             )
-            ->whereIn('role_surat', ['admin', 'supervisor_akd', 'manajer', 'dekan'])
-            ->orderByRaw("FIELD(role_surat, 'dekan', 'admin', 'supervisor_akd', 'manajer')")
-            ->orderBy('tanggal_surat', 'asc')
-            ->where('ambil', 'ditempat')
-            ->where('jenis_lgl', 'ijazah');
+            ->whereIn('legalisir.role_surat', ['admin', 'supervisor_akd', 'dekan'])
+            ->orderByRaw("FIELD(legalisir.role_surat, 'dekan', 'admin', 'supervisor_akd')")
+            ->orderBy('legalisir.tanggal_surat', 'asc')
+            ->where('legalisir.ambil', 'ditempat')
+            ->where('legalisir.jenis_lgl', 'ijazah');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%")
-                    ->orWhere('role_surat', 'LIKE', "%{$search}%");
+                $q->where('users.nama', 'like', "%{$search}%")
+                    ->orWhere('legalisir.role_surat', 'LIKE', "%{$search}%");
             });
         }
 
@@ -455,21 +515,35 @@ class Admin_Legalisir_Controller extends Controller
     public function unduh_ditempat_ijazah($id)
     {
         $legalisir = DB::table('legalisir')
-            ->where('id', $id)
-            ->where('jenis_lgl', 'ijazah')
-            ->where('ambil', 'ditempat')
+            ->join('users', 'legalisir.users_id', '=', 'users.id')
+            ->select(
+                'legalisir.id',
+                'users.nama as nama_mhw',
+                'users.nim_nip',
+                'legalisir.file_ijazah'
+            )
+            ->where('legalisir.id', $id)
+            ->where('legalisir.jenis_lgl', 'ijazah')
+            ->where('legalisir.ambil', 'ditempat')
             ->first();
 
-        if (!$legalisir) {
-            return redirect()->back()->withErrors('Data tidak ditemukan atau tidak valid.');
+        if (! $legalisir) {
+            return redirect()->back()->withErrors('Data tidak ditemukan di database.');
         }
 
-        $filePath = public_path('storage/pdf/legalisir/ijazah/' . $legalisir->file_ijazah);
-        if (!file_exists($filePath)) {
-            return redirect()->back()->withErrors('File tidak ditemukan.');
+        if (! $legalisir->file_ijazah) {
+            return redirect()->back()->withErrors('File belum diunggah ke sistem.');
         }
 
-        return response()->download($filePath, $legalisir->file_ijazah);
+        $filePath = public_path('storage/pdf/legalisir/ijazah/'.$legalisir->file_ijazah);
+
+        if (! file_exists($filePath)) {
+            return redirect()->back()->withErrors('File tidak ditemukan di storage.');
+        }
+
+        $downloadFileName = $legalisir->nama_mhw.'_'.$legalisir->nim_nip.'_Ditempat_Ijazah.pdf';
+
+        return response()->download($filePath, $downloadFileName);
     }
 
     function cek_ditempat_ijazah($id)
@@ -484,8 +558,8 @@ class Admin_Legalisir_Controller extends Controller
                 'users.id as users_id',
                 'prodi.id as prd_id',
                 'departement.id as dpt_id',
-                'users.nama',
-                'users.nmr_unik',
+                'users.nama as nama_mhw',
+                'users.nim_nip',
                 'users.nowa',
                 'users.almt_asl',
                 'departement.nama_dpt',
@@ -539,22 +613,13 @@ class Admin_Legalisir_Controller extends Controller
     {
         $legalisir = legalisir::findOrFail($id);
 
-        $isDiambilDitempat = $request->has('diambil_ditempat');
-
-        if (!$isDiambilDitempat) {
-            $request->validate([
-                'no_resi' => 'required',
-            ], [
-                'no_resi.required' => 'No resi wajib diisi',
-            ]);
-        }
-
-        $legalisir->no_resi = $isDiambilDitempat ? 'Diambil Ditempat' : $request->no_resi;
+        $legalisir->no_resi = 'Legalisir dapat diambil';
         $legalisir->role_surat = 'mahasiswa';
 
         $legalisir->save();
 
-        return redirect()->route('legalisir_admin.admin_ditempat_ijazah')->with('success', 'Informasi pengiriman telah diperbarui.');
+        return redirect()->route('legalisir_admin.admin_ditempat_ijazah')
+        ->with('success', 'Informasi mahasiswa dapat mengambil legalisir telah dikirimkan');
     }
 
     function ditempat_transkrip(Request $request)
@@ -562,21 +627,22 @@ class Admin_Legalisir_Controller extends Controller
         $search = $request->input('search');
 
         $query = DB::table('legalisir')
+            ->join('users', 'legalisir.users_id', '=', 'users.id')
             ->select(
-                'id',
-                'nama_mhw',
-                'role_surat',
+                'legalisir.id',
+                'users.nama as nama_mhw',
+                'legalisir.role_surat',
             )
-            ->whereIn('role_surat', ['admin', 'supervisor_akd', 'manajer', 'dekan'])
-            ->orderByRaw("FIELD(role_surat, 'dekan', 'admin', 'supervisor_akd', 'manajer')")
-            ->orderBy('tanggal_surat', 'asc')
-            ->where('ambil', 'ditempat')
-            ->where('jenis_lgl', 'transkrip');
+            ->whereIn('legalisir.role_surat', ['admin', 'supervisor_akd', 'dekan'])
+            ->orderByRaw("FIELD(legalisir.role_surat, 'dekan', 'admin', 'supervisor_akd')")
+            ->orderBy('legalisir.tanggal_surat', 'asc')
+            ->where('legalisir.ambil', 'ditempat')
+            ->where('legalisir.jenis_lgl', 'transkrip');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%")
-                    ->orWhere('role_surat', 'LIKE', "%{$search}%");
+                $q->where('users.nama', 'like', "%{$search}%")
+                    ->orWhere('legalisir.role_surat', 'LIKE', "%{$search}%");
             });
         }
 
@@ -588,21 +654,35 @@ class Admin_Legalisir_Controller extends Controller
     public function unduh_ditempat_transkrip($id)
     {
         $legalisir = DB::table('legalisir')
-            ->where('id', $id)
-            ->where('jenis_lgl', 'transkrip')
-            ->where('ambil', 'ditempat')
+            ->join('users', 'legalisir.users_id', '=', 'users.id')
+            ->select(
+                'legalisir.id',
+                'users.nama as nama_mhw',
+                'users.nim_nip',
+                'legalisir.file_transkrip'
+            )
+            ->where('legalisir.id', $id)
+            ->where('legalisir.jenis_lgl', 'transkrip')
+            ->where('legalisir.ambil', 'ditempat')
             ->first();
 
-        if (!$legalisir) {
-            return redirect()->back()->withErrors('Data tidak ditemukan atau tidak valid.');
+        if (! $legalisir) {
+            return redirect()->back()->withErrors('Data tidak ditemukan di database.');
         }
 
-        $filePath = public_path('storage/pdf/legalisir/transkrip/' . $legalisir->file_transkrip);
-        if (!file_exists($filePath)) {
-            return redirect()->back()->withErrors('File tidak ditemukan.');
+        if (! $legalisir->file_transkrip) {
+            return redirect()->back()->withErrors('File belum diunggah ke sistem.');
         }
 
-        return response()->download($filePath, $legalisir->file_transkrip);
+        $filePath = public_path('storage/pdf/legalisir/transkrip/'.$legalisir->file_transkrip);
+
+        if (! file_exists($filePath)) {
+            return redirect()->back()->withErrors('File tidak ditemukan di storage.');
+        }
+
+        $downloadFileName = $legalisir->nama_mhw.'_'.$legalisir->nim_nip.'_Ditempat_Transkrip.pdf';
+
+        return response()->download($filePath, $downloadFileName);
     }
 
     function cek_ditempat_transkrip($id)
@@ -617,8 +697,8 @@ class Admin_Legalisir_Controller extends Controller
                 'users.id as users_id',
                 'prodi.id as prd_id',
                 'departement.id as dpt_id',
-                'users.nama',
-                'users.nmr_unik',
+                'users.nama as nama_mhw',
+                'users.nim_nip',
                 'users.nowa',
                 'users.almt_asl',
                 'departement.nama_dpt',
@@ -672,22 +752,13 @@ class Admin_Legalisir_Controller extends Controller
     {
         $legalisir = legalisir::findOrFail($id);
 
-        $isDiambilDitempat = $request->has('diambil_ditempat');
-
-        if (!$isDiambilDitempat) {
-            $request->validate([
-                'no_resi' => 'required',
-            ], [
-                'no_resi.required' => 'No resi wajib diisi',
-            ]);
-        }
-
-        $legalisir->no_resi = $isDiambilDitempat ? 'Diambil Ditempat' : $request->no_resi;
+        $legalisir->no_resi = 'Legalisir dapat diambil';
         $legalisir->role_surat = 'mahasiswa';
 
         $legalisir->save();
 
-        return redirect()->route('legalisir_admin.admin_ditempat_transkrip')->with('success', 'Informasi pengiriman telah diperbarui.');
+        return redirect()->route('legalisir_admin.admin_ditempat_transkrip')
+        ->with('success', 'Informasi mahasiswa dapat mengambil legalisir telah dikirimkan');
     }
 
     function ditempat_ijz_trs(Request $request)
@@ -695,21 +766,22 @@ class Admin_Legalisir_Controller extends Controller
         $search = $request->input('search');
 
         $query = DB::table('legalisir')
+            ->join('users', 'legalisir.users_id', '=', 'users.id')
             ->select(
-                'id',
-                'nama_mhw',
-                'role_surat',
+                'legalisir.id',
+                'users.nama as nama_mhw',
+                'legalisir.role_surat',
             )
-            ->whereIn('role_surat', ['admin', 'supervisor_akd', 'manajer', 'dekan'])
-            ->orderByRaw("FIELD(role_surat, 'dekan', 'admin', 'supervisor_akd', 'manajer')")
-            ->orderBy('tanggal_surat', 'asc')
-            ->where('ambil', 'ditempat')
-            ->where('jenis_lgl', 'ijazah_transkrip');
+            ->whereIn('legalisir.role_surat', ['admin', 'supervisor_akd', 'dekan'])
+            ->orderByRaw("FIELD(legalisir.role_surat, 'dekan', 'admin', 'supervisor_akd')")
+            ->orderBy('legalisir.tanggal_surat', 'asc')
+            ->where('legalisir.ambil', 'ditempat')
+            ->where('legalisir.jenis_lgl', 'ijazah_transkrip');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%")
-                    ->orWhere('role_surat', 'LIKE', "%{$search}%");
+                $q->where('users.nama', 'like', "%{$search}%")
+                    ->orWhere('legalisir.role_surat', 'LIKE', "%{$search}%");
             });
         }
 
@@ -721,34 +793,62 @@ class Admin_Legalisir_Controller extends Controller
     public function unduh_ditempat_ijz_trs($id)
     {
         $legalisir = DB::table('legalisir')
-            ->where('id', $id)
-            ->where('jenis_lgl', 'ijazah_transkrip')
-            ->where('ambil', 'ditempat')
+            ->join('users', 'legalisir.users_id', '=', 'users.id')
+            ->select(
+                'legalisir.id',
+                'users.nama as nama_mhw',
+                'users.nim_nip',
+                'legalisir.file_ijazah',
+                'legalisir.file_transkrip'
+            )
+            ->where('legalisir.id', $id)
+            ->where('legalisir.jenis_lgl', 'ijazah_transkrip')
+            ->where('legalisir.ambil', 'ditempat')
             ->first();
 
-        if (!$legalisir) {
-            return redirect()->back()->withErrors('Data tidak ditemukan atau tidak valid.');
+        if (! $legalisir) {
+            return redirect()->back()->withErrors('Data tidak ditemukan di database.');
         }
 
-        $fileIjazahPath = public_path('storage/pdf/legalisir/ijazah/' . $legalisir->file_ijazah);
-        $fileTranskripPath = public_path('storage/pdf/legalisir/transkrip/' . $legalisir->file_transkrip);
-
-        if (!file_exists($fileIjazahPath) || !file_exists($fileTranskripPath)) {
-            return redirect()->back()->withErrors('File tidak ditemukan.');
+        if (! $legalisir->file_ijazah || ! $legalisir->file_transkrip) {
+            return redirect()->back()->withErrors('File belum diunggah ke sistem.');
         }
 
-        $zipFileName = 'files.zip';
+        $fileIjazahPath = public_path('storage/pdf/legalisir/ijazah/'.$legalisir->file_ijazah);
+        $fileTranskripPath = public_path('storage/pdf/legalisir/transkrip/'.$legalisir->file_transkrip);
+
+        if (! file_exists($fileIjazahPath) || ! file_exists($fileTranskripPath)) {
+            return redirect()->back()->withErrors('File tidak ditemukan di storage.');
+        }
+
+        $zipFileName = $legalisir->nama_mhw.'_'.$legalisir->nim_nip.'_Ditempat.zip';
+        $zipPath = storage_path('app/'.$zipFileName);
+
+        if (file_exists($zipPath)) {
+            unlink($zipPath);
+        }
+
         $zip = new \ZipArchive();
-        $zipPath = storage_path('app/' . $zipFileName);
-
         if ($zip->open($zipPath, \ZipArchive::CREATE) !== TRUE) {
             return redirect()->back()->withErrors('Gagal membuat file ZIP.');
         }
 
-        $zip->addFile($fileIjazahPath, 'ijazah.pdf');
-        $zip->addFile($fileTranskripPath, 'transkrip.pdf');
+        if (! $zip->addFile($fileIjazahPath, $legalisir->nama_mhw.'_'.$legalisir->nim_nip.'_Ditempat_Ijazah.pdf')) {
+            $zip->close();
+            unlink($zipPath);
+            return redirect()->back()->withErrors('Gagal menambahkan file ijazah ke ZIP.');
+        }
 
-        $zip->close();
+        if (! $zip->addFile($fileTranskripPath, $legalisir->nama_mhw.'_'.$legalisir->nim_nip.'_Ditempat_Transkrip.pdf')) {
+            $zip->close();
+            unlink($zipPath);
+            return redirect()->back()->withErrors('Gagal menambahkan file transkrip ke ZIP.');
+        }
+
+        if (! $zip->close()) {
+            unlink($zipPath);
+            return redirect()->back()->withErrors('Gagal menyimpan file ZIP.');
+        }
 
         return response()->download($zipPath)->deleteFileAfterSend(true);
     }
@@ -765,8 +865,8 @@ class Admin_Legalisir_Controller extends Controller
                 'users.id as users_id',
                 'prodi.id as prd_id',
                 'departement.id as dpt_id',
-                'users.nama',
-                'users.nmr_unik',
+                'users.nama as nama_mhw',
+                'users.nim_nip',
                 'users.nowa',
                 'users.almt_asl',
                 'departement.nama_dpt',
@@ -820,21 +920,12 @@ class Admin_Legalisir_Controller extends Controller
     {
         $legalisir = legalisir::findOrFail($id);
 
-        $isDiambilDitempat = $request->has('diambil_ditempat');
-
-        if (!$isDiambilDitempat) {
-            $request->validate([
-                'no_resi' => 'required',
-            ], [
-                'no_resi.required' => 'No resi wajib diisi',
-            ]);
-        }
-
-        $legalisir->no_resi = $isDiambilDitempat ? 'Diambil Ditempat' : $request->no_resi;
+        $legalisir->no_resi = 'Legalisir dapat diambil';
         $legalisir->role_surat = 'mahasiswa';
 
         $legalisir->save();
 
-        return redirect()->route('legalisir_admin.admin_ditempat_ijz_trs')->with('success', 'Informasi pengiriman telah diperbarui.');
+        return redirect()->route('legalisir_admin.admin_ditempat_ijz_trs')
+        ->with('success', 'Informasi mahasiswa dapat mengambil legalisir telah dikirimkan');
     }
 }

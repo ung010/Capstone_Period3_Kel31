@@ -110,7 +110,7 @@ class DatabaseSeeder extends Seeder
             DB::table('users')->insert([
                 'id' => $id,
                 'nama' => $faker->firstName . ' ' . $faker->lastName,
-                'nmr_unik' => '211201' . $faker->unique()->numerify('########'),
+                'nim_nip' => '211201' . $faker->unique()->numerify('########'),
                 'email' => Str::lower($faker->firstName) . '@students.undip.ac.id',
                 'password' => Hash::make('1234567'),
                 'role' => $faker->randomElement(['non_mahasiswa', 'mahasiswa']),
@@ -135,7 +135,7 @@ class DatabaseSeeder extends Seeder
             [
                 'id' => mt_rand(1000000000000, 9999999999999),
                 'nama' => 'Raung',
-                'nmr_unik' => '21120120150155',
+                'nim_nip' => '21120120150155',
                 'email' => 'raung@students.undip.ac.id',
                 'password' => bcrypt('1234567'),
                 'role' => 'mahasiswa',
@@ -151,8 +151,8 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'id' => mt_rand(1000000000000, 9999999999999),
-                'nama' => 'Aung',
-                'nmr_unik' => '21120120160155',
+                'nama' => 'Rosa',
+                'nim_nip' => '21120120160155',
                 'email' => 'satu@gmail.com',
                 'password' => bcrypt('1234567'),
                 'role' => 'mahasiswa',
@@ -169,7 +169,7 @@ class DatabaseSeeder extends Seeder
             // [
             //     'id' => mt_rand(1000000000000, 9999999999999),
             //     'nama' => 'Didan',
-            //     'nmr_unik' => '64568775634',
+            //     'nim_nip' => '64568775634',
             //     'email' => 'didan@students.undip.ac.id',
             //     'password' => bcrypt('1234567'),
             //     'role' => 'mahasiswa',
@@ -186,7 +186,7 @@ class DatabaseSeeder extends Seeder
             // [
             //     'id' => mt_rand(1000000000000, 9999999999999),
             //     'nama' => 'Setyawan',
-            //     'nmr_unik' => '211201201444444',
+            //     'nim_nip' => '211201201444444',
             //     'email' => 'setyawan@students.undip.ac.id',
             //     'password' => bcrypt('1234567'),
             //     'role' => 'mahasiswa',
@@ -203,7 +203,7 @@ class DatabaseSeeder extends Seeder
             [
                 'id' => mt_rand(1000000000000, 9999999999999),
                 'nama' => 'Andi Prihandoyo, S.T.',
-                'nmr_unik' => 'H.7.197704082021101001',
+                'nim_nip' => 'H.7.197704082021101001',
                 'email' => 'andiprihandoyo01@staff.undip.ac.id',
                 'password' => bcrypt('1234567'),
                 'role' => 'admin',
@@ -211,7 +211,7 @@ class DatabaseSeeder extends Seeder
             [
                 'id' => mt_rand(1000000000000, 9999999999999),
                 'nama' => 'Luluk Evriyanti, S.E',
-                'nmr_unik' => 'H.7.199504252024052001',
+                'nim_nip' => 'H.7.199504252024052001',
                 'email' => 'lulukevriyanti02@staff.undip.ac.id',
                 'password' => bcrypt('1234567'),
                 'role' => 'admin',
@@ -219,7 +219,7 @@ class DatabaseSeeder extends Seeder
             [
                 'id' => mt_rand(1000000000000, 9999999999999),
                 'nama' => 'Ex - Admin',
-                'nmr_unik' => 'xxx',
+                'nim_nip' => 'xxx',
                 'email' => 'admin@gmail.com',
                 'password' => bcrypt('1234567'),
                 'role' => 'admin',
@@ -227,7 +227,7 @@ class DatabaseSeeder extends Seeder
             [
                 'id' => mt_rand(1000000000000, 9999999999999),
                 'nama' => 'R M Endhar Priyo Utomo, S.S',
-                'nmr_unik' => '197901102014091002',
+                'nim_nip' => '197901102014091002',
                 'email' => 'akademik@gmail.com',
                 'password' => bcrypt('1234567'),
                 'role' => 'supervisor_akd',
@@ -235,7 +235,7 @@ class DatabaseSeeder extends Seeder
             [
                 'id' => mt_rand(1000000000000, 9999999999999),
                 'nama' => 'Suryani, S.E.',
-                'nmr_unik' => 'H.7.198601242009082001',
+                'nim_nip' => 'H.7.198601242009082001',
                 'email' => 'sumber@gmail.com',
                 'password' => bcrypt('1234567'),
                 'role' => 'supervisor_sd',
@@ -243,7 +243,7 @@ class DatabaseSeeder extends Seeder
             [
                 'id' => mt_rand(1000000000000, 9999999999999),
                 'nama' => 'Mia Prameswari, S.E., M.Si',
-                'nmr_unik' => '197901142006042001',
+                'nim_nip' => '197901142006042001',
                 'email' => 'manajer@gmail.com',
                 'password' => bcrypt('1234567'),
                 'role' => 'manajer',
@@ -251,7 +251,7 @@ class DatabaseSeeder extends Seeder
             [
                 'id' => mt_rand(1000000000000, 9999999999999),
                 'nama' => 'Saya WD 1',
-                'nmr_unik' => '1111',
+                'nim_nip' => '1111',
                 'email' => 'wd1@gmail.com',
                 'password' => bcrypt('1234567'),
                 'role' => 'wd1',
@@ -259,7 +259,7 @@ class DatabaseSeeder extends Seeder
             [
                 'id' => mt_rand(1000000000000, 9999999999999),
                 'nama' => 'Saya WD 2',
-                'nmr_unik' => '2222',
+                'nim_nip' => '2222',
                 'email' => 'wd2@gmail.com',
                 'password' => bcrypt('1234567'),
                 'role' => 'wd2',
@@ -282,7 +282,7 @@ class DatabaseSeeder extends Seeder
 
             $random_user_id = $faker_srt_mhw_asn->randomElement($user_ids);
             $user = DB::table('users')->where('id', $random_user_id)->first();
-            $nama_mhw = $user->nama;
+            // $nama_mhw = $user->nama;
             $thn_awl = $faker_srt_mhw_asn->numberBetween(2023, 2024);
             $thn_akh = $thn_awl + 1;
             $semester = $faker_srt_mhw_asn->numberBetween(3, 13);
@@ -299,7 +299,7 @@ class DatabaseSeeder extends Seeder
             DB::table('srt_mhw_asn')->insert([
                 'id' => $id,
                  'users_id' => $random_user_id,
-                'nama_mhw' => $nama_mhw,
+                // 'nama_mhw' => $nama_mhw,
                 'prd_id' => $user->prd_id,
                 'thn_awl' => $thn_awl,
                 'thn_akh' => $thn_akh,
@@ -326,7 +326,7 @@ class DatabaseSeeder extends Seeder
 
             $random_user_id = $faker_srt_masih_mhw->randomElement($user_ids);
             $user = DB::table('users')->where('id', $random_user_id)->first();
-            $nama_mhw = $user->nama;
+            // $nama_mhw = $user->nama;
             $thn_awl = $faker_srt_masih_mhw->numberBetween(2023, 2024);
             $thn_akh = $thn_awl + 1;
             $semester = $faker_srt_masih_mhw->numberBetween(3, 13);
@@ -342,7 +342,7 @@ class DatabaseSeeder extends Seeder
             DB::table('srt_masih_mhw')->insert([
                 'id' => $id,
                 'users_id' => $random_user_id,
-                'nama_mhw' => $nama_mhw,
+                // 'nama_mhw' => $nama_mhw,
                 'prd_id' => $user->prd_id,
                 'thn_awl' => $thn_awl,
                 'thn_akh' => $thn_akh,
@@ -366,7 +366,7 @@ class DatabaseSeeder extends Seeder
             $id = mt_rand(1000000000000, 9999999999999);
             $random_user_id = $faker_srt_magang->randomElement($user_ids);
             $user = DB::table('users')->where('id', $random_user_id)->first();
-            $nama_mhw = $user->nama;
+            // $nama_mhw = $user->nama;
             $tanggal_surat = Carbon::create(
                 rand(2023, 2024),
                 rand(1, 12),
@@ -380,7 +380,7 @@ class DatabaseSeeder extends Seeder
             DB::table('srt_magang')->insert([
                 'id' => $id,
                 'users_id' => $random_user_id,
-                'nama_mhw' => $nama_mhw,
+                // 'nama_mhw' => $nama_mhw,
                 'prd_id' => $user->prd_id,
                 'ipk' => $ipk,
                 'sksk' => $sksk,
@@ -414,7 +414,7 @@ class DatabaseSeeder extends Seeder
             $id = mt_rand(1000000000000, 9999999999999);
             $random_user_id = $faker_srt_plt->randomElement($user_ids);
             $user = DB::table('users')->where('id', $random_user_id)->first();
-            $nama_mhw = $user->nama;
+            // $nama_mhw = $user->nama;
             $tanggal_surat = Carbon::create(
                 rand(2023, 2024),
                 rand(1, 12),
@@ -429,7 +429,7 @@ class DatabaseSeeder extends Seeder
             DB::table('srt_izin_plt')->insert([
                 'id' => $id,
                 'users_id' => $random_user_id,
-                'nama_mhw' => $nama_mhw,
+                // 'nama_mhw' => $nama_mhw,
                 'prd_id' => $user->prd_id,
                 'judul_data' => $judul_data,
                 'lampiran' => $lampiran,
@@ -455,7 +455,7 @@ class DatabaseSeeder extends Seeder
             $id = mt_rand(1000000000000, 9999999999999);
             $random_user_id = $faker_srt_pmhn_kmbali_biaya->randomElement($user_ids);
             $user = DB::table('users')->where('id', $random_user_id)->first();
-            $nama_mhw = $user->nama;
+            // $nama_mhw = $user->nama;
             $tanggal_surat = Carbon::create(
                 rand(2023, 2024),
                 rand(1, 12),
@@ -465,7 +465,7 @@ class DatabaseSeeder extends Seeder
             DB::table('srt_pmhn_kmbali_biaya')->insert([
                 'id' => $id,
                 'users_id' => $random_user_id,
-                'nama_mhw' => $nama_mhw,
+                // 'nama_mhw' => $nama_mhw,
                 'prd_id' => $user->prd_id,
                 'role_surat' => $faker_srt_pmhn_kmbali_biaya->randomElement(['mahasiswa', 'admin', 'supervisor_sd', 'manajer', 'wd2']),
                 'tanggal_surat' => $tanggal_surat,
@@ -483,7 +483,7 @@ class DatabaseSeeder extends Seeder
             $id = mt_rand(1000000000000, 9999999999999);
             $random_user_id = $faker_srt_bbs_pnjm->randomElement($user_ids);
             $user = DB::table('users')->where('id', $random_user_id)->first();
-            $nama_mhw = $user->nama;
+            // $nama_mhw = $user->nama;
             $tanggal_surat = Carbon::create(
                 rand(2023, 2024),
                 rand(1, 12),
@@ -495,7 +495,7 @@ class DatabaseSeeder extends Seeder
             DB::table('srt_bbs_pnjm')->insert([
                 'id' => $id,
                 'users_id' => $random_user_id,
-                'nama_mhw' => $nama_mhw,
+                // 'nama_mhw' => $nama_mhw,
                 'almt_smg' => $almt_smg,
                 'dosen_wali' => $dosen_wali,
                 'prd_id' => $user->prd_id,
@@ -519,7 +519,7 @@ class DatabaseSeeder extends Seeder
             $id = mt_rand(1000000000000, 9999999999999);
             $random_user_id = $faker_lgl->randomElement($user_ids);
             $user = DB::table('users')->where('id', $random_user_id)->first();
-            $nama_mhw = $user->nama;
+            // $nama_mhw = $user->nama;
             $tanggal_surat = Carbon::now('Asia/Jakarta')->toDateString();
             $keperluan = $faker_lgl->randomElement($urusan);
             $tanggal_lulus = $faker_lgl->date($format = 'Y-m-d', $max = '2024-08-01', $min = '2019-01-01',);
@@ -527,7 +527,7 @@ class DatabaseSeeder extends Seeder
             DB::table('legalisir')->insert([
                 'id' => $id,
                 'users_id' => $random_user_id,
-                'nama_mhw' => $nama_mhw,
+                // 'nama_mhw' => $nama_mhw,
                 'tgl_lulus' => $tanggal_lulus,
                 'keperluan' => $keperluan,
                 'jenis_lgl' => $faker_lgl->randomElement($jenis_legalisir),

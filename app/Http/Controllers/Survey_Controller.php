@@ -33,7 +33,6 @@ class Survey_Controller extends Controller
 
         $survey = new Survey();
         $survey->users_id = $userId;
-        $survey->nama_mhw = Auth::user()->nama;
         $survey->prd_id = Auth::user()->prd_id;
         $survey->tanggal_survey = Carbon::now()->toDateString();
 
@@ -55,7 +54,10 @@ class Survey_Controller extends Controller
         $kurang_puas = DB::table('survey')->where('rating', 'kurang_puas')->count();
         $tidak_puas = DB::table('survey')->where('rating', 'tidak_puas')->count();
 
-        $feedbacks = DB::table('survey')->select('feedback', 'nama_mhw', 'tanggal_survey')->get();
+        $feedbacks = DB::table('survey')
+        ->join('users', 'survey.users_id', '=', 'users.id')
+        ->select('feedback', 'users.nama as nama_mhw', 'tanggal_survey')
+        ->get();
 
         return view('survey.admin', compact('sangat_puas', 'puas', 'netral', 'kurang_puas', 'tidak_puas', 'feedbacks'));
     }
@@ -68,7 +70,10 @@ class Survey_Controller extends Controller
         $kurang_puas = DB::table('survey')->where('rating', 'kurang_puas')->count();
         $tidak_puas = DB::table('survey')->where('rating', 'tidak_puas')->count();
 
-        $feedbacks = DB::table('survey')->select('feedback', 'nama_mhw', 'tanggal_survey')->get();
+        $feedbacks = DB::table('survey')
+        ->join('users', 'survey.users_id', '=', 'users.id')
+        ->select('feedback', 'users.nama as nama_mhw', 'tanggal_survey')
+        ->get();
 
         return view('survey.supervisor_akd', compact('sangat_puas', 'puas', 'netral', 'kurang_puas', 'tidak_puas', 'feedbacks'));
     }
@@ -81,7 +86,10 @@ class Survey_Controller extends Controller
         $kurang_puas = DB::table('survey')->where('rating', 'kurang_puas')->count();
         $tidak_puas = DB::table('survey')->where('rating', 'tidak_puas')->count();
 
-        $feedbacks = DB::table('survey')->select('feedback', 'nama_mhw', 'tanggal_survey')->get();
+        $feedbacks = DB::table('survey')
+        ->join('users', 'survey.users_id', '=', 'users.id')
+        ->select('feedback', 'users.nama as nama_mhw', 'tanggal_survey')
+        ->get();
 
         return view('survey.supervisor_sd', compact('sangat_puas', 'puas', 'netral', 'kurang_puas', 'tidak_puas', 'feedbacks'));
     }
@@ -94,7 +102,10 @@ class Survey_Controller extends Controller
         $kurang_puas = DB::table('survey')->where('rating', 'kurang_puas')->count();
         $tidak_puas = DB::table('survey')->where('rating', 'tidak_puas')->count();
 
-        $feedbacks = DB::table('survey')->select('feedback', 'nama_mhw', 'tanggal_survey')->get();
+        $feedbacks = DB::table('survey')
+        ->join('users', 'survey.users_id', '=', 'users.id')
+        ->select('feedback', 'users.nama as nama_mhw', 'tanggal_survey')
+        ->get();
 
         return view('survey.manajer', compact('sangat_puas', 'puas', 'netral', 'kurang_puas', 'tidak_puas', 'feedbacks'));
     }
@@ -107,7 +118,10 @@ class Survey_Controller extends Controller
         $kurang_puas = DB::table('survey')->where('rating', 'kurang_puas')->count();
         $tidak_puas = DB::table('survey')->where('rating', 'tidak_puas')->count();
 
-        $feedbacks = DB::table('survey')->select('feedback', 'nama_mhw', 'tanggal_survey')->get();
+        $feedbacks = DB::table('survey')
+        ->join('users', 'survey.users_id', '=', 'users.id')
+        ->select('feedback', 'users.nama as nama_mhw', 'tanggal_survey')
+        ->get();
 
         return view('survey.wd1', compact('sangat_puas', 'puas', 'netral', 'kurang_puas', 'tidak_puas', 'feedbacks'));
     }
@@ -120,7 +134,10 @@ class Survey_Controller extends Controller
         $kurang_puas = DB::table('survey')->where('rating', 'kurang_puas')->count();
         $tidak_puas = DB::table('survey')->where('rating', 'tidak_puas')->count();
 
-        $feedbacks = DB::table('survey')->select('feedback', 'nama_mhw', 'tanggal_survey')->get();
+        $feedbacks = DB::table('survey')
+        ->join('users', 'survey.users_id', '=', 'users.id')
+        ->select('feedback', 'users.nama as nama_mhw', 'tanggal_survey')
+        ->get();
 
         return view('survey.wd2', compact('sangat_puas', 'puas', 'netral', 'kurang_puas', 'tidak_puas', 'feedbacks'));
     }

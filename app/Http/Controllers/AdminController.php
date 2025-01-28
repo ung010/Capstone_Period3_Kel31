@@ -126,7 +126,7 @@ class AdminController extends Controller
       ->select(
         'users.id',
         'users.nama',
-        'users.nmr_unik',
+        'users.nim_nip',
         'users.status',
         'users.nowa',
         'users.email',
@@ -143,7 +143,7 @@ class AdminController extends Controller
       ->select(
         'users.id',
         'users.nama',
-        'users.nmr_unik',
+        'users.nim_nip',
         'users.email',
         'users.nowa',
         'departement.nama_dpt',
@@ -165,7 +165,7 @@ class AdminController extends Controller
       ->whereIn('users.status', ['mahasiswa', 'alumni'])
       ->where(function ($q) use ($query) {
         $q->where('users.nama', 'LIKE', "%{$query}%")
-          ->orWhere('users.nmr_unik', 'LIKE', "%{$query}%")
+          ->orWhere('users.nim_nip', 'LIKE', "%{$query}%")
           ->orWhere('users.email', 'LIKE', "%{$query}%")
           ->orWhere('prodi.nama_prd', 'LIKE', "%{$query}%")
           ->orWhere('departement.nama_dpt', 'LIKE', "%{$query}%");
@@ -173,7 +173,7 @@ class AdminController extends Controller
       ->select(
         'users.id',
         'users.nama',
-        'users.nmr_unik',
+        'users.nim_nip',
         'prodi.nama_prd',
         'departement.nama_dpt',
       )
@@ -192,7 +192,7 @@ class AdminController extends Controller
       ->select(
         'users.id',
         'users.nama',
-        'users.nmr_unik',
+        'users.nim_nip',
         'users.email',
         'prodi.dpt_id',
         'departement.nama_dpt',
@@ -214,14 +214,14 @@ class AdminController extends Controller
       ->whereIn('users.status', ['mahasiswa', 'alumni'])
       ->where(function ($q) use ($query) {
         $q->where('users.nama', 'LIKE', "%{$query}%")
-          ->orWhere('users.nmr_unik', 'LIKE', "%{$query}%")
+          ->orWhere('users.nim_nip', 'LIKE', "%{$query}%")
           ->orWhere('users.email', 'LIKE', "%{$query}%")
           ->orWhere('departement.nama_dpt', 'LIKE', "%{$query}%");
       })
       ->select(
         'users.id',
         'users.nama',
-        'users.nmr_unik',
+        'users.nim_nip',
         'departement.nama_dpt',
       )
       ->get();
@@ -241,7 +241,7 @@ class AdminController extends Controller
   //     ->whereIn('users.status', ['mahasiswa', 'alumni'])
   //     ->where(function ($q) use ($query) {
   //       $q->where('users.nama', 'LIKE', "%{$query}%")
-  //         ->orWhere('users.nmr_unik', 'LIKE', "%{$query}%")
+  //         ->orWhere('users.nim_nip', 'LIKE', "%{$query}%")
   //         ->orWhere('users.email', 'LIKE', "%{$query}%")
   //         ->orWhere('departement.nama_dpt', 'LIKE', "%{$query}%")
   //         ->orWhere(DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd)'), 'LIKE', "%{$query}%");
@@ -249,7 +249,7 @@ class AdminController extends Controller
   //     ->select(
   //       'users.id',
   //       'users.nama',
-  //       'users.nmr_unik',
+  //       'users.nim_nip',
   //       'departement.nama_dpt',
   //       DB::raw('CONCAT(jenjang_pendidikan.nama_jnjg, " - ", prodi.nama_prd) as jenjang_prodi'),
   //     )
@@ -342,7 +342,7 @@ class AdminController extends Controller
         'prodi.id as prodi_id',
         'departement.id as dpt_id',
         'users.nama',
-        'users.nmr_unik',
+        'users.nim_nip',
         DB::raw('CONCAT(users.kota, ", ", DATE_FORMAT(users.tanggal_lahir, "%d-%m-%Y")) as ttl'),
         'users.nowa',
         'users.nama_ibu',

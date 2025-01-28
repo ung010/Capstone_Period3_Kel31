@@ -34,7 +34,7 @@
                     @foreach ($data as $item)
                         <tr>
                             <td>{{ $no++ }}</td>
-                            <td>{{ $item->nama_mhw }} / {{ $item->nmr_unik }}</td>
+                            <td>{{ $item->nama_mhw }} / {{ $item->nim_nip }}</td>
                             <td>{{ $item->almt_smg }}</td>
                             <td>
                                 {{ $item->semester }}, {{ $item->thn_awl }}/{{ $item->thn_akh }}
@@ -102,7 +102,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="">NIM</label>
-                                <input type="number" id="nmr_unik" name="nmr_unik" value="{{ $user->nmr_unik }}"
+                                <input type="number" id="nim_nip" name="nim_nip" value="{{ $user->nim_nip }}"
                                     class="form-control" readonly>
                             </div>
                             <div class="form-group">

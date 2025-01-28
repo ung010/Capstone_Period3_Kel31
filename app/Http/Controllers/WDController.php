@@ -44,19 +44,19 @@ class WDController extends Controller
 
     $request->validate([
       'nama' => 'required',
-      'nmr_unik' => 'required|unique:users,nmr_unik,' . $user->id,
+      'nim_nip' => 'required|unique:users,nim_nip,' . $user->id,
       'email' => 'required|email|unique:users,email,' . $user->id,
     ], [
       'nama.required' => 'Nama wajib diisi',
-      'nmr_unik.required' => 'NIM wajib diisi',
-      'nmr_unik.unique' => 'NIM sudah digunakan, silakan masukkan NIM yang lain',
+      'nim_nip.required' => 'NIM wajib diisi',
+      'nim_nip.unique' => 'NIM sudah digunakan, silakan masukkan NIM yang lain',
       'email.required' => 'Email wajib diisi',
       'email.email' => 'Email harus valid',
       'email.unique' => 'Email sudah digunakan, silakan masukkan Email yang lain',
     ]);
 
     $user->nama = $request->nama;
-    $user->nmr_unik = $request->nmr_unik;
+    $user->nim_nip = $request->nim_nip;
     $user->email = $request->email;
 
     if ($request->filled('password')) {
@@ -91,19 +91,19 @@ class WDController extends Controller
 
     $request->validate([
       'nama' => 'required',
-      'nmr_unik' => 'required|unique:users,nmr_unik,' . $user->id,
+      'nim_nip' => 'required|unique:users,nim_nip,' . $user->id,
       'email' => 'required|email|unique:users,email,' . $user->id,
     ], [
       'nama.required' => 'Nama wajib diisi',
-      'nmr_unik.required' => 'NIM wajib diisi',
-      'nmr_unik.unique' => 'NIM sudah digunakan, silakan masukkan NIM yang lain',
+      'nim_nip.required' => 'NIM wajib diisi',
+      'nim_nip.unique' => 'NIM sudah digunakan, silakan masukkan NIM yang lain',
       'email.required' => 'Email wajib diisi',
       'email.email' => 'Email harus valid',
       'email.unique' => 'Email sudah digunakan, silakan masukkan Email yang lain',
     ]);
 
     $user->nama = $request->nama;
-    $user->nmr_unik = $request->nmr_unik;
+    $user->nim_nip = $request->nim_nip;
     $user->email = $request->email;
 
     if ($request->filled('password')) {

@@ -9,7 +9,7 @@
             <div class="position-absolute top-0 start-0 w-100 h-100" style="background-color: rgba(0, 0, 0, 0.5);">
             </div>
             <h2 class="position-absolute top-50 start-50 translate-middle text-white text-center" style="font-size: 2.5rem; ; white-space: nowrap;">
-                Surat Izin Penelitian 
+                Surat Izin Penelitian
             </h2>
         </div>
     </div>
@@ -49,7 +49,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="">NIM</label>
-                                <input type="number" id="nmr_unik" name="nmr_unik" value="{{ $user->nmr_unik }}"
+                                <input type="number" id="nim_nip" name="nim_nip" value="{{ $user->nim_nip }}"
                                     class="form-control" readonly>
                             </div>
                             <div class="form-group">

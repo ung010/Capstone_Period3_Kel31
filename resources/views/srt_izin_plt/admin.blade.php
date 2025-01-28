@@ -19,7 +19,7 @@
                                 <th>No</th>
                                 <th>Nama Mahasiswa</th>
                                 <th>Cek Data</th>
-                                <th>Status</th>
+                                {{-- <th>Status</th> --}}
                                 {{-- <th>Unduh</th>
                                 <th>Dikirim</th> --}}
                             </tr>
@@ -38,7 +38,7 @@
                                             <button class="btn btn-secondary btn-sm" disabled>Cek Data</button>
                                         @endif
                                     </td>
-                                    <td>
+                                    {{-- <td>
                                         @if ($item->role_surat == 'admin')
                                             Verif Admin
                                         @elseif ($item->role_surat == 'supervisor_akd')
@@ -50,7 +50,7 @@
                                         @else
                                             Ditolak
                                         @endif
-                                    </td>
+                                    </td> --}}
                                     {{-- <td>
                                         @if ($item->role_surat == 'manajer_sukses')
                                             <a href='{{ url('/srt_izin_plt/admin/download/' . $item->id) }}'
@@ -113,7 +113,7 @@
             $('#table').DataTable();
         });
     </script>
-    <script>
+    {{-- <script>
         $('#uploadModal').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget);
             var id = button.data('id');
@@ -126,5 +126,5 @@
             form.attr('action', action.replace(':id', id));
             modal.find('.modal-title').text('Unggah Surat Izin Penelitian: ' + nama);
         });
-    </script>
+    </script> --}}
 @endsection

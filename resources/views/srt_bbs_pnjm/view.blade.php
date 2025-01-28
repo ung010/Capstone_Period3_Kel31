@@ -41,7 +41,7 @@
             <tr>
                 <td>NIM</td>
                 <td>:</td>
-                <td>{{ $srt_bbs_pnjm->nmr_unik }}</td>
+                <td>{{ $srt_bbs_pnjm->nim_nip }}</td>
             </tr>
             <tr>
                 <td>Program Studi</td>

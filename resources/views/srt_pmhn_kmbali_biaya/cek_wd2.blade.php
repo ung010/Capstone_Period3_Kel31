@@ -15,7 +15,7 @@
                 </div>
                 <div class="d-flex flex-column">
                     <p>Nama: {{ $srt_pmhn_kmbali_biaya->nama_mhw }}</p>
-                    <p>NIM: {{ $srt_pmhn_kmbali_biaya->nmr_unik }}</p>
+                    <p>NIM: {{ $srt_pmhn_kmbali_biaya->nim_nip }}</p>
                     <p>Tempat Tanggal Lahir: {{ $srt_pmhn_kmbali_biaya->ttl }}</p>
                     <p>Program Studi: {{ $srt_pmhn_kmbali_biaya->nama_prd }}</p>
                     <p>Alamat Asal: {{ $srt_pmhn_kmbali_biaya->almt_asl }}</p>

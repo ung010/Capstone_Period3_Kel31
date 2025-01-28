@@ -107,7 +107,7 @@
             <tr>
                 <td>NIM</td>
                 <td>:</td>
-                <td>{{ $srt_mhw_asn->nmr_unik }}</td>
+                <td>{{ $srt_mhw_asn->nim_nip }}</td>
             </tr>
             <tr>
                 <td>Departemen/Semester</td>

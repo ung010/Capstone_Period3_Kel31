@@ -45,12 +45,12 @@
                         <div class="d-flex flex-column gap-2">
                             <div class="form-group">
                                 <label for="">Nama Mahasiswa</label>
-                                <input type="text" id="nama_mhw" name="nama_mhw" value="{{ $user->nama }}"
+                                <input type="text" id="nama_mhw" name="nama_mhw" value="{{ $user->nama_mhw }}"
                                     class="form-control" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="">NIM</label>
-                                <input type="number" id="nmr_unik" name="nmr_unik" value="{{ $user->nmr_unik }}"
+                                <input type="number" id="nim_nip" name="nim_nip" value="{{ $user->nim_nip }}"
                                     class="form-control" readonly>
                             </div>
                             <div class="form-group">
@@ -89,7 +89,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group d-flex">                                
+                            <div class="form-group d-flex">
                                 <label for="" class="col-1" style="line-height: 2;">SKSK</label>
                                 <div class="col-5">
                                     <input type="number" name="sksk" id="sksk" required class="form-control"
@@ -141,18 +141,18 @@
         function validateSKSInput(input) {
             input.value = input.value.slice(0, 3);
         }
-    
+
         document.getElementById('sksk').addEventListener('input', function() {
             validateSKSInput(this);
         });
 
         function validateIPKInput(input)
-    
+
         document.getElementById('ipk').addEventListener('input', function() {
             validateIPKInput(this);
         });
     </script>
-    
+
 @endsection
 
 @section('script')

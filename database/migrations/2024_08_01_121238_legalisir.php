@@ -16,12 +16,12 @@ return new class extends Migration
             $table->string('no_resi', 40)->default('-');
             $table->enum('jenis_lgl', ['ijazah' ,'transkrip', 'ijazah_transkrip']);
             $table->enum('ambil', ['ditempat' ,'dikirim']);
-            $table->string('nama_mhw', 50)->nullable();
-            $table->string('file_ijazah', 50)->nullable();
-            $table->string('file_transkrip', 50)->nullable();
+            // $table->string('nama_mhw', 50)->nullable();
+            $table->string('file_ijazah', 90)->nullable();
+            $table->string('file_transkrip', 90)->nullable();
             $table->string('keperluan', 70);
             $table->date('tgl_lulus');
-            $table->string('almt_kirim', 70)->nullable();
+            $table->string('almt_kirim', 80)->nullable();
             $table->string('kcmt_kirim', 40)->nullable();
             $table->integer('kdps_kirim')->nullable();
             $table->string('klh_kirim', 40)->nullable();

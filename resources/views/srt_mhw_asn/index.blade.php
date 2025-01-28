@@ -87,17 +87,17 @@
                         <div class="d-flex flex-column gap-2">
                             <div class="form-group">
                                 <label for="">Nama Mahasiswa</label>
-                                <input type="text" id="nama_mhw" name="nama_mhw" value="{{ $user->nama }}"
+                                <input type="text" id="nama_mhw" name="nama_mhw" value="{{ $user->nama_mhw }}"
                                     class="form-control" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="">NIM</label>
-                                <input type="text" id="nmr_unik" name="nmr_unik" value="{{ $user->nmr_unik }}"
+                                <input type="text" id="nim_nip" name="nim_nip" value="{{ $user->nim_nip }}"
                                     class="form-control" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="">Program Studi</label>
-                                <input type="text" name="nama_prd" id="nama_prd" value="{{ $prodi->nama_prd }}" 
+                                <input type="text" name="nama_prd" id="nama_prd" value="{{ $prodi->nama_prd }}"
                                     class="form-control" readonly>
                             </div>
                             <div class="form-group">
@@ -159,11 +159,11 @@
         function validateYearInput(input) {
             input.value = input.value.slice(0, 4);
         }
-    
+
         document.getElementById('thn_awl').addEventListener('input', function() {
             validateYearInput(this);
         });
-    
+
         document.getElementById('thn_akh').addEventListener('input', function() {
             validateYearInput(this);
         });

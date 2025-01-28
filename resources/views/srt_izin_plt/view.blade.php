@@ -1,4 +1,4 @@
-@extends('user.surat') 
+@extends('user.surat')
 @section('content')
 <div style="padding: 0 1rem 0 1rem">
     <table style="text-align: justify;">
@@ -59,7 +59,7 @@
         <tr>
             <td>NIM</td>
             <td>:</td>
-            <td>{{ $srt_izin_plt->nmr_unik }}</td>
+            <td>{{ $srt_izin_plt->nim_nip }}</td>
         </tr>
         <tr>
             <td>Departemen / Program Studi</td>

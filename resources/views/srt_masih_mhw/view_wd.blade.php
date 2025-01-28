@@ -1,4 +1,4 @@
-@extends('user.surat') 
+@extends('user.surat')
 @section('content')
 <table style="width: 100%; text-align: center">
   <tr>
@@ -49,7 +49,7 @@
     <tr>
       <td>NIM</td>
       <td>:</td>
-      <td>{{ $srt_masih_mhw->nmr_unik }}</td>
+      <td>{{ $srt_masih_mhw->nim_nip }}</td>
     </tr>
     <tr>
       <td>Departemen</td>
@@ -156,7 +156,7 @@
       </tr>
       <tr>
         <td style="width: 33%; vertical-align: top; padding-right: 10px;">
-          NIM. {{ $srt_masih_mhw->nmr_unik }}
+          NIM. {{ $srt_masih_mhw->nim_nip }}
         </td>
         <td style="width: 33%; vertical-align: top; text-align: center;">
         </td>

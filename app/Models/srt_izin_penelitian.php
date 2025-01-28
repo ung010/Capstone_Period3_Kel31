@@ -37,7 +37,6 @@ class srt_izin_penelitian extends Model
     protected $hidden = [
         'no_surat',
         'id',
-        'nama_mhw',
         'judul_data',
         'nama_lmbg',
         'jbt_lmbg',

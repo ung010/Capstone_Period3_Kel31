@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nama', 50);
-            $table->string('nmr_unik', 50)->unique();
+            $table->string('nim_nip', 50)->unique();
             $table->string('nowa', 15)->nullable();
             $table->string('email', 80);
             $table->string('kota', 50)->nullable();

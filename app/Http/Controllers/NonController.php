@@ -32,7 +32,7 @@ class NonController extends Controller
         'prodi.id as prd_id',
         'departement.id as dpt_id',
         'users.nama',
-        'users.nmr_unik',
+        'users.nim_nip',
         'users.nowa',
         'users.email',
         'users.kota',
@@ -71,7 +71,7 @@ class NonController extends Controller
     $userId = Auth::id();
     $request->validate([
       'nama' => 'required',
-      'nmr_unik' => 'required|unique:users,nmr_unik,' . $userId,
+      'nim_nip' => 'required|unique:users,nim_nip,' . $userId,
       'email' => 'required|email|unique:users,email,' . $userId,
       'kota' => 'required',
       'tanggal_lahir' => 'required',
@@ -83,8 +83,8 @@ class NonController extends Controller
       'status' => 'required'
     ], [
       'nama.required' => 'Nama wajib diisi',
-      'nmr_unik.required' => 'NIM wajib diisi',
-      'nmr_unik.unique' => 'NIM sudah digunakan, silakan masukkan NIM yang lain',
+      'nim_nip.required' => 'NIM wajib diisi',
+      'nim_nip.unique' => 'NIM sudah digunakan, silakan masukkan NIM yang lain',
       'email.required' => 'Email wajib diisi',
       'email.email' => 'Email harus valid',
       'email.unique' => 'Email sudah digunakan, silakan masukkan Email yang lain',
@@ -110,10 +110,10 @@ class NonController extends Controller
     } else {
       $foto = $user->foto;
     }
-  
+
     DB::table('users')->where('id', $userId)->update([
       'nama' => $request->nama,
-      'nmr_unik' => $request->nmr_unik,
+      'nim_nip' => $request->nim_nip,
       'email' => $request->email,
       'kota' => $request->kota,
       'tanggal_lahir' => $request->tanggal_lahir,
@@ -140,6 +140,7 @@ class NonController extends Controller
 
   function del_mhw()
   {
-    return view('del_mhw.home');
+    $user = Auth::user();
+    return view('del_mhw.home', compact('user'));
   }
 }

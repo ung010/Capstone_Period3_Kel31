@@ -13,8 +13,8 @@
                 <br>
                 <div class="card d-inline-block">
                     <div class="card-header d-flex align-items-center gap-2">
-                        <a href="/srt_masih_mhw/admin" class="btn btn-secondary btn-fixed-size-one">MANAJER</a>
-                        <a href="/srt_masih_mhw/manajer_wd" class="btn btn-secondary btn-fixed-size-one">WAKIL DEKAN</a>
+                        <a href="/srt_masih_mhw/admin/manajer" class="btn btn-secondary btn-fixed-size-one">MANAJER</a>
+                        <a href="/srt_masih_mhw/admin/wd" class="btn btn-secondary btn-fixed-size-one">WAKIL DEKAN</a>
                     </div>
                 </div>
             </div>
@@ -35,7 +35,7 @@
                                     <td>{{ $no++ }}</td>
                                     <td>{{ $item->nama_mhw }}</td>
                                     <td>
-                                        <a href='{{ url('/srt_masih_mhw/admin/cek_surat/' . $item->id) }}'
+                                        <a href='{{ url('/srt_masih_mhw/admin/manajer/cek_surat/' . $item->id) }}'
                                             class="btn btn-warning btn-sm">Cek Data</a>
                                     </td>
                                 </tr>

@@ -42,7 +42,7 @@
                             <div class="d-flex flex-column gap-1 ml-2">
                                 <a href="/srt_mhw_asn/admin" class="link-dark rounded">Keterangan Masih Kuliah (Bagi
                                     ASN)</a>
-                                <a href="/srt_masih_mhw/admin" class="link-dark rounded">Keterangan Masih Mahasiswa</a>
+                                <a href="/srt_masih_mhw/admin/manajer" class="link-dark rounded">Keterangan Masih Mahasiswa</a>
                                 <a href="/srt_magang/admin" class="link-dark rounded">Izin Magang</a>
                                 <a href="/srt_izin_plt/admin" class="link-dark rounded">Izin Penelitian</a>
                                 <a href="/srt_pmhn_kmbali_biaya/admin" class="link-dark rounded">Permohonan Pengembalian

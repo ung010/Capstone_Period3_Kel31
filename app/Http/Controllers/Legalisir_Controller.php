@@ -57,8 +57,8 @@ class Legalisir_Controller extends Controller
                 'users.id as users_id',
                 'prodi.id as prd_id',
                 'departement.id as dpt_id',
-                'users.nama',
-                'users.nmr_unik',
+                'users.nama as nama_mhw',
+                'users.nim_nip',
                 'users.nowa',
                 'users.almt_asl',
                 'departement.nama_dpt',
@@ -80,8 +80,8 @@ class Legalisir_Controller extends Controller
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%")
-                    ->orWhere('users.nmr_unik', 'like', "%{$search}%")
+                $q->where('users.nama', 'like', "%{$search}%")
+                    ->orWhere('users.nim_nip', 'like', "%{$search}%")
                     ->orWhere('departement.nama_dpt', 'like', "%{$search}%")
                     ->orWhere('users.almt_asl', 'like', "%{$search}%")
                     ->orWhere('almt_kirim', 'like', "%{$search}%")
@@ -123,7 +123,7 @@ class Legalisir_Controller extends Controller
         if ($request->hasFile('file_ijazah')) {
             $file_ijazah = $request->file('file_ijazah');
             $tanggal_file = Carbon::now('Asia/Jakarta')->format('Y-m-d_His');
-            $nama_ijazah = 'Ijazah_' . str_replace(' ', '_', $user->nama) . '_' . $user->nmr_unik . '_' . $tanggal_file . '.' . $file_ijazah->getClientOriginalExtension();
+            $nama_ijazah = 'Ijazah_' . str_replace(' ', '_', $user->nama) . '_' . $user->nim_nip . '_' . $tanggal_file . '.' . $file_ijazah->getClientOriginalExtension();
             $file_ijazah->move(public_path('storage/pdf/legalisir/ijazah'), $nama_ijazah);
         }
 
@@ -131,7 +131,7 @@ class Legalisir_Controller extends Controller
         if ($request->hasFile('file_transkrip')) {
             $file_transkrip = $request->file('file_transkrip');
             $tanggal_file = Carbon::now('Asia/Jakarta')->format('Y-m-d_His');
-            $nama_transkrip = 'Transkrip_' . str_replace(' ', '_', $user->nama) . '_' . $user->nmr_unik . '_' . $tanggal_file . '.' . $file_transkrip->getClientOriginalExtension();
+            $nama_transkrip = 'Transkrip_' . str_replace(' ', '_', $user->nama) . '_' . $user->nim_nip . '_' . $tanggal_file . '.' . $file_transkrip->getClientOriginalExtension();
             $file_transkrip->move(public_path('storage/pdf/legalisir/transkrip'), $nama_transkrip);
         }
 
@@ -159,7 +159,6 @@ class Legalisir_Controller extends Controller
             'id' => $id_lgl,
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
-            'nama_mhw' => $user->nama,
             'ambil' => $request->ambil,
             'jenis_lgl' => $request->jenis_lgl,
             'keperluan' => $request->keperluan,
@@ -227,7 +226,7 @@ class Legalisir_Controller extends Controller
             $file_ijazah = $request->file('file_ijazah');
             $ijazah_extensi = $file_ijazah->extension();
             $tanggal_file = Carbon::now('Asia/Jakarta')->setTimezone('Asia/Jakarta')->format('Y-m-d_His');
-            $nama_ijazah = 'Ijazah_' . str_replace(' ', '_', Auth::user()->nama) . '_' . Auth::user()->nmr_unik . '_' . $tanggal_file . '.' . $ijazah_extensi;
+            $nama_ijazah = 'Ijazah_' . str_replace(' ', '_', Auth::user()->nama) . '_' . Auth::user()->nim_nip . '_' . $tanggal_file . '.' . $ijazah_extensi;
             $file_ijazah->move(public_path('storage/pdf/legalisir/ijazah'), $nama_ijazah);
             $updateData['file_ijazah'] = $nama_ijazah;
         } else {
@@ -238,7 +237,7 @@ class Legalisir_Controller extends Controller
             $file_transkrip = $request->file('file_transkrip');
             $transkrip_extensi = $file_transkrip->extension();
             $tanggal_file = Carbon::now('Asia/Jakarta')->setTimezone('Asia/Jakarta')->format('Y-m-d_His');
-            $nama_transkrip = 'Transkrip_' . str_replace(' ', '_', Auth::user()->nama) . '_' . Auth::user()->nmr_unik . '_' . $tanggal_file . '.' . $transkrip_extensi;
+            $nama_transkrip = 'Transkrip_' . str_replace(' ', '_', Auth::user()->nama) . '_' . Auth::user()->nim_nip . '_' . $tanggal_file . '.' . $transkrip_extensi;
             $file_transkrip->move(public_path('storage/pdf/legalisir/transkrip'), $nama_transkrip);
             $updateData['file_transkrip'] = $nama_transkrip;
         } else {

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('srt_pmhn_kmbali_biaya', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('no_surat', 50)->nullable();
-            $table->string('nama_mhw', 50)->nullable();
+            // $table->string('nama_mhw', 50)->nullable();
             $table->string('skl', 50)->nullable();
             $table->string('buku_tabung', 50)->nullable();
             $table->string('bukti_bayar', 50)->nullable();

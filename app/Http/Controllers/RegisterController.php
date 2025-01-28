@@ -28,7 +28,7 @@ class RegisterController extends Controller
   function create(Request $request)
   {
     Session::flash('nama', $request->input('nama'));
-    Session::flash('nmr_unik', $request->input('nmr_unik'));
+    Session::flash('nim_nip', $request->input('nim_nip'));
     Session::flash('email', $request->input('email'));
     Session::flash('kota', $request->input('kota'));
     Session::flash('tanggal_lahir', $request->input('tanggal_lahir'));
@@ -40,7 +40,7 @@ class RegisterController extends Controller
 
     $request->validate([
       'nama' => 'required',
-      'nmr_unik' => 'required|unique:users',
+      'nim_nip' => 'required|unique:users',
       'email' => 'required|email|unique:users|regex:/^[a-zA-Z0-9._%+-]+@students\.undip\.ac\.id$/',
       'kota' => 'required',
       'tanggal_lahir' => 'required',
@@ -53,8 +53,8 @@ class RegisterController extends Controller
       'foto' => 'required|mimes:jpeg,jpg,png|image|max:2048'
     ], [
       'nama.required' => 'Nama wajib diisi',
-      'nmr_unik.required' => 'NIM wajib diisi',
-      'nmr_unik.unique' => 'NIM sudah digunakan, silakan masukkan NIM yang lain',
+      'nim_nip.required' => 'NIM wajib diisi',
+      'nim_nip.unique' => 'NIM sudah digunakan, silakan masukkan NIM yang lain',
       'email.required' => 'Email wajib diisi',
       'email.email' => 'Email harus valid',
       'email.unique' => 'Email sudah digunakan, silakan masukkan Email yang lain',
@@ -85,7 +85,7 @@ class RegisterController extends Controller
     $data = [
       'id' => $id,
       'nama' => $request->nama,
-      'nmr_unik' => $request->nmr_unik,
+      'nim_nip' => $request->nim_nip,
       'email' => $request->email,
       'password' => Hash::make($request->password),
       'kota' => $request->kota,

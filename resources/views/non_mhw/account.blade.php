@@ -26,7 +26,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="">NIM</label>
-                                <input type="number" name="nmr_unik" value="{{ $user->nmr_unik }}" class="form-control">
+                                <input type="number" name="nim_nip" value="{{ $user->nim_nip }}" class="form-control">
                             </div>
                             <div class="form-group">
                                 <label for="">Nama Ibu</label>

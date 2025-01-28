@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('srt_izin_plt', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('no_surat', 50)->nullable();
-            $table->string('nama_mhw', 50)->nullable();
+            // $table->string('nama_mhw', 50)->nullable();
             $table->tinyInteger('semester');
             $table->string('lampiran', 15);
             $table->string('nama_lmbg', 60);
             $table->string('jbt_lmbg', 50);
             $table->string('kota_lmbg', 40);
-            $table->string('almt_lmbg', 70);
+            $table->string('almt_lmbg', 80);
             $table->string('judul_data', 45);
             $table->string('jenis_surat', 35);
             $table->date('tanggal_surat');

@@ -28,7 +28,7 @@
                     <p>Jenis Legalisir: {{ $legalisir->jenis_lgl }}</p>
                     <p>Keperluan: {{ $legalisir->jenis_lgl }}</p>
                     <p>Nama: {{ $legalisir->nama }}</p>
-                    <p>NIM: {{ $legalisir->nmr_unik }}</p>
+                    <p>NIM: {{ $legalisir->nim_nip }}</p>
                     <p>Departemen: {{ $legalisir->nama_dpt }}</p>
                     <p>Program Studi: {{ $legalisir->nama_prd }}</p>
                     <p>Alamat Asal: {{ $legalisir->almt_asl }}</p>

@@ -15,7 +15,7 @@
                 </div>
                 <div class="d-flex flex-column">
                     <p>Nama: {{ $srt_magang->nama }}</p>
-                    <p>NIM: {{ $srt_magang->nmr_unik }}</p>
+                    <p>NIM: {{ $srt_magang->nim_nip }}</p>
                     <p>Departemen: {{ $srt_magang->nama_dpt }}</p>
                     <p>Program Studi: {{ $srt_magang->nama_prd }}</p>
                     <p>Alamat di Semarang: {{ $srt_magang->almt_smg }}</p>

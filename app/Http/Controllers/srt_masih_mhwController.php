@@ -44,9 +44,8 @@ class srt_masih_mhwController extends Controller
                 'users.id as users_id',
                 'prodi.id as prd_id',
                 'departement.id as dpt_id',
-                'users.nama',
-                'srt_masih_mhw.nama_mhw',
-                'users.nmr_unik',
+                'users.nama as nama_mhw',
+                'users.nim_nip',
                 'departement.nama_dpt',
                 'prodi.nama_prd',
                 'srt_masih_mhw.thn_awl',
@@ -61,7 +60,7 @@ class srt_masih_mhwController extends Controller
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%")
+                $q->where('users.nama', 'like', "%{$search}%")
                     ->orWhere('almt_smg', 'like', "%{$search}%")
                     ->orWhere('semester', 'like', "%{$search}%")
                     ->orWhere('thn_awl', 'like', "%{$search}%")
@@ -122,7 +121,6 @@ class srt_masih_mhwController extends Controller
             'id' => $id_surat,
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
-            'nama_mhw' => $user->nama,
             'thn_awl' => $request->thn_awl,
             'semester' => $request->semester,
             'thn_akh' => $request->thn_akh,
@@ -200,10 +198,9 @@ class srt_masih_mhwController extends Controller
                 'users.id as users_id',
                 'prodi.id as prd_id',
                 'departement.id as dpt_id',
-                'users.nama',
-                'srt_masih_mhw.nama_mhw',
+                'users.nama as nama_mhw',
                 'srt_masih_mhw.no_surat',
-                'users.nmr_unik',
+                'users.nim_nip',
                 'departement.nama_dpt',
                 'prodi.nama_prd',
                 'srt_masih_mhw.thn_awl',
@@ -241,9 +238,9 @@ class srt_masih_mhwController extends Controller
         // $mpdf->WriteHTML($html);
         $pdf = Pdf::loadView('srt_masih_mhw.view_wd', compact('srt_masih_mhw', 'qrCodePath'));
 
-        $namaMahasiswa = $srt_masih_mhw->nama;
+        $namaMahasiswa = $srt_masih_mhw->nama_mhw;
         $tanggalSurat = Carbon::now('Asia/Jakarta')->format('Y-m-d');
-        $fileName = 'Surat_Masih_Mahasiswa_' . str_replace(' ', '_', $namaMahasiswa) . '_' . $tanggalSurat . '.pdf';
+        $fileName = 'Surat_Masih_Mahasiswa_WD_' . str_replace(' ', '_', $namaMahasiswa) . '_' . $tanggalSurat . '.pdf';
         // $mpdf->Output($fileName, 'D');
         return $pdf->download($fileName);
     }
@@ -262,10 +259,9 @@ class srt_masih_mhwController extends Controller
                 'users.id as users_id',
                 'prodi.id as prodi_id',
                 'departement.id as departement_id',
-                'users.nama',
-                'srt_masih_mhw.nama_mhw',
+                'users.nama as nama_mhw',
                 'srt_masih_mhw.no_surat',
-                'users.nmr_unik',
+                'users.nim_nip',
                 'departement.nama_dpt',
                 'prodi.nama_prd',
                 'srt_masih_mhw.thn_awl',
@@ -296,9 +292,9 @@ class srt_masih_mhwController extends Controller
 
         $pdf = Pdf::loadView('srt_masih_mhw.view_manajer', compact('srt_masih_mhw', 'qrCodePath'));
 
-        $namaMahasiswa = $srt_masih_mhw->nama;
+        $namaMahasiswa = $srt_masih_mhw->nama_mhw;
         $tanggalSurat = Carbon::now('Asia/Jakarta')->format('Y-m-d');
-        $fileName = 'Surat_Masih_Mahasiswa_' . str_replace(' ', '_', $namaMahasiswa) . '_' . $tanggalSurat . '.pdf';
+        $fileName = 'Surat_Masih_Mahasiswa_Manajer_' . str_replace(' ', '_', $namaMahasiswa) . '_' . $tanggalSurat . '.pdf';
         return $pdf->download($fileName);
     }
 
@@ -307,17 +303,18 @@ class srt_masih_mhwController extends Controller
         $search = $request->input('search');
 
         $query = DB::table('srt_masih_mhw')
+            ->join('users', 'srt_masih_mhw.users_id', '=', 'users.id')
             ->select(
-                'id',
-                'nama_mhw',
+                'srt_masih_mhw.id',
+                'users.nama as nama_mhw',
             )
-            ->where('role_surat', 'admin')
-            ->where('tujuan_akhir', 'manajer')
-            ->orderBy('tanggal_surat', 'asc');
+            ->where('srt_masih_mhw.role_surat', 'admin')
+            ->where('srt_masih_mhw.tujuan_akhir', 'manajer')
+            ->orderBy('srt_masih_mhw.tanggal_surat', 'asc');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%");
+                $q->where('users.nama', 'like', "%{$search}%");
             });
         }
 
@@ -331,21 +328,20 @@ class srt_masih_mhwController extends Controller
         $search = $request->input('search');
 
         $query = DB::table('srt_masih_mhw')
+            ->join('users', 'srt_masih_mhw.users_id', '=', 'users.id')
             ->select(
-                'id',
-                'nama_mhw',
-                'role_surat',
-                'tujuan_akhir'
+                'srt_masih_mhw.id',
+                'users.nama as nama_mhw',
+                'srt_masih_mhw.role_surat',
+                'srt_masih_mhw.tujuan_akhir'
             )
-            ->whereIn('role_surat', ['admin', 'supervisor_akd', 'manajer', 'wd1'])
-            ->orderByRaw("FIELD(role_surat, 'admin', 'supervisor_akd', 'manajer', 'wd1')")
-            ->orderBy('tanggal_surat', 'asc')
-            ->where('tujuan_akhir', 'wd');
+            ->where('srt_masih_mhw.role_surat', 'admin')
+            ->orderBy('srt_masih_mhw.tanggal_surat', 'asc')
+            ->where('srt_masih_mhw.tujuan_akhir', 'wd');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%")
-                    ->orWhere('role_surat', 'LIKE', "%{$search}%");
+                $q->where('users.nama', 'like', "%{$search}%");
             });
         }
 
@@ -369,7 +365,7 @@ class srt_masih_mhwController extends Controller
 //         'users.nama',
 //         'srt_masih_mhw.nama_mhw',
 //         'srt_masih_mhw.no_surat',
-//         'users.nmr_unik',
+//         'users.nim_nip',
 //         'departement.nama_dpt',
 //         'prodi.nama_prd',
 //         'srt_masih_mhw.thn_awl',
@@ -466,7 +462,7 @@ class srt_masih_mhwController extends Controller
                 'prodi.id as prodi_id',
                 'departement.id as departement_id',
                 'users.nama',
-                'users.nmr_unik',
+                'users.nim_nip',
                 'users.almt_asl',
                 DB::raw('CONCAT(users.kota, ", ", DATE_FORMAT(users.tanggal_lahir, "%d-%m-%Y")) as ttl'),
                 'departement.nama_dpt',
@@ -527,7 +523,7 @@ class srt_masih_mhwController extends Controller
                 'prodi.id as prd_id',
                 'departement.id as dpt_id',
                 'users.nama',
-                'users.nmr_unik',
+                'users.nim_nip',
                 'users.almt_asl',
                 DB::raw('CONCAT(users.kota, ", ", DATE_FORMAT(users.tanggal_lahir, "%d-%m-%Y")) as ttl'),
                 'departement.nama_dpt',
@@ -580,17 +576,18 @@ class srt_masih_mhwController extends Controller
         $search = $request->input('search');
 
         $query = DB::table('srt_masih_mhw')
+            ->join('users', 'srt_masih_mhw.users_id', '=', 'users.id')
             ->select(
-                'id',
-                'nama_mhw',
-                'tujuan_buat_srt'
+                'srt_masih_mhw.id',
+                'users.nama as nama_mhw',
+                'srt_masih_mhw.tujuan_buat_srt'
             )
-            ->where('role_surat', 'supervisor_akd')
-            ->orderBy('tanggal_surat', 'asc');
+            ->where('srt_masih_mhw.role_surat', 'supervisor_akd')
+            ->orderBy('srt_masih_mhw.tanggal_surat', 'asc');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%")
+                $q->where('users.nama', 'like', "%{$search}%")
                     ->orWhere('tujuan_buat_srt', 'like', "%{$search}%");
             });
         }
@@ -613,7 +610,7 @@ class srt_masih_mhwController extends Controller
                 'prodi.id as prd_id',
                 'departement.id as dpt_id',
                 'users.nama',
-                'users.nmr_unik',
+                'users.nim_nip',
                 'users.almt_asl',
                 DB::raw('CONCAT(users.kota, ", ", DATE_FORMAT(users.tanggal_lahir, "%d-%m-%Y")) as ttl'),
                 'departement.nama_dpt',
@@ -660,18 +657,19 @@ class srt_masih_mhwController extends Controller
         $search = $request->input('search');
 
         $query = DB::table('srt_masih_mhw')
+            ->join('users', 'srt_masih_mhw.users_id', '=', 'users.id')
             ->select(
-                'id',
-                'nama_mhw',
-                'tujuan_buat_srt',
-                'tujuan_akhir'
+                'srt_masih_mhw.id',
+                'users.nama as nama_mhw',
+                'srt_masih_mhw.tujuan_buat_srt',
+                'srt_masih_mhw.tujuan_akhir'
             )
             ->where('role_surat', 'manajer')
             ->orderBy('tanggal_surat', 'asc');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%")
+                $q->where('users.nama', 'like', "%{$search}%")
                     ->orWhere('tujuan_buat_srt', 'like', "%{$search}%");
             });
         }
@@ -694,7 +692,7 @@ class srt_masih_mhwController extends Controller
                 'prodi.id as prd_id',
                 'departement.id as dpt_id',
                 'users.nama',
-                'users.nmr_unik',
+                'users.nim_nip',
                 'users.almt_asl',
                 DB::raw('CONCAT(users.kota, ", ", DATE_FORMAT(users.tanggal_lahir, "%d-%m-%Y")) as ttl'),
                 'departement.nama_dpt',
@@ -749,7 +747,7 @@ class srt_masih_mhwController extends Controller
                 'prodi.id as prd_id',
                 'departement.id as dpt_id',
                 'users.nama',
-                'users.nmr_unik',
+                'users.nim_nip',
                 'users.almt_asl',
                 DB::raw('CONCAT(users.kota, ", ", DATE_FORMAT(users.tanggal_lahir, "%d-%m-%Y")) as ttl'),
                 'departement.nama_dpt',
@@ -796,18 +794,19 @@ class srt_masih_mhwController extends Controller
         $search = $request->input('search');
 
         $query = DB::table('srt_masih_mhw')
+            ->join('users', 'srt_masih_mhw.users_id', '=', 'users.id')
             ->select(
-                'id',
-                'nama_mhw',
-                'tujuan_buat_srt',
-                'tujuan_akhir'
+                'srt_masih_mhw.id',
+                'users.nama as nama_mhw',
+                'srt_masih_mhw.tujuan_buat_srt',
+                'srt_masih_mhw.tujuan_akhir'
             )
-            ->where('role_surat', 'wd1')
-            ->orderBy('tanggal_surat', 'asc');
+            ->where('srt_masih_mhw.role_surat', 'wd1')
+            ->orderBy('srt_masih_mhw.tanggal_surat', 'asc');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%")
+                $q->where('users.nama', 'like', "%{$search}%")
                     ->orWhere('tujuan_buat_srt', 'like', "%{$search}%");
             });
         }
@@ -830,7 +829,7 @@ class srt_masih_mhwController extends Controller
                 'prodi.id as prd_id',
                 'departement.id as dpt_id',
                 'users.nama',
-                'users.nmr_unik',
+                'users.nim_nip',
                 'users.almt_asl',
                 DB::raw('CONCAT(users.kota, ", ", DATE_FORMAT(users.tanggal_lahir, "%d-%m-%Y")) as ttl'),
                 'departement.nama_dpt',

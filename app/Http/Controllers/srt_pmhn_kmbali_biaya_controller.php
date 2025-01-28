@@ -62,8 +62,8 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
                 'users.id as users_id',
                 'prodi.id as prodi_id',
                 'departement.id as departement_id',
-                'users.nama',
-                'users.nmr_unik',
+                'users.nama as nama_mhw',
+                'users.nim_nip',
                 'users.nowa',
                 'users.email',
                 'users.almt_asl',
@@ -78,8 +78,8 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%")
-                    ->orWhere('users.nmr_unik', 'like', "%{$search}%")
+                $q->where('users.nama', 'like', "%{$search}%")
+                    ->orWhere('users.nim_nip', 'like', "%{$search}%")
                     ->orWhere('departement.nama_dpt', 'like', "%{$search}%")
                     ->orWhere('users.almt_asl', 'like', "%{$search}%")
                     ->orWhere('users.nowa', 'like', "%{$search}%")
@@ -120,15 +120,15 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
         $user = Auth::user();
 
         $skl = $request->file('skl');
-        $nama_skl = 'SKL_' . str_replace(' ', '_', $user->nama) . '_' . $user->nmr_unik . '.' . $skl->getClientOriginalExtension();
+        $nama_skl = 'SKL_' . str_replace(' ', '_', $user->nama) . '_' . $user->nim_nip . '.' . $skl->getClientOriginalExtension();
         $skl->move(public_path('storage/pdf/srt_pmhn_kmbali_biaya/bukti_files'), $nama_skl);
 
         $bukti_bayar = $request->file('bukti_bayar');
-        $nama_bukti = 'Bukti_Bayar_' . str_replace(' ', '_', $user->nama) . '_' . $user->nmr_unik . '.' . $bukti_bayar->getClientOriginalExtension();
+        $nama_bukti = 'Bukti_Bayar_' . str_replace(' ', '_', $user->nama) . '_' . $user->nim_nip . '.' . $bukti_bayar->getClientOriginalExtension();
         $bukti_bayar->move(public_path('storage/pdf/srt_pmhn_kmbali_biaya/bukti_files'), $nama_bukti);
 
         $buku_tabung = $request->file('buku_tabung');
-        $nama_buku = 'Buku_Tabungan_' . str_replace(' ', '_', $user->nama) . '_' . $user->nmr_unik . '.' . $buku_tabung->getClientOriginalExtension();
+        $nama_buku = 'Buku_Tabungan_' . str_replace(' ', '_', $user->nama) . '_' . $user->nim_nip . '.' . $buku_tabung->getClientOriginalExtension();
         $buku_tabung->move(public_path('storage/pdf/srt_pmhn_kmbali_biaya/bukti_files'), $nama_buku);
 
         $existingSurat = DB::table('srt_pmhn_kmbali_biaya')
@@ -146,7 +146,6 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
             'id' => $id_surat,
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
-            'nama_mhw' => $user->nama,
             'skl' => $nama_skl,
             'bukti_bayar' => $nama_bukti,
             'buku_tabung' => $nama_buku,
@@ -202,7 +201,7 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
         if ($request->hasFile('skl')) {
             $skl = $request->file('skl');
             $skl_extensi = $skl->extension();
-            $nama_skl = 'SKL_' . str_replace(' ', '_', Auth::user()->nama) . '_' . Auth::user()->nmr_unik . '.' . $skl_extensi;
+            $nama_skl = 'SKL_' . str_replace(' ', '_', Auth::user()->nama) . '_' . Auth::user()->nim_nip . '.' . $skl_extensi;
             $skl->move(public_path('storage/pdf/srt_pmhn_kmbali_biaya/bukti_files'), $nama_skl);
             $updateData['skl'] = $nama_skl;
         } else {
@@ -212,7 +211,7 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
         if ($request->hasFile('bukti_bayar')) {
             $bukti_bayar = $request->file('bukti_bayar');
             $bayar_extensi = $bukti_bayar->extension();
-            $nama_bukti = 'Bukti_Bayar_' . str_replace(' ', '_', Auth::user()->nama) . '_' . Auth::user()->nmr_unik . '.' . $bayar_extensi;
+            $nama_bukti = 'Bukti_Bayar_' . str_replace(' ', '_', Auth::user()->nama) . '_' . Auth::user()->nim_nip . '.' . $bayar_extensi;
             $bukti_bayar->move(public_path('storage/pdf/srt_pmhn_kmbali_biaya/bukti_files'), $nama_bukti);
             $updateData['bukti_bayar'] = $nama_bukti;
         } else {
@@ -222,7 +221,7 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
         if ($request->hasFile('buku_tabung')) {
             $buku_tabung = $request->file('buku_tabung');
             $buku_extensi = $buku_tabung->extension();
-            $nama_buku = 'Buku_Tabungan_' . str_replace(' ', '_', Auth::user()->nama) . '_' . Auth::user()->nmr_unik . '.' . $buku_extensi;
+            $nama_buku = 'Buku_Tabungan_' . str_replace(' ', '_', Auth::user()->nama) . '_' . Auth::user()->nim_nip . '.' . $buku_extensi;
             $buku_tabung->move(public_path('storage/pdf/srt_pmhn_kmbali_biaya/bukti_files'), $nama_buku);
             $updateData['buku_tabung'] = $nama_buku;
         } else {
@@ -249,12 +248,11 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
                 'srt_pmhn_kmbali_biaya.id',
                 'srt_pmhn_kmbali_biaya.no_surat',
                 'srt_pmhn_kmbali_biaya.tanggal_surat',
-                'srt_pmhn_kmbali_biaya.nama_mhw',
                 'users.id as users_id',
                 'prodi.id as prd_id',
                 'departement.id as dpt_id',
-                'users.nama',
-                'users.nmr_unik',
+                'users.nama as nama_mhw',
+                'users.nim_nip',
                 'users.nowa',
                 'users.email',
                 'users.almt_asl',
@@ -288,7 +286,7 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
         // $mpdf->WriteHTML($html);
         $pdf = Pdf::loadView('srt_pmhn_kmbali_biaya.view', compact('srt_pmhn_kmbali_biaya', 'qrCodePath'));
 
-        $namaMahasiswa = $srt_pmhn_kmbali_biaya->nama;
+        $namaMahasiswa = $srt_pmhn_kmbali_biaya->nama_mhw;
         $tanggalSurat = Carbon::now('Asia/Jakarta')->format('Y-m-d');
         $fileName = 'Surat_Permohonan_Pengembalian_Biaya_' . str_replace(' ', '_', $namaMahasiswa) . '_' . $tanggalSurat . '.pdf';
         // $mpdf->Output($fileName, 'D');
@@ -300,19 +298,18 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
         $search = $request->input('search');
 
         $query = DB::table('srt_pmhn_kmbali_biaya')
+            ->join('users', 'srt_pmhn_kmbali_biaya.users_id', '=', 'users.id')
             ->select(
-                'id',
-                'nama_mhw',
-                'role_surat',
+                'srt_pmhn_kmbali_biaya.id',
+                'users.nama as nama_mhw',
+                'srt_pmhn_kmbali_biaya.role_surat',
             )
-            ->whereIn('role_surat', ['admin', 'supervisor_akd', 'manajer', 'wd2'])
-            ->orderByRaw("FIELD(role_surat, 'admin', 'supervisor_sd', 'manajer', 'wd2')")
+            ->where('role_surat', 'admin')
             ->orderBy('tanggal_surat', 'asc');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%")
-                    ->orWhere('role_surat', 'LIKE', "%{$search}%");
+                $q->where('users.nama', 'like', "%{$search}%");
             });
         }
 
@@ -337,7 +334,7 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
     //             'prodi.id as prd_id',
     //             'departement.id as dpt_id',
     //             'users.nama',
-    //             'users.nmr_unik',
+    //             'users.nim_nip',
     //             'users.nowa',
     //             'users.email',
     //             'users.almt_asl',
@@ -430,8 +427,8 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
                 'users.id as users_id',
                 'prodi.id as prodi_id',
                 'departement.id as dpt_id',
-                'srt_pmhn_kmbali_biaya.nama_mhw',
-                'users.nmr_unik',
+                'users.nama as nama_mhw',
+                'users.nim_nip',
                 'users.nowa',
                 'users.almt_asl',
                 'users.foto',
@@ -493,14 +490,14 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
             ->orderBy('tanggal_surat', 'asc')
             ->select(
                 'srt_pmhn_kmbali_biaya.id',
-                'srt_pmhn_kmbali_biaya.nama_mhw',
-                'users.nmr_unik',
+                'users.nama as nama_mhw',
+                'users.nim_nip',
             );
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%")
-                    ->orWhere('users.nmr_unik', 'like', "%{$search}%");
+                $q->where('users.nama', 'like', "%{$search}%")
+                    ->orWhere('users.nim_nip', 'like', "%{$search}%");
             });
         }
 
@@ -521,8 +518,8 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
                 'users.id as users_id',
                 'prodi.id as prodi_id',
                 'departement.id as dpt_id',
-                'srt_pmhn_kmbali_biaya.nama_mhw',
-                'users.nmr_unik',
+                'users.nama as nama_mhw',
+                'users.nim_nip',
                 'users.nowa',
                 'users.almt_asl',
                 'users.foto',
@@ -579,14 +576,14 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
             ->orderBy('tanggal_surat', 'asc')
             ->select(
                 'srt_pmhn_kmbali_biaya.id',
-                'srt_pmhn_kmbali_biaya.nama_mhw',
-                'users.nmr_unik',
+                'users.nama as nama_mhw',
+                'users.nim_nip',
             );
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%")
-                    ->orWhere('users.nmr_unik', 'like', "%{$search}%");
+                $q->where('users.nama', 'like', "%{$search}%")
+                    ->orWhere('users.nim_nip', 'like', "%{$search}%");
             });
         }
 
@@ -607,8 +604,8 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
                 'users.id as users_id',
                 'prodi.id as prodi_id',
                 'departement.id as dpt_id',
-                'srt_pmhn_kmbali_biaya.nama_mhw',
-                'users.nmr_unik',
+                'users.nama as nama_mhw',
+                'users.nim_nip',
                 'users.nowa',
                 'users.almt_asl',
                 'users.foto',
@@ -664,14 +661,14 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
             ->orderBy('tanggal_surat', 'asc')
             ->select(
                 'srt_pmhn_kmbali_biaya.id',
-                'srt_pmhn_kmbali_biaya.nama_mhw',
-                'users.nmr_unik',
+                'users.nama as nama_mhw',
+                'users.nim_nip',
             );
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%")
-                    ->orWhere('users.nmr_unik', 'like', "%{$search}%");
+                $q->where('users.nama', 'like', "%{$search}%")
+                    ->orWhere('users.nim_nip', 'like', "%{$search}%");
             });
         }
 
@@ -692,8 +689,8 @@ class srt_pmhn_kmbali_biaya_controller extends Controller
                 'users.id as users_id',
                 'prodi.id as prodi_id',
                 'departement.id as dpt_id',
-                'srt_pmhn_kmbali_biaya.nama_mhw',
-                'users.nmr_unik',
+                'users.nama as nama_mhw',
+                'users.nim_nip',
                 'users.nowa',
                 'users.almt_asl',
                 'users.foto',

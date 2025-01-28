@@ -14,7 +14,6 @@ class srt_masih_mhw extends Model
     protected $fillable = [
         'no_surat',
         'id',
-        'nama_mhw',
         'almt_smg',
         'tujuan_buat_srt',
         'tujuan_akhir',
@@ -37,7 +36,6 @@ class srt_masih_mhw extends Model
     protected $hidden = [
         'no_surat',
         'id',
-        'nama_mhw',
         'almt_smg',
         'tujuan_buat_srt',
         'tujuan_akhir',

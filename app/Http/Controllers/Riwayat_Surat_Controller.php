@@ -11,16 +11,17 @@ class Riwayat_Surat_Controller extends Controller
         $search = $request->input('search');
 
         $query = DB::table('srt_mhw_asn')
+            ->join('users', 'srt_mhw_asn.users_id', '=', 'users.id')
             ->select(
-                'id',
-                'nama_mhw',
-                'role_surat',
+                'srt_mhw_asn.id',
+                'users.nama as nama_mhw',
+                'srt_mhw_asn.role_surat',
             )
-            ->Where('role_surat', 'mahasiswa');
+            ->Where('srt_mhw_asn.role_surat', 'mahasiswa');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%");
+                $q->where('users.nama', 'like', "%{$search}%");
             });
         }
 
@@ -33,16 +34,17 @@ class Riwayat_Surat_Controller extends Controller
         $search = $request->input('search');
 
         $query = DB::table('srt_masih_mhw')
+            ->join('users', 'srt_masih_mhw.users_id', '=', 'users.id')
             ->select(
-                'id',
-                'nama_mhw',
-                'role_surat',
+                'srt_masih_mhw.id',
+                'users.nama as nama_mhw',
+                'srt_masih_mhw.role_surat',
             )
-            ->Where('role_surat', 'mahasiswa');
+            ->Where('srt_masih_mhw.role_surat', 'mahasiswa');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%");
+                $q->where('users.nama', 'like', "%{$search}%");
             });
         }
 
@@ -55,16 +57,17 @@ class Riwayat_Surat_Controller extends Controller
         $search = $request->input('search');
 
         $query = DB::table('legalisir')
+            ->join('users', 'legalisir.users_id', '=', 'users.id')
             ->select(
-                'id',
-                'nama_mhw',
-                'role_surat',
+                'legalisir.id',
+                'users.nama as nama_mhw',
+                'legalisir.role_surat',
             )
-            ->Where('role_surat', 'mahasiswa');
+            ->Where('legalisir.role_surat', 'mahasiswa');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%");
+                $q->where('users.nama', 'like', "%{$search}%");
             });
         }
 
@@ -77,16 +80,17 @@ class Riwayat_Surat_Controller extends Controller
         $search = $request->input('search');
 
         $query = DB::table('srt_bbs_pnjm')
+            ->join('users', 'srt_bbs_pnjm.users_id', '=', 'users.id')
             ->select(
-                'id',
-                'nama_mhw',
-                'role_surat',
+                'srt_bbs_pnjm.id',
+                'users.nama as nama_mhw',
+                'srt_bbs_pnjm.role_surat',
             )
-            ->Where('role_surat', 'mahasiswa');
+            ->Where('srt_bbs_pnjm.role_surat', 'mahasiswa');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%");
+                $q->where('users.nama', 'like', "%{$search}%");
             });
         }
 
@@ -99,16 +103,17 @@ class Riwayat_Surat_Controller extends Controller
         $search = $request->input('search');
 
         $query = DB::table('srt_izin_plt')
+            ->join('users', 'srt_izin_plt.users_id', '=', 'users.id')
             ->select(
-                'id',
-                'nama_mhw',
-                'role_surat',
+                'srt_izin_plt.id',
+                'users.nama as nama_mhw',
+                'srt_izin_plt.role_surat',
             )
-            ->Where('role_surat', 'mahasiswa');
+            ->Where('srt_izin_plt.role_surat', 'mahasiswa');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%");
+                $q->where('users.nama', 'like', "%{$search}%");
             });
         }
 
@@ -121,16 +126,17 @@ class Riwayat_Surat_Controller extends Controller
         $search = $request->input('search');
 
         $query = DB::table('srt_pmhn_kmbali_biaya')
+            ->join('users', 'srt_pmhn_kmbali_biaya.users_id', '=', 'users.id')
             ->select(
-                'id',
-                'nama_mhw',
-                'role_surat',
+                'srt_pmhn_kmbali_biaya.id',
+                'users.nama as nama_mhw',
+                'srt_pmhn_kmbali_biaya.role_surat',
             )
-            ->Where('role_surat', 'mahasiswa');
+            ->Where('srt_pmhn_kmbali_biaya.role_surat', 'mahasiswa');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%");
+                $q->where('users.nama', 'like', "%{$search}%");
             });
         }
 
@@ -143,16 +149,17 @@ class Riwayat_Surat_Controller extends Controller
         $search = $request->input('search');
 
         $query = DB::table('srt_magang')
+            ->join('users', 'srt_magang.users_id', '=', 'users.id')
             ->select(
-                'id',
-                'nama_mhw',
-                'role_surat',
+                'srt_magang.id',
+                'users.nama as nama_mhw',
+                'srt_magang.role_surat',
             )
-            ->Where('role_surat', 'mahasiswa');
+            ->Where('srt_magang.role_surat', 'mahasiswa');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%");
+                $q->where('users.nama', 'like', "%{$search}%");
             });
         }
 
@@ -165,16 +172,17 @@ class Riwayat_Surat_Controller extends Controller
         $search = $request->input('search');
 
         $query = DB::table('srt_mhw_asn')
+            ->join('users', 'srt_mhw_asn.users_id', '=', 'users.id')
             ->select(
-                'id',
-                'nama_mhw',
-                'role_surat',
+                'srt_mhw_asn.id',
+                'users.nama as nama_mhw',
+                'srt_mhw_asn.role_surat',
             )
-            ->Where('role_surat', 'mahasiswa');
+            ->Where('srt_mhw_asn.role_surat', 'mahasiswa');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%");
+                $q->where('users.nama', 'like', "%{$search}%");
             });
         }
 
@@ -187,16 +195,17 @@ class Riwayat_Surat_Controller extends Controller
         $search = $request->input('search');
 
         $query = DB::table('srt_masih_mhw')
+            ->join('users', 'srt_masih_mhw.users_id', '=', 'users.id')
             ->select(
-                'id',
-                'nama_mhw',
-                'role_surat',
+                'srt_masih_mhw.id',
+                'users.nama as nama_mhw',
+                'srt_masih_mhw.role_surat',
             )
-            ->Where('role_surat', 'mahasiswa');
+            ->Where('srt_masih_mhw.role_surat', 'mahasiswa');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%");
+                $q->where('users.nama', 'like', "%{$search}%");
             });
         }
 
@@ -205,42 +214,43 @@ class Riwayat_Surat_Controller extends Controller
         return view('riwayat_manajer.srt_masih_mhw', compact('data'));
     }
 
-    function manajer_legalisir(Request $request) {
-        $search = $request->input('search');
+    // function manajer_legalisir(Request $request) {
+    //     $search = $request->input('search');
 
-        $query = DB::table('legalisir')
-            ->select(
-                'id',
-                'nama_mhw',
-                'role_surat',
-            )
-            ->Where('role_surat', 'mahasiswa');
+    //     $query = DB::table('legalisir')
+    //         ->select(
+    //             'id',
+    //             'nama_mhw',
+    //             'role_surat',
+    //         )
+    //         ->Where('role_surat', 'mahasiswa');
 
-        if ($search) {
-            $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%");
-            });
-        }
+    //     if ($search) {
+    //         $query->where(function ($q) use ($search) {
+    //             $q->where('nama_mhw', 'like', "%{$search}%");
+    //         });
+    //     }
 
-        $data = $query->get();
+    //     $data = $query->get();
 
-        return view('riwayat_manajer.legalisir', compact('data'));
-    }
+    //     return view('riwayat_manajer.legalisir', compact('data'));
+    // }
 
     function manajer_srt_izin_plt(Request $request) {
         $search = $request->input('search');
 
         $query = DB::table('srt_izin_plt')
+            ->join('users', 'srt_izin_plt.users_id', '=', 'users.id')
             ->select(
-                'id',
-                'nama_mhw',
-                'role_surat',
+                'srt_izin_plt.id',
+                'users.nama as nama_mhw',
+                'srt_izin_plt.role_surat',
             )
-            ->Where('role_surat', 'mahasiswa');
+            ->Where('srt_izin_plt.role_surat', 'mahasiswa');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%");
+                $q->where('users.nama', 'like', "%{$search}%");
             });
         }
 
@@ -253,16 +263,17 @@ class Riwayat_Surat_Controller extends Controller
         $search = $request->input('search');
 
         $query = DB::table('srt_pmhn_kmbali_biaya')
+            ->join('users', 'srt_pmhn_kmbali_biaya.users_id', '=', 'users.id')
             ->select(
-                'id',
-                'nama_mhw',
-                'role_surat',
+                'srt_pmhn_kmbali_biaya.id',
+                'users.nama as nama_mhw',
+                'srt_pmhn_kmbali_biaya.role_surat',
             )
-            ->Where('role_surat', 'mahasiswa');
+            ->Where('srt_pmhn_kmbali_biaya.role_surat', 'mahasiswa');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%");
+                $q->where('users.nama', 'like', "%{$search}%");
             });
         }
 
@@ -275,16 +286,17 @@ class Riwayat_Surat_Controller extends Controller
         $search = $request->input('search');
 
         $query = DB::table('srt_magang')
+            ->join('users', 'srt_magang.users_id', '=', 'users.id')
             ->select(
-                'id',
-                'nama_mhw',
-                'role_surat',
+                'srt_magang.id',
+                'users.nama as nama_mhw',
+                'srt_magang.role_surat',
             )
-            ->Where('role_surat', 'mahasiswa');
+            ->Where('srt_magang.role_surat', 'mahasiswa');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%");
+                $q->where('users.nama', 'like', "%{$search}%");
             });
         }
 
@@ -297,16 +309,17 @@ class Riwayat_Surat_Controller extends Controller
         $search = $request->input('search');
 
         $query = DB::table('srt_mhw_asn')
+            ->join('users', 'srt_mhw_asn.users_id', '=', 'users.id')
             ->select(
-                'id',
-                'nama_mhw',
-                'role_surat',
+                'srt_mhw_asn.id',
+                'users.nama as nama_mhw',
+                'srt_mhw_asn.role_surat',
             )
-            ->Where('role_surat', 'mahasiswa');
+            ->Where('srt_mhw_asn.role_surat', 'mahasiswa');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%");
+                $q->where('users.nama', 'like', "%{$search}%");
             });
         }
 
@@ -319,16 +332,17 @@ class Riwayat_Surat_Controller extends Controller
         $search = $request->input('search');
 
         $query = DB::table('srt_masih_mhw')
+            ->join('users', 'srt_masih_mhw.users_id', '=', 'users.id')
             ->select(
-                'id',
-                'nama_mhw',
-                'role_surat',
+                'srt_masih_mhw.id',
+                'users.nama as nama_mhw',
+                'srt_masih_mhw.role_surat',
             )
-            ->Where('role_surat', 'mahasiswa');
+            ->Where('srt_masih_mhw.role_surat', 'mahasiswa');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%");
+                $q->where('users.nama', 'like', "%{$search}%");
             });
         }
 
@@ -341,16 +355,17 @@ class Riwayat_Surat_Controller extends Controller
         $search = $request->input('search');
 
         $query = DB::table('legalisir')
+            ->join('users', 'legalisir.users_id', '=', 'users.id')
             ->select(
-                'id',
-                'nama_mhw',
-                'role_surat',
+                'legalisir.id',
+                'users.nama as nama_mhw',
+                'legalisir.role_surat',
             )
-            ->Where('role_surat', 'mahasiswa');
+            ->Where('legalisir.role_surat', 'mahasiswa');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%");
+                $q->where('users.nama', 'like', "%{$search}%");
             });
         }
 
@@ -363,16 +378,17 @@ class Riwayat_Surat_Controller extends Controller
         $search = $request->input('search');
 
         $query = DB::table('srt_bbs_pnjm')
+            ->join('users', 'srt_bbs_pnjm.users_id', '=', 'users.id')
             ->select(
-                'id',
-                'nama_mhw',
-                'role_surat',
+                'srt_bbs_pnjm.id',
+                'users.nama as nama_mhw',
+                'srt_bbs_pnjm.role_surat',
             )
-            ->Where('role_surat', 'mahasiswa');
+            ->Where('srt_bbs_pnjm.role_surat', 'mahasiswa');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%");
+                $q->where('users.nama', 'like', "%{$search}%");
             });
         }
 
@@ -385,16 +401,17 @@ class Riwayat_Surat_Controller extends Controller
         $search = $request->input('search');
 
         $query = DB::table('srt_izin_plt')
+            ->join('users', 'srt_izin_plt.users_id', '=', 'users.id')
             ->select(
-                'id',
-                'nama_mhw',
-                'role_surat',
+                'srt_izin_plt.id',
+                'users.nama as nama_mhw',
+                'srt_izin_plt.role_surat',
             )
-            ->Where('role_surat', 'mahasiswa');
+            ->Where('srt_izin_plt.role_surat', 'mahasiswa');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%");
+                $q->where('users.nama', 'like', "%{$search}%");
             });
         }
 
@@ -407,16 +424,17 @@ class Riwayat_Surat_Controller extends Controller
         $search = $request->input('search');
 
         $query = DB::table('srt_pmhn_kmbali_biaya')
+            ->join('users', 'srt_pmhn_kmbali_biaya.users_id', '=', 'users.id')
             ->select(
-                'id',
-                'nama_mhw',
-                'role_surat',
+                'srt_pmhn_kmbali_biaya.id',
+                'users.nama as nama_mhw',
+                'srt_pmhn_kmbali_biaya.role_surat',
             )
-            ->Where('role_surat', 'mahasiswa');
+            ->Where('srt_pmhn_kmbali_biaya.role_surat', 'mahasiswa');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%");
+                $q->where('users.nama', 'like', "%{$search}%");
             });
         }
 
@@ -429,16 +447,17 @@ class Riwayat_Surat_Controller extends Controller
         $search = $request->input('search');
 
         $query = DB::table('srt_magang')
+            ->join('users', 'srt_magang.users_id', '=', 'users.id')
             ->select(
-                'id',
-                'nama_mhw',
-                'role_surat',
+                'srt_magang.id',
+                'users.nama as nama_mhw',
+                'srt_magang.role_surat',
             )
-            ->Where('role_surat', 'mahasiswa');
+            ->Where('srt_magang.role_surat', 'mahasiswa');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%");
+                $q->where('users.nama', 'like', "%{$search}%");
             });
         }
 
@@ -451,16 +470,17 @@ class Riwayat_Surat_Controller extends Controller
         $search = $request->input('search');
 
         $query = DB::table('srt_pmhn_kmbali_biaya')
+            ->join('users', 'srt_pmhn_kmbali_biaya.users_id', '=', 'users.id')
             ->select(
-                'id',
-                'nama_mhw',
-                'role_surat',
+                'srt_pmhn_kmbali_biaya.id',
+                'users.nama as nama_mhw',
+                'srt_pmhn_kmbali_biaya.role_surat',
             )
-            ->Where('role_surat', 'mahasiswa');
+            ->Where('srt_pmhn_kmbali_biaya.role_surat', 'mahasiswa');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%");
+                $q->where('users.nama', 'like', "%{$search}%");
             });
         }
 
@@ -473,16 +493,17 @@ class Riwayat_Surat_Controller extends Controller
         $search = $request->input('search');
 
         $query = DB::table('srt_izin_plt')
+            ->join('users', 'srt_izin_plt.users_id', '=', 'users.id')
             ->select(
-                'id',
-                'nama_mhw',
-                'role_surat',
+                'srt_izin_plt.id',
+                'users.nama as nama_mhw',
+                'srt_izin_plt.role_surat',
             )
-            ->Where('role_surat', 'mahasiswa');
+            ->Where('srt_izin_plt.role_surat', 'mahasiswa');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%");
+                $q->where('users.nama', 'like', "%{$search}%");
             });
         }
 
@@ -495,16 +516,17 @@ class Riwayat_Surat_Controller extends Controller
         $search = $request->input('search');
 
         $query = DB::table('srt_pmhn_kmbali_biaya')
+            ->join('users', 'srt_pmhn_kmbali_biaya.users_id', '=', 'users.id')
             ->select(
-                'id',
-                'nama_mhw',
-                'role_surat',
+                'srt_pmhn_kmbali_biaya.id',
+                'users.nama as nama_mhw',
+                'srt_pmhn_kmbali_biaya.role_surat',
             )
-            ->Where('role_surat', 'mahasiswa');
+            ->Where('srt_pmhn_kmbali_biaya.role_surat', 'mahasiswa');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%");
+                $q->where('users.nama', 'like', "%{$search}%");
             });
         }
 
@@ -517,16 +539,17 @@ class Riwayat_Surat_Controller extends Controller
         $search = $request->input('search');
 
         $query = DB::table('srt_magang')
+            ->join('users', 'srt_magang.users_id', '=', 'users.id')
             ->select(
-                'id',
-                'nama_mhw',
-                'role_surat',
+                'srt_magang.id',
+                'users.nama as nama_mhw',
+                'srt_magang.role_surat',
             )
-            ->Where('role_surat', 'mahasiswa');
+            ->Where('srt_magang.role_surat', 'mahasiswa');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%");
+                $q->where('users.nama', 'like', "%{$search}%");
             });
         }
 
@@ -539,17 +562,18 @@ class Riwayat_Surat_Controller extends Controller
         $search = $request->input('search');
 
         $query = DB::table('srt_masih_mhw')
+            ->join('users', 'srt_masih_mhw.users_id', '=', 'users.id')
             ->select(
-                'id',
-                'nama_mhw',
-                'role_surat',
+                'srt_masih_mhw.id',
+                'users.nama as nama_mhw',
+                'srt_masih_mhw.role_surat',
             )
-            ->Where('role_surat', 'mahasiswa')
-            ->where('tujuan_akhir', 'wd');
+            ->Where('srt_masih_mhw.role_surat', 'mahasiswa')
+            ->where('srt_masih_mhw.tujuan_akhir', 'wd');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mhw', 'like', "%{$search}%");
+                $q->where('users.nama', 'like', "%{$search}%");
             });
         }
 
