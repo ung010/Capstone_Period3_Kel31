@@ -27,12 +27,12 @@ return new class extends Migration
             $table->string('klh_kirim', 40)->nullable();
             $table->string('kota_kirim', 40)->nullable();
             $table->date('tanggal_surat');
-            $table->string('catatan_surat', 280)->nullable()->default('-');
+            $table->string('catatan_surat', 280)->nullable();
             $table->enum('role_surat', ['tolak' ,'mahasiswa', 'alumni', 'admin', 'supervisor_akd', 'dekan'])->default('admin');
             $table->unsignedBigInteger('users_id')->nullable();
             $table->unsignedBigInteger('prd_id')->nullable();
-            $table->foreign('prd_id')->references('id')->on('prodi')->onDelete('cascade')->onUpdate('cascade')->nullable();
-            $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade')->nullable();
+            $table->foreign('prd_id')->references('id')->on('prodi')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

@@ -22,12 +22,12 @@ return new class extends Migration
             $table->string('nip_ortu', 20);
             $table->string('ins_ortu', 60);
             $table->date('tanggal_surat');
-            $table->string('catatan_surat', 280)->nullable()->default('-');
+            $table->string('catatan_surat', 280)->nullable();
             $table->enum('role_surat', ['tolak' ,'mahasiswa', 'admin', 'supervisor_akd', 'manajer'])->default('admin');
-            $table->unsignedBigInteger('users_id')->nullable();
-            $table->unsignedBigInteger('prd_id')->nullable();
-            $table->foreign('prd_id')->references('id')->on('prodi')->onDelete('cascade')->onUpdate('cascade')->nullable();
-            $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade')->nullable();
+            $table->unsignedBigInteger('users_id');
+            $table->unsignedBigInteger('prd_id');
+            $table->foreign('prd_id')->references('id')->on('prodi')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

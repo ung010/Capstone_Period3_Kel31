@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('foto', 50)->nullable();
             $table->string('nama_ibu', length: 25)->nullable();
             $table->string('password', 65);
-            $table->enum('status', ['mahasiswa', 'alumni']);
+            $table->enum('status', ['mahasiswa', 'alumni'])->nullable();
             $table->enum('role', [
                 'non_mahasiswa',
                 'del_mahasiswa',
@@ -35,7 +35,7 @@ return new class extends Migration
                 'wd1',
                 'wd2'
             ])->default('non_mahasiswa');
-            $table->string('catatan_user')->nullable()->default('-');
+            $table->string('catatan_user')->nullable();
             $table->unsignedBigInteger('prd_id')->nullable();
             $table->foreign('prd_id')->references('id')->on('prodi')->onDelete('cascade')->onUpdate('cascade')->nullable();
             // $table->rememberToken();
