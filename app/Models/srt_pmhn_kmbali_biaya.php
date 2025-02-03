@@ -74,11 +74,6 @@ class srt_pmhn_kmbali_biaya extends Model
         return $this->belongsTo(prodi::class, 'prd_id', 'id');
     }
 
-    public function jenjang()
-    {
-        return $this->belongsTo(jenjang_pendidikan::class, 'jnjg_id', 'id');
-    }
-
     public function users()
     {
         return $this->belongsTo(User::class, 'users_id', 'id');
