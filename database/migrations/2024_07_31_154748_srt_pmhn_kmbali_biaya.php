@@ -15,6 +15,9 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('no_surat', 50)->nullable();
             // $table->string('nama_mhw', 50)->nullable();
+            // $table->string('skl', 50);
+            // $table->string('buku_tabung', 50);
+            // $table->string('bukti_bayar', 50);
             $table->string('skl', 50)->nullable();
             $table->string('buku_tabung', 50)->nullable();
             $table->string('bukti_bayar', 50)->nullable();
