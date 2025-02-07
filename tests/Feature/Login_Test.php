@@ -22,8 +22,8 @@ class Login_Test extends TestCase
     public function test_sukses_login(): void
     {
         $dataLogin = [
-            'email' => 'mahasiswa@gmail.com',
-            'password' => 'mountain082'
+            'email' => 'satu@gmail.com',
+            'password' => '1234567'
         ];
 
         $response = $this->post('/', $dataLogin);
@@ -34,7 +34,7 @@ class Login_Test extends TestCase
     public function test_gagal_login_karna_email_dan_password_salah(): void
     {
         $dataLogin = [
-            'email' => 'mahasiswa@gmail.com',
+            'email' => 'dua@gmail.com',
             'password' => 'river082'
         ];
 
@@ -42,7 +42,6 @@ class Login_Test extends TestCase
 
         $response->assertStatus(302);
         $response->assertRedirect('/');
-
         $response->assertSessionHas('errors');
     }
 

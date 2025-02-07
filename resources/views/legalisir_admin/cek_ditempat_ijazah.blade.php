@@ -14,7 +14,8 @@
                 <div class="card-header d-flex align-items-center gap-2">
                     <a class="btn btn-secondary btn-fixed-size" href="/legalisir/admin/ditempat/ijazah">Ijazah</a>
                     <a class="btn btn-secondary btn-fixed-size" href="/legalisir/admin/ditempat/transkrip">Transkrip</a>
-                    <a class="btn btn-secondary btn-fixed-size" href="/legalisir/admin/ditempat/ijz_trs">Ijazah dan Transkrip</a>
+                    <a class="btn btn-secondary btn-fixed-size" href="/legalisir/admin/ditempat/ijz_trs">Ijazah dan
+                        Transkrip</a>
                 </div>
             </div>
         </div>
@@ -24,23 +25,52 @@
                     <p class="heading-card">CEK DATA</p>
                 </div>
                 <div class="d-flex flex-column">
-                    <p>Jenis Legalisir: {{ $legalisir->jenis_lgl }}</p>
-                    <p>Keperluan: {{ $legalisir->jenis_lgl }}</p>
-                    <p>Nama: {{ $legalisir->nama }}</p>
+                    <p>
+                        Jenis Legalisir:
+                        @if ($legalisir->jenis_lgl == 'ijazah')
+                            Ijazah
+                        @elseif($legalisir->jenis_lgl == 'transkrip')
+                            Transkrip
+                        @elseif($legalisir->jenis_lgl == 'ijazah_transkrip')
+                            Ijazah dan Transkrip
+                        @else
+                            Tidak Ada
+                        @endif
+                    </p>
+                    <p>Keperluan: {{ $legalisir->keperluan }}</p>
+                    <p>Nama: {{ $legalisir->nama_mhw }}</p>
                     <p>NIM: {{ $legalisir->nim_nip }}</p>
                     <p>Departemen: {{ $legalisir->nama_dpt }}</p>
                     <p>Program Studi: {{ $legalisir->nama_prd }}</p>
                     <p>Alamat Asal: {{ $legalisir->almt_asl }}</p>
                     <p>No Whatsapp: {{ $legalisir->nowa }}</p>
-                    <p>Pengambilan: {{ $legalisir->ambil }}</p>
-                    <p>Alamat Tujuan: {{ $legalisir->almt_kirim ? $legalisir->almt_kirim : '-' }}</p>
-                    <p>Kelurahan: {{ $legalisir->klh_kirim ? $legalisir->klh_kirim : '-' }}</p>
-                    <p>Kecamatan: {{ $legalisir->kcmt_kirim ? $legalisir->kcmt_kirim : '-' }}</p>
-                    <p>Kota / Kabupaten: {{ $legalisir->kota_kirim ? $legalisir->kota_kirim : '-' }}</p>
-                    <p>Kode Pos: {{ $legalisir->kdps_kirim ? $legalisir->kdps_kirim : '-' }}</p>
-                    <p>Ijazah <a href="{{ url('storage/pdf/legalisir/ijazah/' . $legalisir->file_ijazah) }}"
-                            target="_blank"><img src="{{ asset('asset/icons/file.png') }}" alt="file"
-                                style="height: 30px"></a></p>
+                    <p>
+                        Metode Pengambilan:
+                        @if ($legalisir->ambil == 'dikirim')
+                            Mahasiswa meminta untuk legalisir dikirim
+                        @else
+                            Mahasiswa akan mengambil ke kantor fakultas
+                        @endif
+                    </p>
+                    @if ($legalisir->ambil == 'dikirim')
+                        <p>Alamat Tujuan: {{ $legalisir->almt_kirim ? $legalisir->almt_kirim : '-' }}</p>
+                        <p>Kelurahan: {{ $legalisir->klh_kirim ? $legalisir->klh_kirim : '-' }}</p>
+                        <p>Kecamatan: {{ $legalisir->kcmt_kirim ? $legalisir->kcmt_kirim : '-' }}</p>
+                        <p>Kota / Kabupaten: {{ $legalisir->kota_kirim ? $legalisir->kota_kirim : '-' }}</p>
+                        <p>Kode Pos: {{ $legalisir->kdps_kirim ? $legalisir->kdps_kirim : '-' }}</p>
+                    @else
+                    @endif
+                    <div class="d-flex gap-3">
+                        @if (Storage::exists('pdf/legalisir/ijazah/' . $legalisir->file_ijazah))
+                            <p>Ijazah <a href="{{ url('storage/pdf/legalisir/ijazah/' . $legalisir->file_ijazah) }}"
+                                    target="_blank"><img src="{{ asset('asset/icons/file.png') }}" alt="file"
+                                        style="height: 30px"></a></p>
+                        @else
+                            <div class="alert alert-danger">
+                                File ijazah tidak ada
+                            </div>
+                        @endif
+                    </div>
                 </div>
                 <br>
                 <div class="d-flex justify-content-center align-items-center align-content-center gap-3">
@@ -63,7 +93,8 @@
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="catatan_surat" class="form-label">Alasan Legalisir Ditolak</label>
-                            <textarea class="form-control" id="catatan_surat" name="catatan_surat" rows="3" maxlength="250" oninput="updateCharacterCount()"></textarea>
+                            <textarea class="form-control" id="catatan_surat" name="catatan_surat" rows="3" maxlength="250"
+                                oninput="updateCharacterCount()"></textarea>
                             <small id="charCount" class="form-text text-muted">0/250 karakter</small>
                         </div>
                     </div>

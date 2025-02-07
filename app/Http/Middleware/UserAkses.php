@@ -19,6 +19,6 @@ class UserAkses
         if (auth()->user()->role == $role) {
             return $next($request);
         }
-        return redirect('/users')->withErrors('Password atau email anda salah');
+        return redirect('/users')->withErrors('Role salah atau memasukkan email / password yang salah');
     }
 }

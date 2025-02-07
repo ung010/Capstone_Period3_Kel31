@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('email', 80);
             $table->string('kota', 50)->nullable();
             $table->date('tanggal_lahir')->nullable();
-            $table->string('almt_asl', 80)->nullable();
+            $table->string('almt_asl', 120)->nullable();
             $table->string('foto', 50)->nullable();
             $table->string('nama_ibu', length: 25)->nullable();
             $table->string('password', 65);

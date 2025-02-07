@@ -141,6 +141,23 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'id' => mt_rand(1000000000000, 9999999999999),
+                'nama' => 'Test',
+                'nim_nip' => '21120120170155',
+                'email' => 'test@gmail.com',
+                'password' => bcrypt('1234567'),
+                'role' => 'mahasiswa',
+                'status' => 'mahasiswa',
+                'kota' => 'Wonosobo',
+                'tanggal_lahir' => Carbon::createFromFormat('d - m - Y', '5 - 11 - 2001'),
+                'nowa' => '081214549624',
+                'almt_asl' => 'Jl Kenari No 20 RT 2 RW 3 Wonosobo Jawa Timur',
+                'prd_id' => 1,
+                'catatan_user' => '-',
+                'nama_ibu' => 'Testing',
+                'foto' => $imageName,
+            ],
+            [
+                'id' => mt_rand(1000000000000, 9999999999999),
                 'nama' => 'Andi Prihandoyo, S.T.',
                 'nim_nip' => 'H.7.197704082021101001',
                 'email' => 'andiprihandoyo01@staff.undip.ac.id',
@@ -210,7 +227,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             UserSeeder::class,
-            SurveySeeder::class,
+            // SurveySeeder::class,
             SuratSeeder::class,
         ]);
     }

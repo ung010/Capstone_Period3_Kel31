@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
@@ -14,6 +15,7 @@ use Hashids\Hashids;
 
 class Surat_Permohonan_Kembali_Biaya_Test extends TestCase
 {
+    use DatabaseTransactions;
     /**
      * A basic feature test example.
      */
@@ -49,13 +51,12 @@ class Surat_Permohonan_Kembali_Biaya_Test extends TestCase
         $response->assertStatus(302);
         $response->assertRedirect(route('srt_pmhn_kmbali_biaya.index'));
 
-        $nama_skl = 'SKL_' . str_replace(' ', '_', $user->nama) . '_' . $user->nmr_unik . '.pdf';
-        $nama_bukti = 'Bukti_Bayar_' . str_replace(' ', '_', $user->nama) . '_' . $user->nmr_unik . '.pdf';
-        $nama_buku = 'Buku_Tabungan_' . str_replace(' ', '_', $user->nama) . '_' . $user->nmr_unik . '.pdf';
+        $nama_skl = 'SKL_' . str_replace(' ', '_', $user->nama) . '_' . $user->nim_nip . '.pdf';
+        $nama_bukti = 'Bukti_Bayar_' . str_replace(' ', '_', $user->nama) . '_' . $user->nim_nip . '.pdf';
+        $nama_buku = 'Buku_Tabungan_' . str_replace(' ', '_', $user->nama) . '_' . $user->nim_nip . '.pdf';
 
         $this->assertDatabaseHas('srt_pmhn_kmbali_biaya', [
             'users_id' => $user->id,
-            'nama_mhw' => $user->nama,
             'skl' => $nama_skl,
             'bukti_bayar' => $nama_bukti,
             'buku_tabung' => $nama_buku,
@@ -92,7 +93,6 @@ class Surat_Permohonan_Kembali_Biaya_Test extends TestCase
 
         $this->assertDatabaseMissing('srt_pmhn_kmbali_biaya', [
             'users_id' => $user->id,
-            'nama_mhw' => $user->nama,
         ]);
     }
 
@@ -112,7 +112,6 @@ class Surat_Permohonan_Kembali_Biaya_Test extends TestCase
         $surat = DB::table('srt_pmhn_kmbali_biaya')->insertGetId([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
-            'nama_mhw' => $user->nama,
             'skl' => 'skl.pdf',
             'buku_tabung' => 'buku_tabung.pdf',
             'bukti_bayar' => 'bukti_bayar.pdf',
@@ -144,7 +143,6 @@ class Surat_Permohonan_Kembali_Biaya_Test extends TestCase
         $surat = DB::table('srt_pmhn_kmbali_biaya')->insertGetId([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
-            'nama_mhw' => $user->nama,
             'skl' => 'skl.pdf',
             'buku_tabung' => 'buku_tabung.pdf',
             'bukti_bayar' => 'bukti_bayar.pdf',
@@ -164,9 +162,9 @@ class Surat_Permohonan_Kembali_Biaya_Test extends TestCase
         $response->assertStatus(302);
         $response->assertRedirect('/srt_pmhn_kmbali_biaya');
 
-        $formatted_skl = 'SKL_' . str_replace(' ', '_', $user->nama) . '_' . $user->nmr_unik . '.pdf';
-        $formatted_bukti_bayar = 'Bukti_Bayar_' . str_replace(' ', '_', $user->nama) . '_' . $user->nmr_unik . '.pdf';
-        $formatted_buku_tabung = 'Buku_Tabungan_' . str_replace(' ', '_', $user->nama) . '_' . $user->nmr_unik . '.pdf';
+        $formatted_skl = 'SKL_' . str_replace(' ', '_', $user->nama) . '_' . $user->nim_nip . '.pdf';
+        $formatted_bukti_bayar = 'Bukti_Bayar_' . str_replace(' ', '_', $user->nama) . '_' . $user->nim_nip . '.pdf';
+        $formatted_buku_tabung = 'Buku_Tabungan_' . str_replace(' ', '_', $user->nama) . '_' . $user->nim_nip . '.pdf';
 
         $this->assertDatabaseHas('srt_pmhn_kmbali_biaya', [
             'id' => $surat,
@@ -184,85 +182,14 @@ class Surat_Permohonan_Kembali_Biaya_Test extends TestCase
         $response->assertStatus(302);
     }
 
-    public function test_download_srt_pmhn_kmbali_biaya_admin()
-    {
-        $id = 4;
-
-        $response = $this->get("/srt_pmhn_kmbali_biaya/admin/download/{$id}");
-
-        $response->assertStatus(302);
-    }
-
-    public function test_unggah_srt_pmhn_kmbali_biaya_admin()
-    {
-        $faker = \Faker\Factory::create();
-
-        $user = \App\Models\User::factory()->create([
-            'email' => 'admin@example.com',
-            'password' => bcrypt('password'),
-            'role' => 'admin',
-        ]);
-
-        $surat = \App\Models\srt_pmhn_kmbali_biaya::factory()->create([
-            'users_id' => $user->id,
-            'prd_id' => $user->prd_id,
-            'nama_mhw' => $user->nama,
-            'skl' => 'skl.pdf',
-            'buku_tabung' => 'buku_tabung.pdf',
-            'bukti_bayar' => 'bukti_bayar.pdf',
-            'tanggal_surat' => Carbon::now()->format('Y-m-d'),
-        ]);
-
-        $file = UploadedFile::fake()->create('test.pdf', 100, 'application/pdf');
-
-        $this->actingAs($user);
-
-        $response = $this->post(route('srt_pmhn_kmbali_biaya.admin_unggah', $surat->id), [
-            'srt_pmhn_kmbali_biaya' => $file,
-        ]);
-
-        $response->assertRedirect()->with('success', 'Berhasil menggunggah pdf ke mahasiswa');
-
-        $tanggal_surat = Carbon::parse($surat->tanggal_surat)->format('d-m-Y');
-        $nama_mahasiswa = Str::slug($user->nama);
-        $fileName = "Surat_Permohonan_Pengembalian_Biaya_{$tanggal_surat}_{$nama_mahasiswa}.pdf";
-
-        $this->assertDatabaseHas('srt_pmhn_kmbali_biaya', [
-            'id' => $surat->id,
-            'file_pdf' => $fileName,
-            'role_surat' => 'mahasiswa',
-        ]);
-    }
-
-    public function test_view_halaman_surat_pmhn_kmbali_biaya_di_admin(): void
+    public function test_view_halaman_surat_pmhn_kmbali_biaya_oleh_admin(): void
     {
         $response = $this->get('/srt_pmhn_kmbali_biaya/admin');
 
         $response->assertStatus(302);
     }
 
-    public function test_search_surat_permohonan_kembali_biaya(): void
-    {
-        $admin = \App\Models\User::factory()->create([
-            'email' => 'admin@example.com',
-            'password' => bcrypt('password'),
-            'role' => 'admin',
-        ]);
-
-        $this->actingAs($admin);
-
-        $surat = \App\Models\srt_pmhn_kmbali_biaya::factory()->create([
-            'nama_mhw' => 'John',
-        ]);
-
-        $response = $this->get('/srt_pmhn_kmbali_biaya/admin/search?search=John');
-
-        $response->assertStatus(200);
-        $response->assertDontSeeText('Kawijayan');
-        $response->assertSeeText('John');
-    }
-
-    public function test_cek_surat_srt_pmhn_kmbali_biaya()
+    public function test_cek_surat_srt_pmhn_kmbali_biaya_oleh_admin()
     {
         $faker = \Faker\Factory::create();
 
@@ -277,7 +204,6 @@ class Surat_Permohonan_Kembali_Biaya_Test extends TestCase
         $suratId = DB::table('srt_pmhn_kmbali_biaya')->insertGetId([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
-            'nama_mhw' => $user->nama,
             'skl' => 'skl.pdf',
             'buku_tabung' => 'buku_tabung.pdf',
             'bukti_bayar' => 'bukti_bayar.pdf',
@@ -289,7 +215,7 @@ class Surat_Permohonan_Kembali_Biaya_Test extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_setuju_surat_permohonan_kembali_biaya()
+    public function test_setuju_surat_permohonan_kembali_biaya_oleh_admin()
     {
         $admin = \App\Models\User::factory()->create([
             'email' => 'admin@example.com',
@@ -318,7 +244,7 @@ class Surat_Permohonan_Kembali_Biaya_Test extends TestCase
         ]);
     }
 
-    public function test_tolak_surat_permohonan_kembali_biaya()
+    public function test_tolak_surat_permohonan_kembali_biaya_oleh_admin()
     {
         $admin = \App\Models\User::factory()->create([
             'email' => 'admin@example.com',
@@ -348,17 +274,73 @@ class Surat_Permohonan_Kembali_Biaya_Test extends TestCase
         ]);
     }
 
-    public function test_view_halaman_supervisor_surat_permohonan_kembali_biaya(): void
+    public function test_view_halaman_surat_permohonan_kembali_biaya_oleh_supervisor(): void
     {
         $response = $this->get('/srt_pmhn_kmbali_biaya/supervisor');
 
         $response->assertStatus(302);
     }
 
+    public function test_cek_surat_srt_pmhn_kmbali_biaya_oleh_supervisor()
+    {
+        $faker = \Faker\Factory::create();
+
+        $user = \App\Models\User::factory()->create([
+            'email' => 'akd@example.com',
+            'password' => bcrypt('password'),
+            'role' => 'supervisor_sd',
+        ]);
+
+        $this->actingAs($user);
+
+        $suratId = DB::table('srt_pmhn_kmbali_biaya')->insertGetId([
+            'users_id' => $user->id,
+            'prd_id' => $user->prd_id,
+            'skl' => 'skl.pdf',
+            'buku_tabung' => 'buku_tabung.pdf',
+            'bukti_bayar' => 'bukti_bayar.pdf',
+            'tanggal_surat' => Carbon::now()->format('Y-m-d'),
+        ]);
+
+        $response = $this->get("/srt_pmhn_kmbali_biaya/supervisor/cek_surat/{$suratId}");
+
+        $response->assertStatus(200);
+    }
+
+    public function test_tolak_surat_permohonan_kembali_biaya_oleh_supervisor()
+    {
+        $sv = \App\Models\User::factory()->create([
+            'email' => 'akd@example.com',
+            'password' => bcrypt('password'),
+            'role' => 'supervisor_sd',
+        ]);
+
+        $this->actingAs($sv);
+
+
+        $surat = \App\Models\srt_pmhn_kmbali_biaya::factory()->create([
+            'catatan_surat' => null,
+            'role_surat' => 'supervisor_sd',
+        ]);
+
+        $response = $this->post("/srt_pmhn_kmbali_biaya/supervisor/cek_surat/tolak/{$surat->id}", [
+            'catatan_surat' => 'Dokumen tidak lengkap',
+        ]);
+
+        $response->assertRedirect(route('srt_pmhn_kmbali_biaya.supervisor'));
+        $response->assertSessionHas('success', 'Alasan penolakan telah dikirimkan');
+
+        $this->assertDatabaseHas('srt_pmhn_kmbali_biaya', [
+            'id' => $surat->id,
+            'catatan_surat' => 'Dokumen tidak lengkap',
+            'role_surat' => 'tolak',
+        ]);
+    }
+
     public function test_supervisor_setuju_srt_pmhn_kmbali_biaya()
     {
         $faker = \Faker\Factory::create();
-        
+
         $user = \App\Models\User::factory()->create([
             'email' => 'supervisor@example.com',
             'password' => bcrypt('password'),
@@ -370,14 +352,13 @@ class Surat_Permohonan_Kembali_Biaya_Test extends TestCase
         $surat = \App\Models\srt_pmhn_kmbali_biaya::factory()->create([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
-            'nama_mhw' => $user->nama,
             'skl' => 'skl.pdf',
             'buku_tabung' => 'buku_tabung.pdf',
             'bukti_bayar' => 'bukti_bayar.pdf',
             'tanggal_surat' => Carbon::now()->format('Y-m-d'),
         ]);
 
-        $response = $this->post("/srt_pmhn_kmbali_biaya/supervisor/setuju/{$surat->id}");
+        $response = $this->post("/srt_pmhn_kmbali_biaya/supervisor/cek_surat/setuju/{$surat->id}");
 
         $response->assertRedirect();
         $response->assertSessionHas('success', 'Surat berhasil disetujui');
@@ -388,14 +369,70 @@ class Surat_Permohonan_Kembali_Biaya_Test extends TestCase
         ]);
     }
 
-    public function test_halaman_manajer_surat_permohonan_kembali_biaya(): void
+    public function test_halaman_surat_permohonan_kembali_biaya_oleh_manajer(): void
     {
         $response = $this->get('/srt_pmhn_kmbali_biaya/manajer');
 
         $response->assertStatus(302);
     }
 
-    public function test_manajer_setuju_srt_pmhn_kmbali_biaya()
+    public function test_cek_surat_srt_pmhn_kmbali_biaya_oleh_manajer()
+    {
+        $faker = \Faker\Factory::create();
+
+        $user = \App\Models\User::factory()->create([
+            'email' => 'manajer@example.com',
+            'password' => bcrypt('password'),
+            'role' => 'manajer',
+        ]);
+
+        $this->actingAs($user);
+
+        $suratId = DB::table('srt_pmhn_kmbali_biaya')->insertGetId([
+            'users_id' => $user->id,
+            'prd_id' => $user->prd_id,
+            'skl' => 'skl.pdf',
+            'buku_tabung' => 'buku_tabung.pdf',
+            'bukti_bayar' => 'bukti_bayar.pdf',
+            'tanggal_surat' => Carbon::now()->format('Y-m-d'),
+        ]);
+
+        $response = $this->get("/srt_pmhn_kmbali_biaya/manajer/cek_surat/{$suratId}");
+
+        $response->assertStatus(200);
+    }
+
+    public function test_tolak_surat_permohonan_kembali_biaya_oleh_manajer()
+    {
+        $manajer = \App\Models\User::factory()->create([
+            'email' => 'manajer@example.com',
+            'password' => bcrypt('password'),
+            'role' => 'manajer',
+        ]);
+
+        $this->actingAs($manajer);
+
+
+        $surat = \App\Models\srt_pmhn_kmbali_biaya::factory()->create([
+            'catatan_surat' => null,
+            'role_surat' => 'manajer',
+        ]);
+
+        $response = $this->post("/srt_pmhn_kmbali_biaya/manajer/cek_surat/tolak/{$surat->id}", [
+            'catatan_surat' => 'Dokumen tidak lengkap',
+        ]);
+
+        $response->assertRedirect(route('srt_pmhn_kmbali_biaya.manajer'));
+        $response->assertSessionHas('success', 'Alasan penolakan telah dikirimkan');
+
+        $this->assertDatabaseHas('srt_pmhn_kmbali_biaya', [
+            'id' => $surat->id,
+            'catatan_surat' => 'Dokumen tidak lengkap',
+            'role_surat' => 'tolak',
+        ]);
+    }
+
+    public function test_setuju_srt_pmhn_kmbali_biaya_oleh_manajer()
     {
         $faker = \Faker\Factory::create();
 
@@ -410,21 +447,115 @@ class Surat_Permohonan_Kembali_Biaya_Test extends TestCase
         $surat = \App\Models\srt_pmhn_kmbali_biaya::factory()->create([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
-            'nama_mhw' => $user->nama,
             'skl' => 'skl.pdf',
             'buku_tabung' => 'buku_tabung.pdf',
             'bukti_bayar' => 'bukti_bayar.pdf',
             'tanggal_surat' => Carbon::now()->format('Y-m-d'),
         ]);
 
-        $response = $this->post("/srt_pmhn_kmbali_biaya/manajer/setuju/{$surat->id}");
+        $response = $this->post("/srt_pmhn_kmbali_biaya/manajer/cek_surat/setuju/{$surat->id}");
 
         $response->assertRedirect();
         $response->assertSessionHas('success', 'Surat berhasil disetujui');
 
         $this->assertDatabaseHas('srt_pmhn_kmbali_biaya', [
             'id' => $surat->id,
-            'role_surat' => 'manajer_sukses',
+            'role_surat' => 'wd2',
+        ]);
+    }
+
+    public function test_halaman_surat_permohonan_kembali_biaya_oleh_wd2(): void
+    {
+        $response = $this->get('/srt_pmhn_kmbali_biaya/wd2');
+
+        $response->assertStatus(302);
+    }
+
+    public function test_cek_surat_srt_pmhn_kmbali_biaya_oleh_wd2()
+    {
+        $faker = \Faker\Factory::create();
+
+        $user = \App\Models\User::factory()->create([
+            'email' => 'wd2@example.com',
+            'password' => bcrypt('password'),
+            'role' => 'wd2',
+        ]);
+
+        $this->actingAs($user);
+
+        $suratId = DB::table('srt_pmhn_kmbali_biaya')->insertGetId([
+            'users_id' => $user->id,
+            'prd_id' => $user->prd_id,
+            'skl' => 'skl.pdf',
+            'buku_tabung' => 'buku_tabung.pdf',
+            'bukti_bayar' => 'bukti_bayar.pdf',
+            'tanggal_surat' => Carbon::now()->format('Y-m-d'),
+        ]);
+
+        $response = $this->get("/srt_pmhn_kmbali_biaya/wd2/cek_surat/{$suratId}");
+
+        $response->assertStatus(200);
+    }
+
+    public function test_tolak_surat_permohonan_kembali_biaya_oleh_wd2()
+    {
+        $wd2 = \App\Models\User::factory()->create([
+            'email' => 'wd2@example.com',
+            'password' => bcrypt('password'),
+            'role' => 'wd2',
+        ]);
+
+        $this->actingAs($wd2);
+
+
+        $surat = \App\Models\srt_pmhn_kmbali_biaya::factory()->create([
+            'catatan_surat' => null,
+            'role_surat' => 'wd2',
+        ]);
+
+        $response = $this->post("/srt_pmhn_kmbali_biaya/wd2/cek_surat/tolak/{$surat->id}", [
+            'catatan_surat' => 'Dokumen tidak lengkap',
+        ]);
+
+        $response->assertRedirect(route('srt_pmhn_kmbali_biaya.wd2'));
+        $response->assertSessionHas('success', 'Alasan penolakan telah dikirimkan');
+
+        $this->assertDatabaseHas('srt_pmhn_kmbali_biaya', [
+            'id' => $surat->id,
+            'catatan_surat' => 'Dokumen tidak lengkap',
+            'role_surat' => 'tolak',
+        ]);
+    }
+
+    public function test_setuju_srt_pmhn_kmbali_biaya_oleh_wd2()
+    {
+        $faker = \Faker\Factory::create();
+
+        $user = \App\Models\User::factory()->create([
+            'email' => 'manajer@example.com',
+            'password' => bcrypt('password'),
+            'role' => 'wd2',
+        ]);
+
+        $this->actingAs($user);
+
+        $surat = \App\Models\srt_pmhn_kmbali_biaya::factory()->create([
+            'users_id' => $user->id,
+            'prd_id' => $user->prd_id,
+            'skl' => 'skl.pdf',
+            'buku_tabung' => 'buku_tabung.pdf',
+            'bukti_bayar' => 'bukti_bayar.pdf',
+            'tanggal_surat' => Carbon::now()->format('Y-m-d'),
+        ]);
+
+        $response = $this->post("/srt_pmhn_kmbali_biaya/wd2/cek_surat/setuju/{$surat->id}");
+
+        $response->assertRedirect();
+        $response->assertSessionHas('success', 'Surat berhasil disetujui');
+
+        $this->assertDatabaseHas('srt_pmhn_kmbali_biaya', [
+            'id' => $surat->id,
+            'role_surat' => 'mahasiswa',
         ]);
     }
 }

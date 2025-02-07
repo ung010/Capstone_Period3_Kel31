@@ -2,14 +2,15 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 class Supervisor_Test extends TestCase
 {
+    use DatabaseTransactions;
+
     public function test_view_halaman_salah_satu_sv(): void
     {
         $response = $this->get('/supervisor_akd');
@@ -24,7 +25,7 @@ class Supervisor_Test extends TestCase
         $response->assertStatus(302);
     }
 
-    public function test_buat_akun_admin(): void
+    public function test_membuat_akun_admin(): void
     {
         $this->withoutExceptionHandling();
         $faker = \Faker\Factory::create();
@@ -40,7 +41,7 @@ class Supervisor_Test extends TestCase
         $response = $this->post('/supervisor_akd/manage_admin/create', [
             'email' => $faker->unique()->safeEmail,
             'nama' => $faker->name,
-            'nmr_unik' => $faker->unique()->numerify('##########'),
+            'nim_nip' => $faker->unique()->numerify('##########'),
             'role' => 'admin',
             'password' => 'mountain082',
         ]);
@@ -51,7 +52,7 @@ class Supervisor_Test extends TestCase
     public function test_gagal_membuat_admin_karena_tidak_memasukkan_password(): void
     {
         $this->withoutExceptionHandling();
-        
+
         $faker = \Faker\Factory::create();
 
         $sv = \App\Models\User::factory()->create([
@@ -66,14 +67,14 @@ class Supervisor_Test extends TestCase
             $this->post('/supervisor_akd/manage_admin/create', [
                 'email' => $faker->unique()->safeEmail,
                 'nama' => $faker->name,
-                'nmr_unik' => $faker->unique()->numerify('##########'),
+                'nim_nip' => $faker->unique()->numerify('##########'),
                 'role' => 'admin',
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
             $this->assertEquals('Password wajib diisi', $e->validator->errors()->first('password'));
             return;
         }
-    
+
         $this->fail('ValidationException for password was not thrown.');
     }
 
@@ -92,7 +93,7 @@ class Supervisor_Test extends TestCase
 
         $sv = DB::table('users')->insertGetId([
             'nama' => $faker->name,
-            'nmr_unik' => $faker->unique()->numerify('######'),
+            'nim_nip' => $faker->unique()->numerify('######'),
             'email' => $faker->unique()->safeEmail,
             'password' => Hash::make('mountain082'),
             'role' => 'admin',
@@ -102,7 +103,7 @@ class Supervisor_Test extends TestCase
 
         $response = $this->post("/supervisor_akd/manage_admin/edit/{$sv}", [
             'nama' => $faker->unique()->name,
-            'nmr_unik' => $faker->unique()->numerify('######'),
+            'nim_nip' => $faker->unique()->numerify('######'),
             'email' => $newEmail,
             'password' => Hash::make('12345678'),
         ]);
@@ -115,7 +116,7 @@ class Supervisor_Test extends TestCase
         ]);
     }
 
-    public function test_permanent_hapus_akun_admin()
+    public function test_hapus_permanent_akun_admin()
     {
         $user = \App\Models\User::factory()->create([
             'email' => 'akd@gmail.com',

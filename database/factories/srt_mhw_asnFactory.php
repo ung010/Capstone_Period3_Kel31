@@ -17,7 +17,6 @@ class srt_mhw_asnFactory extends Factory
         return [
             'users_id' => \App\Models\User::factory(),
             'prd_id' => 1,
-            'nama_mhw' => $this->faker->name,
             'thn_awl' => $this->faker->year,
             'thn_akh' => $this->faker->year,
             'semester' => $this->faker->randomDigitNotNull,

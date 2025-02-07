@@ -15,7 +15,7 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('no_surat', 50)->nullable();
             // $table->string('nama_mhw', 50)->nullable();
-            $table->string('almt_smg', 80);
+            $table->string('almt_smg', 120);
             $table->string('dosen_wali', 50);
             $table->date('tanggal_surat');
             $table->string('catatan_surat', 280)->nullable();

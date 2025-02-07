@@ -2,12 +2,15 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class Mahasiswa_Test extends TestCase
 {
+
+    use DatabaseTransactions;
     /**
      * A basic feature test example.
      */
@@ -40,11 +43,11 @@ class Mahasiswa_Test extends TestCase
         $response = $this->post('/user/my_account/update', [
             'email' => $faker->unique()->safeEmail,
             'nama' => $faker->name,
-            'nmr_unik' => $faker->unique()->numerify('##########'),
+            'nim_nip' => $faker->unique()->numerify('##########'),
             'kota' => $faker->city,
             'tanggal_lahir' => $faker->date('Y-m-d'),
             'nama_ibu' => $faker->name('female'),
-            'nowa' => $faker->phoneNumber,
+            'nowa' => preg_replace('/[^0-9]/', '', $faker->phoneNumber),
             'almt_asl' => $faker->address,
             'prd_id' => 1,
             'password' => 'mountain082',
@@ -55,9 +58,11 @@ class Mahasiswa_Test extends TestCase
 
     public function test_gagal_mengedit_akun_dengan_email_terduplikat(): void
     {
-
-        $this->withoutExceptionHandling();
         $faker = \Faker\Factory::create();
+
+        \App\Models\User::factory()->create([
+            'email' => 'zahra@students.undip.ac.id'
+        ]);
 
         $user = \App\Models\User::factory()->create([
             'email' => 'mahasiswa@gmail.com',
@@ -65,26 +70,23 @@ class Mahasiswa_Test extends TestCase
         ]);
 
         $this->actingAs($user);
+        $response = $this->post('/user/my_account/update', [
+            'email' => 'zahra@students.undip.ac.id',
+            'nama' => $faker->name,
+            'nim_nip' => $faker->unique()->numerify('##########'),
+            'kota' => $faker->city,
+            'tanggal_lahir' => $faker->date('Y-m-d'),
+            'nama_ibu' => $faker->name('female'),
+            'nowa' => preg_replace('/[^0-9]/', '', $faker->phoneNumber),
+            'almt_asl' => $faker->address,
+            'prd_id' => 1,
+            'password' => 'mountain082',
+        ]);
 
-        try {
-            $this->post('/user/my_account/update', [
-                'email' => 'raung@students.undip.ac.id',
-                'nama' => $faker->name,
-                'nmr_unik' => $faker->unique()->numerify('##########'),
-                'kota' => $faker->city,
-                'tanggal_lahir' => $faker->date('Y-m-d'),
-                'nama_ibu' => $faker->name('female'),
-                'nowa' => $faker->phoneNumber,
-                'almt_asl' => $faker->address,
-                'prd_id' => 1,
-                'password' => 'mountain082',
-            ]);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            $this->assertEquals('Email sudah digunakan, silakan masukkan Email yang lain', $e->validator->errors()->first('email'));
-            return;
-        }
-
+        // 4. Verifikasi hasil
         $response->assertStatus(302);
-        $response->assertSessionHasErrors('email');
+        $response->assertSessionHasErrors([
+            'email' => 'Email sudah digunakan, silakan masukkan Email yang lain'
+        ]);
     }
 }

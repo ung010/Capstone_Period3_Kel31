@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\srt_pmhn_kmbali_biaya>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
  */
-class srt_pmhn_kmbali_biayaFactory extends Factory
+class Survey_Factory extends Factory
 {
     /**
      * Define the model's default state.
@@ -19,10 +19,9 @@ class srt_pmhn_kmbali_biayaFactory extends Factory
         return [
             'users_id' => \App\Models\User::factory(),
             'prd_id' => 1,
-            'skl' => 'skl.pdf',
-            'buku_tabung' => 'buku_tabung.pdf',
-            'bukti_bayar' => 'bukti_bayar.pdf',
-            'tanggal_surat' => $this->faker->date('Y-m-d'),
+            'feedback' => $this->faker->sentence(),
+            'rating' => $this->faker->randomElement(['sangat_puas' ,'puas', 'netral', 'kurang_puas', 'tidak_puas']),
+            'tanggal_survey' => $this->faker->date('Y-m-d'),
         ];
     }
 }

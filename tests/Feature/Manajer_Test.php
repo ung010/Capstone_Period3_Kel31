@@ -35,7 +35,7 @@ class Manajer_Test extends TestCase
 
         $sv = DB::table('users')->insertGetId([
             'nama' => $faker->name,
-            'nmr_unik' => $faker->unique()->numerify('######'),
+            'nim_nip' => $faker->unique()->numerify('######'),
             'email' => $faker->unique()->safeEmail,
             'password' => Hash::make('mountain082'),
             'role' => 'supervisor_akd',
@@ -45,7 +45,7 @@ class Manajer_Test extends TestCase
 
         $response = $this->post("/manajer/manage_spv/edit/{$sv}", [
             'nama' => $faker->unique()->name,
-            'nmr_unik' => $faker->unique()->numerify('######'),
+            'nim_nip' => $faker->unique()->numerify('######'),
             'email' => $newEmail,
             'password' => Hash::make('12345678'),
         ]);
@@ -60,7 +60,6 @@ class Manajer_Test extends TestCase
 
     public function test_gagal_mengedit_akun_sv_dengan_email_terduplikat(): void
     {
-
         $this->withoutExceptionHandling();
         $faker = \Faker\Factory::create();
 
@@ -73,25 +72,86 @@ class Manajer_Test extends TestCase
 
         $sv = DB::table('users')->insertGetId([
             'nama' => $faker->name,
-            'nmr_unik' => $faker->unique()->numerify('######'),
+            'nim_nip' => $faker->unique()->numerify('######'),
             'email' => $faker->unique()->safeEmail,
             'password' => Hash::make('mountain082'),
             'role' => 'supervisor_akd',
         ]);
 
+        \App\Models\User::factory()->create([
+            'email' => 'raung@students.undip.ac.id'
+        ]);
+
         try {
-            $this->post("/manajer/manage_spv/edit/{$sv}", [
+            $response = $this->post("/manajer/manage_spv/edit/{$sv}", [
                 'nama' => $faker->unique()->name,
-                'nmr_unik' => $faker->unique()->numerify('######'),
+                'nim_nip' => $faker->unique()->numerify('######'),
                 'email' => 'raung@students.undip.ac.id',
                 'password' => Hash::make('12345678'),
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
-            $this->assertEquals('Email sudah digunakan, silakan masukkan Email yang lain', $e->validator->errors()->first('email'));
+            $this->assertEquals(
+                'Email sudah digunakan, silakan masukkan Email yang lain',
+                $e->validator->errors()->first('email')
+            );
             return;
         }
+    }
+
+    public function test_edit_akun_manajer_sendiri(): void
+    {
+        $this->withoutExceptionHandling();
+        $faker = \Faker\Factory::create();
+
+        $user = \App\Models\User::factory()->create([
+            'email' => 'manajer@gmail.com',
+            'password' => bcrypt('mountain082'),
+        ]);
+
+        $this->actingAs($user);
+
+        $response = $this->post('/manajer/account/update/'.$user->id, [
+            'email' => $faker->unique()->safeEmail,
+            'nama' => $faker->name,
+            'nim_nip' => $faker->unique()->numerify('##########'),
+            'password' => 'mountain081',
+        ]);
 
         $response->assertStatus(302);
-        $response->assertSessionHasErrors('email');
+    }
+
+    public function test_gagal_mengedit_akun_manajer_dengan_email_terduplikat(): void
+    {
+        $faker = \Faker\Factory::create();
+
+        \App\Models\User::factory()->create([
+            'email' => 'manajer@gmail.com',
+            'password' => bcrypt('mountain082'),
+            'role' => 'manajer'
+        ]);
+
+        $user = \App\Models\User::factory()->create([
+            'email' => '2@gmail.com',
+            'password' => bcrypt('mountain082'),
+            'role' => 'manajer'
+        ]);
+
+        $this->actingAs($user);
+
+        $data = [
+            'email' => 'manajer@gmail.com',
+            'nama' => $faker->name,
+            'password' => 'mountain082',
+            'role' => 'manajer'
+        ];
+
+        $response = $this->post('/manajer/account/update/'.$user->id, $data);
+
+        $response->assertStatus(302);
+        $response->assertInvalid('email');
+
+        $response->assertSessionHasErrors([
+            'email' => 'Email sudah digunakan, silakan masukkan Email yang lain'
+        ]);
     }
 }

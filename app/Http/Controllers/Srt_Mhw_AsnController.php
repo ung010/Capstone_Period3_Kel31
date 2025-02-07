@@ -207,20 +207,12 @@ class Srt_Mhw_AsnController extends Controller
 
         QrCode::format('png')->size(100)->generate($qrUrl, $qrCodeFullPath);
 
-        // $mpdf = new Mpdf();
-        // $html = View::make('srt_mhw_asn.view', compact('srt_mhw_asn', 'qrCodePath'))->render();
-        // $mpdf->WriteHTML($html);
-
-        // Load a view and pass data to it
         $pdf = Pdf::loadView('srt_mhw_asn.view', compact('srt_mhw_asn', 'qrCodePath'));
-
-        // Return the generated PDF as a download
 
         $namaMahasiswa = $srt_mhw_asn->nama;
         $tanggalSurat = Carbon::now('Asia/Jakarta')->format('Y-m-d');
         $fileName = 'Surat_Mahasiswa_Bagi_ASN_' . str_replace(' ', '_', $namaMahasiswa) . '_' . $tanggalSurat . '.pdf';
         return $pdf->download($fileName);
-        // $mpdf->Output($fileName, 'D');
     }
 
     function admin(Request $request)

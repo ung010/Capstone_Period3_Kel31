@@ -33,7 +33,7 @@ class Register_Test extends TestCase
         $response = $this->post('/register/create', [
             'email' => $email,
             'nama' => $faker->name,
-            'nmr_unik' => $faker->unique()->numerify('##########'),
+            'nim_nip' => $faker->unique()->numerify('##########'),
             'kota' => $faker->city,
             'tanggal_lahir' => $faker->date('Y-m-d'),
             'nama_ibu' => $faker->name('female'),
@@ -44,7 +44,7 @@ class Register_Test extends TestCase
             'dpt_id' => 1,
             'foto' => UploadedFile::fake()->image('foto.png'),
             'status' => 'mahasiswa',
-            'password' => 'mountain082',
+            'password' => '12345678',
         ]);
 
         $response->assertStatus(302);
@@ -55,9 +55,9 @@ class Register_Test extends TestCase
     {
 
         $response = $this->post('/register/create', [
-            'email' => 'mahasiswa@gmail.com',
+            'email' => 'satu@gmail.com',
             'nama' => 'Mahasiswa Baru',
-            'nmr_unik' => '21120120150155',
+            'nim_nip' => '21120120160155',
             'kota' => 'Kota Mahasiswa Baru',
             'tanggal_lahir' => '2024-08-06',
             'nama_ibu' => 'Ibu Mahasiswa Baru',
@@ -72,7 +72,7 @@ class Register_Test extends TestCase
         ]);
 
         $response->assertStatus(302);
-        $response->assertSessionHasErrors(['email', 'nmr_unik']);
+        $response->assertSessionHasErrors(['email', 'nim_nip']);
     }
 
     public function test_gagal_membuat_user_karena_data_kurang(): void
@@ -94,6 +94,6 @@ class Register_Test extends TestCase
         ]);
 
         $response->assertStatus(302);
-        $response->assertSessionHasErrors(['email', 'nmr_unik']);
+        $response->assertSessionHasErrors(['email', 'nim_nip']);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -13,9 +14,8 @@ use Hashids\Hashids;
 
 class Surat_Bebas_Pinjam_Test extends TestCase
 {
-    /**
-     * A basic feature test example.
-     */
+    use DatabaseTransactions;
+
     public function test_halaman_surat_bebas_pinjam(): void
     {
         $response = $this->get('/srt_bbs_pnjm');
@@ -38,7 +38,6 @@ class Surat_Bebas_Pinjam_Test extends TestCase
         $this->actingAs($user);
 
         $response = $this->post('/srt_bbs_pnjm/create', [
-            'nama_mhw' => $faker->name,
             'dosen_wali' => $faker->name(),
             'almt_smg' => $faker->address(),
             'tanggal_surat' => $faker->date('Y-m-d'),
@@ -63,8 +62,7 @@ class Surat_Bebas_Pinjam_Test extends TestCase
         $this->actingAs($user);
 
         try {
-            $this->post('/srt_bbs_pnjm/create', [
-                'nama_mhw' => $faker->name,
+            $response = $this->post('/srt_bbs_pnjm/create', [
                 'dosen_wali' => $faker->name(),
                 'tanggal_surat' => $faker->date('Y-m-d'),
             ]);
@@ -72,6 +70,7 @@ class Surat_Bebas_Pinjam_Test extends TestCase
             $this->assertEquals('Alamat kos / tempat tinggal semarang wajib diisi', $e->validator->errors()->first('almt_smg'));
             return;
         }
+
         $response->assertStatus(302);
     }
 
@@ -94,7 +93,6 @@ class Surat_Bebas_Pinjam_Test extends TestCase
         $surat = DB::table('srt_bbs_pnjm')->insertGetId([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
-            'nama_mhw' => $user->nama,
             'dosen_wali' => $faker->name(),
             'almt_smg' => $faker->address(),
             'tanggal_surat' => Carbon::now()->format('Y-m-d'),
@@ -124,7 +122,6 @@ class Surat_Bebas_Pinjam_Test extends TestCase
         $surat = DB::table('srt_bbs_pnjm')->insertGetId([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
-            'nama_mhw' => $user->nama,
             'dosen_wali' => $faker->name(),
             'almt_smg' => $faker->address(),
             'tanggal_surat' => Carbon::now()->format('Y-m-d'),
@@ -152,7 +149,7 @@ class Surat_Bebas_Pinjam_Test extends TestCase
         $response->assertStatus(302);
     }
 
-    public function test_cek_surat_srt_bbs_pnjm()
+    public function test_cek_surat_srt_bbs_pnjm_oleh_admin()
     {
         $faker = \Faker\Factory::create();
 
@@ -167,7 +164,6 @@ class Surat_Bebas_Pinjam_Test extends TestCase
         $suratId = DB::table('srt_bbs_pnjm')->insertGetId([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
-            'nama_mhw' => $user->nama,
             'dosen_wali' => $faker->name(),
             'almt_smg' => $faker->address(),
             'tanggal_surat' => Carbon::now()->format('Y-m-d'),
@@ -178,7 +174,7 @@ class Surat_Bebas_Pinjam_Test extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_setuju_surat_bebas_pinjam()
+    public function test_setuju_surat_bebas_pinjam_oleh_admin()
     {
         $admin = \App\Models\User::factory()->create([
             'email' => 'admin@example.com',
@@ -207,7 +203,7 @@ class Surat_Bebas_Pinjam_Test extends TestCase
         ]);
     }
 
-    public function test_tolak_surat_bebas_pinjam()
+    public function test_tolak_surat_bebas_pinjam_oleh_admin()
     {
         $admin = \App\Models\User::factory()->create([
             'email' => 'admin@example.com',
@@ -253,10 +249,65 @@ class Surat_Bebas_Pinjam_Test extends TestCase
         $response->assertStatus(302);
     }
 
-    public function test_supervisor_setuju_srt_bbs_pnjm()
+    public function test_cek_surat_srt_bbs_pnjm()
     {
         $faker = \Faker\Factory::create();
-        
+
+        $user = \App\Models\User::factory()->create([
+            'email' => 'sd@example.com',
+            'password' => bcrypt('password'),
+            'role' => 'supervisor_sd',
+        ]);
+
+        $this->actingAs($user);
+
+        $suratId = DB::table('srt_bbs_pnjm')->insertGetId([
+            'users_id' => $user->id,
+            'prd_id' => $user->prd_id,
+            'dosen_wali' => $faker->name(),
+            'almt_smg' => $faker->address(),
+            'tanggal_surat' => Carbon::now()->format('Y-m-d'),
+        ]);
+
+        $response = $this->get("/srt_bbs_pnjm/supervisor/cek_surat/{$suratId}");
+
+        $response->assertStatus(200);
+    }
+
+    public function test_tolak_surat_bebas_pinjam_oleh_supervisor()
+    {
+        $admin = \App\Models\User::factory()->create([
+            'email' => 'sd@example.com',
+            'password' => bcrypt('password'),
+            'role' => 'supervisor_sd',
+        ]);
+
+        $this->actingAs($admin);
+
+
+        $surat = \App\Models\srt_bbs_pnjm::factory()->create([
+            'catatan_surat' => null,
+            'role_surat' => 'supervisor_sd',
+        ]);
+
+        $response = $this->post("/srt_bbs_pnjm/supervisor/cek_surat/tolak/{$surat->id}", [
+            'catatan_surat' => 'Dokumen tidak lengkap',
+        ]);
+
+        $response->assertRedirect(route('srt_bbs_pnjm.supervisor'));
+        $response->assertSessionHas('success', 'Alasan penolakan telah dikirimkan');
+
+        $this->assertDatabaseHas('srt_bbs_pnjm', [
+            'id' => $surat->id,
+            'catatan_surat' => 'Dokumen tidak lengkap',
+            'role_surat' => 'tolak',
+        ]);
+    }
+
+    public function test_setuju_srt_bbs_pnjm_oleh_supervisor()
+    {
+        $faker = \Faker\Factory::create();
+
         $user = \App\Models\User::factory()->create([
             'email' => 'supervisor@example.com',
             'password' => bcrypt('password'),
@@ -268,7 +319,6 @@ class Surat_Bebas_Pinjam_Test extends TestCase
         $surat = \App\Models\srt_bbs_pnjm::factory()->create([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
-            'nama_mhw' => $user->nama,
             'dosen_wali' => $faker->name(),
             'almt_smg' => $faker->address(),
             'tanggal_surat' => Carbon::now()->format('Y-m-d'),
@@ -277,7 +327,7 @@ class Surat_Bebas_Pinjam_Test extends TestCase
         $response = $this->post("/srt_bbs_pnjm/supervisor/setuju/{$surat->id}");
 
         $response->assertRedirect();
-        $response->assertSessionHas('success', 'Surat berhasil disetujui');
+        $response->assertSessionHas('success', 'Surat telah disetujui');
 
         $this->assertDatabaseHas('srt_bbs_pnjm', [
             'id' => $surat->id,

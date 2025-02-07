@@ -20,19 +20,18 @@ class UserFactory extends Factory
     {
         return [
             'nama' => $this->faker->name,
-            'nmr_unik' => $this->faker->unique()->numerify('######'),
+            'nim_nip' => $this->faker->unique()->numerify('######'),
             'email' => $this->faker->unique()->safeEmail,
-            'password' => Hash::make('mountain082'),
+            'password' => Hash::make('12345678'),
             'kota' => $this->faker->city,
             'tanggal_lahir' => $this->faker->date,
             'status' => 'mahasiswa',
-            'nowa' => $this->faker->phoneNumber,
-            'nama_ibu' => $this->faker->name,
+            'nowa' => preg_replace('/[^0-9]/', '', $this->faker->phoneNumber),
+            'nama_ibu' => substr($this->faker->name, 0, 20),
             'almt_asl' => $this->faker->address,
             'prd_id' => 1,
             'role' => 'mahasiswa',
             // 'role' => $this->faker->randomElement(['mahasiswa', 'non_mahasiswa', 'del_mahasiswa']),
-            'catatan_user' => '-',
         ];
     }
 

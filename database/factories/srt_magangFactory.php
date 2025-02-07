@@ -19,7 +19,6 @@ class srt_magangFactory extends Factory
         return [
             'users_id' => \App\Models\User::factory(),
             'prd_id' => 1,
-            'nama_mhw' => $this->faker->name,
             'ipk' => '3.50',
             'sksk' => 150,
             'semester' => $this->faker->randomDigitNotNull,

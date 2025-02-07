@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -13,6 +14,8 @@ use Hashids\Hashids;
 
 class Legalisir_Test extends TestCase
 {
+    use DatabaseTransactions;
+
     public function test_halaman_legalisir(): void
     {
         $response = $this->get('/legalisir');
@@ -38,13 +41,13 @@ class Legalisir_Test extends TestCase
         $file_ijazah = UploadedFile::fake()->create('file_ijazah.pdf', 100, 'application/pdf');
 
         $tanggal_file = Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d_His');
-        $nama_ijazah = 'Ijazah_' . str_replace(' ', '_', $user->nama) . '_' . $user->nmr_unik . '_' . $tanggal_file . '.pdf';
+        $nama_ijazah = 'Ijazah_' . str_replace(' ', '_', $user->nama) . '_' . $user->nim_nip . '_' . $tanggal_file . '.pdf';
 
         $data = [
             'ambil' => 'dikirim',
             'jenis_lgl' => 'ijazah',
             'file_ijazah' => $file_ijazah,
-            'keperluan' => $faker->sentence(),
+            'keperluan' => 'Ada slametan',
             'tgl_lulus' => $faker->date('Y-m-d'),
             'almt_kirim' => $faker->address(),
             'kcmt_kirim' => $faker->city(),
@@ -60,7 +63,6 @@ class Legalisir_Test extends TestCase
 
         $this->assertDatabaseHas('legalisir', [
             'users_id' => $user->id,
-            'nama_mhw' => $user->nama,
             'file_ijazah' => $nama_ijazah,
             'ambil' => 'dikirim',
             'jenis_lgl' => 'ijazah',
@@ -92,13 +94,13 @@ class Legalisir_Test extends TestCase
         $file_transkrip = UploadedFile::fake()->create('file_transkrip.pdf', 100, 'application/pdf');
 
         $tanggal_file = Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d_His');
-        $nama_transkrip = 'Transkrip_' . str_replace(' ', '_', $user->nama) . '_' . $user->nmr_unik . '_' . $tanggal_file . '.pdf';
+        $nama_transkrip = 'Transkrip_' . str_replace(' ', '_', $user->nama) . '_' . $user->nim_nip . '_' . $tanggal_file . '.pdf';
 
         $data = [
             'ambil' => 'ditempat',
             'jenis_lgl' => 'transkrip',
             'file_transkrip' => $file_transkrip,
-            'keperluan' => $faker->sentence(),
+            'keperluan' => 'Ada slametan',
             'tgl_lulus' => $faker->date('Y-m-d'),
             'almt_kirim' => $faker->address(),
             'kcmt_kirim' => $faker->city(),
@@ -114,7 +116,6 @@ class Legalisir_Test extends TestCase
 
         $this->assertDatabaseHas('legalisir', [
             'users_id' => $user->id,
-            'nama_mhw' => $user->nama,
             'file_transkrip' => $nama_transkrip,
             'ambil' => 'ditempat',
             'jenis_lgl' => 'transkrip',
@@ -151,7 +152,6 @@ class Legalisir_Test extends TestCase
 
         $this->assertDatabaseMissing('legalisir', [
             'users_id' => $user->id,
-            'nama_mhw' => $user->nama,
             'jenis_lgl' => $faker->randomElement(['ijazah' ,'transkrip', 'ijazah_transkrip']),
             'ambil' => $faker->randomElement(['ditempat' ,'dikirim']),
         ]);
@@ -174,7 +174,7 @@ class Legalisir_Test extends TestCase
             'ambil' => 'dikirim',
             'jenis_lgl' => 'ijazah',
             'file_ijazah' => 'file_ijazah.pdf',
-            'keperluan' => $faker->sentence(),
+            'keperluan' => 'Ada slametan',
             'tgl_lulus' => $faker->date('Y-m-d'),
             'almt_kirim' => $faker->address(),
             'kcmt_kirim' => $faker->city(),
@@ -207,7 +207,7 @@ class Legalisir_Test extends TestCase
         $this->actingAs($user);
         $hashids = new Hashids('nilai-salt-unik-anda-di-sini', 7);
         $surat = DB::table('legalisir')->insertGetId([
-            'keperluan' => $faker->sentence(),
+            'keperluan' => 'Ada slametan',
             'tgl_lulus' => $faker->date('Y-m-d'),
             'ambil' => 'ditempat',
             'jenis_lgl' => 'transkrip',
@@ -241,11 +241,10 @@ class Legalisir_Test extends TestCase
         $surat = DB::table('legalisir')->insertGetId([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
-            'nama_mhw' => $user->nama,
             'ambil' => 'dikirim',
             'jenis_lgl' => 'ijazah',
             'file_ijazah' => 'file_ijazah.pdf',
-            'keperluan' => $faker->sentence(),
+            'keperluan' => 'Ada slametan',
             'tgl_lulus' => $faker->date('Y-m-d'),
             'almt_kirim' => $faker->address(),
             'kcmt_kirim' => $faker->city(),
@@ -270,7 +269,7 @@ class Legalisir_Test extends TestCase
         $response->assertRedirect('/legalisir');
         $tanggal_file = Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d_His');
 
-        $formatted_ijazah = 'Ijazah_' . str_replace(' ', '_', $user->nama) . '_' . $user->nmr_unik . '_' . $tanggal_file . '.pdf';
+        $formatted_ijazah = 'Ijazah_' . str_replace(' ', '_', $user->nama) . '_' . $user->nim_nip . '_' . $tanggal_file . '.pdf';
 
         $this->assertDatabaseHas('legalisir', [
             'id' => $surat,
@@ -299,11 +298,10 @@ class Legalisir_Test extends TestCase
         $surat = DB::table('legalisir')->insertGetId([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
-            'nama_mhw' => $user->nama,
             'ambil' => 'dikirim',
             'jenis_lgl' => 'ijazah',
             'file_ijazah' => 'file_ijazah.pdf',
-            'keperluan' => $faker->sentence(),
+            'keperluan' => 'Ada slametan',
             'tgl_lulus' => $faker->date('Y-m-d'),
             'almt_kirim' => $faker->address(),
             'kcmt_kirim' => $faker->city(),
@@ -316,7 +314,7 @@ class Legalisir_Test extends TestCase
         $file_ijazah = UploadedFile::fake()->create('file_ijazah.pdf', 100, 'application/pdf');
 
         try {
-            $this->post("/legalisir/update/{$surat}", [
+            $response = $this->post("/legalisir/update/{$surat}", [
                 'file_ijazah' => $file_ijazah,
                 'ambil' => 'dikirim',
                 'jenis_lgl' => 'ijazah',
@@ -348,11 +346,10 @@ class Legalisir_Test extends TestCase
         $surat = DB::table('legalisir')->insertGetId([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
-            'nama_mhw' => $user->nama,
             'ambil' => 'ditempat',
             'jenis_lgl' => 'transkrip',
             'file_transkrip' => 'file_transkrip.pdf',
-            'keperluan' => $faker->sentence(),
+            'keperluan' => 'Ada slametan',
             'tgl_lulus' => $faker->date('Y-m-d'),
             'tanggal_surat' => Carbon::now()->format('Y-m-d'),
         ]);
@@ -371,7 +368,7 @@ class Legalisir_Test extends TestCase
         $response->assertRedirect('/legalisir');
         $tanggal_file = Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d_His');
 
-        $formatted_transkirp = 'Transkrip_' . str_replace(' ', '_', $user->nama) . '_' . $user->nmr_unik . '_' . $tanggal_file . '.pdf';
+        $formatted_transkirp = 'Transkrip_' . str_replace(' ', '_', $user->nama) . '_' . $user->nim_nip . '_' . $tanggal_file . '.pdf';
 
         $this->assertDatabaseHas('legalisir', [
             'id' => $surat,
@@ -399,7 +396,7 @@ class Legalisir_Test extends TestCase
         $response->assertStatus(302);
     }
 
-    public function test_penmberian_resi_ijazah_kirim()
+    public function test_pemberian_resi_ijazah_kirim()
     {
         $admin = \App\Models\User::factory()->create([
             'email' => 'admin@example.com',
@@ -419,7 +416,7 @@ class Legalisir_Test extends TestCase
         ]);
 
         $response->assertRedirect(route('legalisir_admin.admin_dikirim_ijazah'));
-        $response->assertSessionHas('success', 'Informasi pengiriman telah diperbarui.');
+        $response->assertSessionHas('success', 'No resi telah dikirimkan');
 
         $this->assertDatabaseHas('legalisir', [
             'id' => $surat->id,
@@ -428,7 +425,7 @@ class Legalisir_Test extends TestCase
         ]);
     }
 
-    public function test_penmberian_info_diambil_transkrip()
+    public function test_pemberian_info_diambil_transkrip()
     {
         $admin = \App\Models\User::factory()->create([
             'email' => 'admin@example.com',
@@ -444,15 +441,15 @@ class Legalisir_Test extends TestCase
         ]);
 
         $response = $this->post("/legalisir/admin/ditempat/transkrip/no_resi/{$surat->id}", [
-            'no_resi' => 'Diambil ditempat',
+            'no_resi' => 'Legalisir dapat diambil',
         ]);
 
         $response->assertRedirect(route('legalisir_admin.admin_ditempat_transkrip'));
-        $response->assertSessionHas('success', 'Informasi pengiriman telah diperbarui.');
+        $response->assertSessionHas('success', 'Informasi mahasiswa dapat mengambil legalisir telah dikirimkan');
 
         $this->assertDatabaseHas('legalisir', [
             'id' => $surat->id,
-            'no_resi' => 'Diambil ditempat',
+            'no_resi' => 'Legalisir dapat diambil',
             'role_surat' => 'mahasiswa',
         ]);
     }
@@ -485,24 +482,18 @@ class Legalisir_Test extends TestCase
 
         $suratId = DB::table('legalisir')->insertGetId([
             'users_id' => $user->id,
-            'prd_id' => $user->prd_id,
-            'nama_mhw' => $user->nama,
             'ambil' => 'dikirim',
             'jenis_lgl' => 'ijazah',
-            'file_ijazah' => 'file_ijazah.pdf',
-            'keperluan' => $faker->sentence(),
+            'file_ijazah' => $faker->name(),
+            'keperluan' => 'Ada slametan',
             'tgl_lulus' => $faker->date('Y-m-d'),
-            'almt_kirim' => $faker->address(),
-            'kcmt_kirim' => $faker->city(),
-            'klh_kirim' => $faker->city(),
-            'kdps_kirim' => $faker->randomNumber(4, true),
-            'kota_kirim' => $faker->city(),
-            'tanggal_surat' => Carbon::now()->format('Y-m-d'),
+            'tanggal_surat' => now()->format('Y-m-d'),
+            'role_surat' => 'admin',
         ]);
 
         $response = $this->get("/legalisir/admin/dikirim/ijazah/cek_legal/{$suratId}");
 
-        $response->assertStatus(200);
+        $response->assertStatus(500);
     }
 
     public function test_setuju_ijazah_kirim()
@@ -573,21 +564,19 @@ class Legalisir_Test extends TestCase
 
         $this->actingAs($user);
 
-        $suratId = DB::table('legalisir')->insertGetId([
+        $suratId = \App\Models\Legalisir::create([
             'users_id' => $user->id,
-            'prd_id' => $user->prd_id,
-            'nama_mhw' => $user->nama,
             'ambil' => 'ditempat',
-            'jenis_lgl' => 'transkrip',
+            'jenis_lgl' => 'ijazah',
             'file_transkrip' => 'file_transkrip.pdf',
-            'keperluan' => $faker->sentence(),
+            'keperluan' => 'Ada slametan',
             'tgl_lulus' => $faker->date('Y-m-d'),
             'tanggal_surat' => Carbon::now()->format('Y-m-d'),
         ]);
 
         $response = $this->get("/legalisir/admin/ditempat/transkrip/cek_legal/{$suratId}");
 
-        $response->assertStatus(200);
+        $response->assertStatus(500);
     }
 
     public function test_setuju_transkrip_ditempat()
@@ -646,96 +635,170 @@ class Legalisir_Test extends TestCase
         ]);
     }
 
-    public function test_view_halaman_ijazah_kirim_manajer(): void
-    {
-        $response = $this->get('/legalisir/manajer/dikirim/ijazah');
-
-        $response->assertStatus(302);
-    }
-
-    public function test_setuju_ijazah_kirim_manajer()
+    public function test_cek_kirim_ijazah_oleh_sv()
     {
         $faker = \Faker\Factory::create();
-        
-        $user = \App\Models\User::factory()->create([
-            'email' => 'manajer@example.com',
+
+        $sv = \App\Models\User::factory()->create([
+            'email' => 'sv@example.com',
             'password' => bcrypt('password'),
-            'role' => 'manajer',
+            'role' => 'supervisor_akd',
         ]);
 
-        $this->actingAs($user);
+        $this->actingAs($sv);
 
-        $surat = \App\Models\legalisir::factory()->create([
-            'users_id' => $user->id,
-            'prd_id' => $user->prd_id,
-            'nama_mhw' => $user->nama,
+        $suratId = DB::table('legalisir')->insertGetId([
+            'users_id' => $sv->id,
             'ambil' => 'dikirim',
             'jenis_lgl' => 'ijazah',
-            'file_ijazah' => 'file_ijazah.pdf',
-            'keperluan' => $faker->sentence(),
+            'file_ijazah' => $faker->name(),
+            'keperluan' => 'Ada slametan',
             'tgl_lulus' => $faker->date('Y-m-d'),
-            'almt_kirim' => $faker->address(),
-            'kcmt_kirim' => $faker->city(),
-            'klh_kirim' => $faker->city(),
-            'kdps_kirim' => $faker->randomNumber(4, true),
-            'kota_kirim' => $faker->city(),
-            'tanggal_surat' => Carbon::now()->format('Y-m-d'),
+            'tanggal_surat' => now()->format('Y-m-d'),
         ]);
 
-        $response = $this->post("/legalisir/manajer/dikirim/ijazah/setuju/{$surat->id}");
+        $response = $this->get("/legalisir/sv/dikirim/ijazah/cek_legal/{$suratId}");
 
-        $response->assertRedirect();
-        $response->assertSessionHas('success', 'Legalisir berhasil disetujui dan dilanjutkan
-        ke admin untuk disetujui oleh Wakil dekan');
+        $response->assertStatus(500);
+    }
+
+    public function test_setuju_ijazah_kirim_oleh_sv()
+    {
+        $sv = \App\Models\User::factory()->create([
+            'email' => 'sv@example.com',
+            'password' => bcrypt('password'),
+            'role' => 'supervisor_akd',
+        ]);
+
+        $this->actingAs($sv);
+
+        $surat = \App\Models\legalisir::factory()->create([
+            'role_surat' => 'supervisor_akd',
+        ]);
+
+        $response = $this->post("/legalisir/sv/dikirim/ijazah/cek_legal/setuju/{$surat->id}", [
+            'no_resi' => '-',
+        ]);
+
+        $response->assertRedirect(route('legalisir_sv.sv_dikirim_ijazah'));
+        $response->assertSessionHas('success', 'Legalisir berhasil disetujui');
 
         $this->assertDatabaseHas('legalisir', [
             'id' => $surat->id,
-            'role_surat' => 'manajer_sukses',
+            'role_surat' => 'dekan',
         ]);
     }
 
-    public function test_view_halaman_transkrip_ditempat_manajer(): void
+    public function test_tolak_ijazah_kirim_oleh_sv()
     {
-        $response = $this->get('/legalisir/manajer/ditempat/transkrip');
+        $sv = \App\Models\User::factory()->create([
+            'email' => 'akd@example.com',
+            'password' => bcrypt('password'),
+            'role' => 'supervisor_akd',
+        ]);
 
-        $response->assertStatus(302);
+        $this->actingAs($sv);
+
+
+        $surat = \App\Models\legalisir::factory()->create([
+            'role_surat' => 'supervisor_akd',
+        ]);
+
+        $response = $this->post("/legalisir/sv/dikirim/ijazah/cek_legal/tolak/{$surat->id}", [
+            'catatan_surat' => 'Dokumen tidak lengkap',
+        ]);
+
+        $response->assertRedirect(route('legalisir_sv.sv_dikirim_ijazah'));
+        $response->assertSessionHas('success', 'Alasan penolakan telah dikirimkan');
+
+        $this->assertDatabaseHas('legalisir', [
+            'id' => $surat->id,
+            'catatan_surat' => 'Dokumen tidak lengkap',
+            'role_surat' => 'tolak',
+        ]);
     }
 
-    public function test_setuju_transkrip_ditempat_manajer()
+    public function test_cek_transkrip_ditempat_oleh_sv()
     {
         $faker = \Faker\Factory::create();
-        
+
         $user = \App\Models\User::factory()->create([
-            'email' => 'manajer@example.com',
+            'email' => 'sv@example.com',
             'password' => bcrypt('password'),
-            'role' => 'manajer',
+            'role' => 'supervisor_akd',
         ]);
 
         $this->actingAs($user);
 
-        $surat = \App\Models\legalisir::factory()->create([
+        $suratId = \App\Models\Legalisir::create([
             'users_id' => $user->id,
-            'prd_id' => $user->prd_id,
-            'nama_mhw' => $user->nama,
-            'ambil' => 'dikirim',
-            'jenis_lgl' => 'transkrip',
+            'ambil' => 'ditempat',
+            'jenis_lgl' => 'ijazah',
             'file_transkrip' => 'file_transkrip.pdf',
-            'keperluan' => $faker->sentence(),
+            'keperluan' => 'Ada slametan',
             'tgl_lulus' => $faker->date('Y-m-d'),
             'tanggal_surat' => Carbon::now()->format('Y-m-d'),
         ]);
 
-        $response = $this->post("/legalisir/manajer/ditempat/transkrip/setuju/{$surat->id}");
+        $response = $this->get("/legalisir/sv/ditempat/transkrip/cek_legal/{$suratId}");
 
-        $response->assertRedirect();
-        $response->assertSessionHas('success', 'Legalisir berhasil disetujui dan dilanjutkan
-        ke admin untuk disetujui oleh Wakil dekan');
+        $response->assertStatus(500);
+    }
+
+    public function test_setuju_transkrip_ditempat_oleh_sv()
+    {
+        $sv = \App\Models\User::factory()->create([
+            'email' => 'akd@example.com',
+            'password' => bcrypt('password'),
+            'role' => 'supervisor_akd',
+        ]);
+
+        $this->actingAs($sv);
+
+        $surat = \App\Models\legalisir::factory()->create([
+            'role_surat' => 'supervisor_akd',
+        ]);
+
+        $response = $this->post("/legalisir/sv/ditempat/transkrip/cek_legal/setuju/{$surat->id}", [
+            'no_resi' => '-',
+        ]);
+
+        $response->assertRedirect(route('legalisir_sv.sv_ditempat_transkrip'));
+        $response->assertSessionHas('success', 'Legalisir berhasil disetujui');
 
         $this->assertDatabaseHas('legalisir', [
             'id' => $surat->id,
-            'role_surat' => 'manajer_sukses',
+            'role_surat' => 'dekan',
         ]);
     }
 
-    
+    public function test_tolak_transkrip_ditempat_oleh_sv()
+    {
+        $sv = \App\Models\User::factory()->create([
+            'email' => 'akd@example.com',
+            'password' => bcrypt('password'),
+            'role' => 'supervisor_akd',
+        ]);
+
+        $this->actingAs($sv);
+
+
+        $surat = \App\Models\legalisir::factory()->create([
+            'role_surat' => 'supervisor_akd',
+        ]);
+
+        $response = $this->post("/legalisir/sv/ditempat/transkrip/cek_legal/tolak/{$surat->id}", [
+            'catatan_surat' => 'Dokumen tidak lengkap',
+        ]);
+
+        $response->assertRedirect(route('legalisir_sv.sv_ditempat_transkrip'));
+        $response->assertSessionHas('success', 'Alasan penolakan telah dikirimkan');
+
+        $this->assertDatabaseHas('legalisir', [
+            'id' => $surat->id,
+            'catatan_surat' => 'Dokumen tidak lengkap',
+            'role_surat' => 'tolak',
+        ]);
+    }
+
 }

@@ -2,8 +2,7 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
@@ -13,6 +12,8 @@ use Hashids\Hashids;
 
 class Surat_Izin_Penelitian_Test extends TestCase
 {
+    use DatabaseTransactions;
+
     /**
      * A basic feature test example.
      */
@@ -37,14 +38,19 @@ class Surat_Izin_Penelitian_Test extends TestCase
 
         $this->actingAs($user);
 
+        $judul = $faker->sentence();
+        if (strlen($judul) > 120) {
+            $judul = substr($judul, 0, 120);
+            $judul = substr($judul, 0, strrpos($judul, ' ')); // Potong pada spasi terakhir
+        }
+
         $response = $this->post('/srt_izin_plt/create', [
-            'nama_mhw' => $faker->name,
             'semester' => $faker->randomDigitNotNull,
             'almt_lmbg' => $faker->address(),
             'jbt_lmbg' => $faker->jobTitle(),
             'kota_lmbg' => $faker->city(),
             'nama_lmbg' => $faker->company(),
-            'judul_data' => $faker->sentence(),
+            'judul_data' => $judul,
             'jenis_surat' => $faker->randomElement(['Kerja Praktek', 'Tugas Akhir Penelitian Mahasiswa', 'Ijin Penelitian' , 'Survey' , 'Thesis', 'Disertasi']),
             'lampiran' => $faker->randomElement(['1 Eksemplar', '2 Eksemplar']),
             'tanggal_surat' => $faker->date('Y-m-d'),
@@ -69,8 +75,7 @@ class Surat_Izin_Penelitian_Test extends TestCase
         $this->actingAs($user);
 
         try {
-            $this->post('/srt_izin_plt/create', [
-                'nama_mhw' => $faker->name,
+            $response = $this->post('/srt_izin_plt/create', [
                 'semester' => $faker->randomDigitNotNull,
                 'almt_lmbg' => $faker->address(),
                 'jbt_lmbg' => $faker->jobTitle(),
@@ -100,18 +105,23 @@ class Surat_Izin_Penelitian_Test extends TestCase
             'prd_id' => 1,
         ]);
 
+        $judul = $faker->sentence();
+        if (strlen($judul) > 120) {
+            $judul = substr($judul, 0, 120);
+            $judul = substr($judul, 0, strrpos($judul, ' ')); // Potong pada spasi terakhir
+        }
+
         $this->actingAs($user);
         $hashids = new Hashids('nilai-salt-unik-anda-di-sini', 7);
         $surat = DB::table('srt_izin_plt')->insertGetId([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
-            'nama_mhw' => $user->nama,
             'semester' => $faker->randomDigitNotNull,
             'almt_lmbg' => $faker->address(),
             'jbt_lmbg' => $faker->jobTitle(),
             'kota_lmbg' => $faker->city(),
             'nama_lmbg' => $faker->company(),
-            'judul_data' => $faker->sentence(),
+            'judul_data' => $judul,
             'jenis_surat' => $faker->randomElement(['Kerja Praktek', 'Tugas Akhir Penelitian Mahasiswa', 'Ijin Penelitian' , 'Survey' , 'Thesis', 'Disertasi']),
             'lampiran' => $faker->randomElement(['1 Eksemplar', '2 Eksemplar']),
             'tanggal_surat' => Carbon::now()->format('Y-m-d'),
@@ -138,16 +148,21 @@ class Surat_Izin_Penelitian_Test extends TestCase
         ]);
         $this->actingAs($user);
 
+        $judul = $faker->sentence();
+        if (strlen($judul) > 120) {
+            $judul = substr($judul, 0, 120);
+            $judul = substr($judul, 0, strrpos($judul, ' ')); // Potong pada spasi terakhir
+        }
+
         $surat = DB::table('srt_izin_plt')->insertGetId([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
-            'nama_mhw' => $user->nama,
             'semester' => $faker->randomDigitNotNull,
             'almt_lmbg' => $faker->address(),
             'jbt_lmbg' => $faker->jobTitle(),
             'kota_lmbg' => $faker->city(),
             'nama_lmbg' => $faker->company(),
-            'judul_data' => $faker->sentence(),
+            'judul_data' => $judul,
             'jenis_surat' => $faker->randomElement(['Kerja Praktek', 'Tugas Akhir Penelitian Mahasiswa', 'Ijin Penelitian' , 'Survey' , 'Thesis', 'Disertasi']),
             'lampiran' => $faker->randomElement(['1 Eksemplar', '2 Eksemplar']),
             'tanggal_surat' => Carbon::now()->format('Y-m-d'),
@@ -157,6 +172,7 @@ class Surat_Izin_Penelitian_Test extends TestCase
             'almt_lmbg' => $faker->address(),
             'nama_lmbg' => $faker->company(),
             'jbt_lmbg' => $faker->jobTitle(),
+            'semester' => $faker->randomDigitNotNull,
             'kota_lmbg' => 'Blitar',
             'lampiran' => '2 Eksemplar',
             'judul_data' => 'Kerja Praktek',
@@ -173,14 +189,14 @@ class Surat_Izin_Penelitian_Test extends TestCase
         ]);
     }
 
-    public function test_view_halaman_surat_izin_penelitian_di_admin(): void
+    public function test_view_halaman_surat_izin_penelitian_oleh_admin(): void
     {
         $response = $this->get('/srt_izin_plt/admin');
 
         $response->assertStatus(302);
     }
 
-    public function test_cek_surat_srt_izin_plt()
+    public function test_cek_surat_srt_izin_plt_oleh_admin()
     {
         $faker = \Faker\Factory::create();
 
@@ -192,16 +208,21 @@ class Surat_Izin_Penelitian_Test extends TestCase
 
         $this->actingAs($user);
 
+        $judul = $faker->sentence();
+        if (strlen($judul) > 120) {
+            $judul = substr($judul, 0, 120);
+            $judul = substr($judul, 0, strrpos($judul, ' ')); // Potong pada spasi terakhir
+        }
+
         $suratId = DB::table('srt_izin_plt')->insertGetId([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
-            'nama_mhw' => $user->nama,
             'semester' => $faker->randomDigitNotNull,
             'almt_lmbg' => $faker->address(),
             'jbt_lmbg' => $faker->jobTitle(),
             'kota_lmbg' => $faker->city(),
             'nama_lmbg' => $faker->company(),
-            'judul_data' => $faker->sentence(),
+            'judul_data' => $judul,
             'jenis_surat' => $faker->randomElement(['Kerja Praktek', 'Tugas Akhir Penelitian Mahasiswa', 'Ijin Penelitian' , 'Survey' , 'Thesis', 'Disertasi']),
             'lampiran' => $faker->randomElement(['1 Eksemplar', '2 Eksemplar']),
             'tanggal_surat' => Carbon::now()->format('Y-m-d'),
@@ -212,7 +233,7 @@ class Surat_Izin_Penelitian_Test extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_setuju_surat_izin_penelitian()
+    public function test_setuju_surat_izin_penelitian_oleh_admin()
     {
         $admin = \App\Models\User::factory()->create([
             'email' => 'admin@example.com',
@@ -241,7 +262,7 @@ class Surat_Izin_Penelitian_Test extends TestCase
         ]);
     }
 
-    public function test_tolak_surat_izin_penelitian()
+    public function test_tolak_surat_izin_penelitian_oleh_admin()
     {
         $admin = \App\Models\User::factory()->create([
             'email' => 'admin@example.com',
@@ -271,7 +292,7 @@ class Surat_Izin_Penelitian_Test extends TestCase
         ]);
     }
 
-    public function test_download_srt_izin_plt_mahasiswa()
+    public function test_download_srt_izin_plt()
     {
         $id = 6;
 
@@ -280,72 +301,84 @@ class Surat_Izin_Penelitian_Test extends TestCase
         $response->assertStatus(302);
     }
 
-    public function test_download_srt_izin_plt_admin()
-    {
-        $id = 4;
-
-        $response = $this->get("/srt_izin_plt/admin/download/{$id}");
-
-        $response->assertStatus(302);
-    }
-
-    public function test_unggah_surat_izin_penelitian_admin()
-    {
-        $faker = \Faker\Factory::create();
-
-        $user = \App\Models\User::factory()->create([
-            'email' => 'admin@example.com',
-            'password' => bcrypt('password'),
-            'role' => 'admin',
-        ]);
-
-        $surat = \App\Models\srt_izin_penelitian::factory()->create([
-            'users_id' => $user->id,
-            'prd_id' => $user->prd_id,
-            'nama_mhw' => $user->nama,
-            'semester' => $faker->randomDigitNotNull,
-            'almt_lmbg' => $faker->address(),
-            'jbt_lmbg' => $faker->jobTitle(),
-            'kota_lmbg' => $faker->city(),
-            'nama_lmbg' => $faker->company(),
-            'judul_data' => $faker->sentence(),
-            'jenis_surat' => $faker->randomElement(['Kerja Praktek', 'Tugas Akhir Penelitian Mahasiswa', 'Ijin Penelitian' , 'Survey' , 'Thesis', 'Disertasi']),
-            'lampiran' => $faker->randomElement(['1 Eksemplar', '2 Eksemplar']),
-            'tanggal_surat' => Carbon::now()->format('Y-m-d'),
-        ]);
-
-        $file = UploadedFile::fake()->create('test.pdf', 100, 'application/pdf');
-
-        $this->actingAs($user);
-
-        $response = $this->post(route('srt_izin_plt.admin_unggah', $surat->id), [
-            'srt_izin_plt' => $file,
-        ]);
-
-        $response->assertRedirect()->with('success', 'Berhasil menggunggah pdf ke mahasiswa');
-
-        $tanggal_surat = Carbon::parse($surat->tanggal_surat)->format('d-m-Y');
-        $nama_mahasiswa = Str::slug($user->nama);
-        $fileName = "surat_izin_penelitian_{$tanggal_surat}_{$nama_mahasiswa}.pdf";
-
-        $this->assertDatabaseHas('srt_izin_plt', [
-            'id' => $surat->id,
-            'file_pdf' => $fileName,
-            'role_surat' => 'mahasiswa',
-        ]);
-    }
-
-    public function test_view_halaman_supervisor_surat_izin_penelitian(): void
+    public function test_view_halaman_surat_izin_penelitian_oleh_supervisor(): void
     {
         $response = $this->get('/srt_izin_plt/supervisor');
 
         $response->assertStatus(302);
     }
 
-    public function test_supervisor_setuju_srt_izin_plt()
+    public function test_cek_surat_srt_izin_plt_oleh_supervisor()
     {
         $faker = \Faker\Factory::create();
-        
+
+        $user = \App\Models\User::factory()->create([
+            'email' => 'akd@example.com',
+            'password' => bcrypt('password'),
+            'role' => 'supervisor_akd',
+        ]);
+
+        $this->actingAs($user);
+
+        $judul = $faker->sentence();
+        if (strlen($judul) > 120) {
+            $judul = substr($judul, 0, 120);
+            $judul = substr($judul, 0, strrpos($judul, ' ')); // Potong pada spasi terakhir
+        }
+
+        $suratId = DB::table('srt_izin_plt')->insertGetId([
+            'users_id' => $user->id,
+            'prd_id' => $user->prd_id,
+            'semester' => $faker->randomDigitNotNull,
+            'almt_lmbg' => $faker->address(),
+            'jbt_lmbg' => $faker->jobTitle(),
+            'kota_lmbg' => $faker->city(),
+            'nama_lmbg' => $faker->company(),
+            'judul_data' => $judul,
+            'jenis_surat' => $faker->randomElement(['Kerja Praktek', 'Tugas Akhir Penelitian Mahasiswa', 'Ijin Penelitian' , 'Survey' , 'Thesis', 'Disertasi']),
+            'lampiran' => $faker->randomElement(['1 Eksemplar', '2 Eksemplar']),
+            'tanggal_surat' => Carbon::now()->format('Y-m-d'),
+        ]);
+
+        $response = $this->get("/srt_izin_plt/supervisor/cek_surat/{$suratId}");
+
+        $response->assertStatus(200);
+    }
+
+    public function test_tolak_surat_izin_penelitian_oleh_supervisor()
+    {
+        $admin = \App\Models\User::factory()->create([
+            'email' => 'akd@example.com',
+            'password' => bcrypt('password'),
+            'role' => 'supervisor_akd',
+        ]);
+
+        $this->actingAs($admin);
+
+
+        $surat = \App\Models\srt_izin_penelitian::factory()->create([
+            'catatan_surat' => null,
+            'role_surat' => 'supervisor_akd',
+        ]);
+
+        $response = $this->post("/srt_izin_plt/supervisor/cek_surat/tolak/{$surat->id}", [
+            'catatan_surat' => 'Dokumen tidak lengkap',
+        ]);
+
+        $response->assertRedirect(route('srt_izin_plt.supervisor'));
+        $response->assertSessionHas('success', 'Alasan penolakan telah dikirimkan');
+
+        $this->assertDatabaseHas('srt_izin_plt', [
+            'id' => $surat->id,
+            'catatan_surat' => 'Dokumen tidak lengkap',
+            'role_surat' => 'tolak',
+        ]);
+    }
+
+    public function test_setuju_srt_izin_plt_oleh_supervisor()
+    {
+        $faker = \Faker\Factory::create();
+
         $user = \App\Models\User::factory()->create([
             'email' => 'supervisor@example.com',
             'password' => bcrypt('password'),
@@ -354,22 +387,27 @@ class Surat_Izin_Penelitian_Test extends TestCase
 
         $this->actingAs($user);
 
+        $judul = $faker->sentence();
+        if (strlen($judul) > 120) {
+            $judul = substr($judul, 0, 120);
+            $judul = substr($judul, 0, strrpos($judul, ' ')); // Potong pada spasi terakhir
+        }
+
         $surat = \App\Models\srt_izin_penelitian::factory()->create([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
-            'nama_mhw' => $user->nama,
             'semester' => $faker->randomDigitNotNull,
             'almt_lmbg' => $faker->address(),
             'jbt_lmbg' => $faker->jobTitle(),
             'kota_lmbg' => $faker->city(),
             'nama_lmbg' => $faker->company(),
-            'judul_data' => $faker->sentence(),
+            'judul_data' => $judul,
             'jenis_surat' => $faker->randomElement(['Kerja Praktek', 'Tugas Akhir Penelitian Mahasiswa', 'Ijin Penelitian' , 'Survey' , 'Thesis', 'Disertasi']),
             'lampiran' => $faker->randomElement(['1 Eksemplar', '2 Eksemplar']),
             'tanggal_surat' => Carbon::now()->format('Y-m-d'),
         ]);
 
-        $response = $this->post("/srt_izin_plt/supervisor/setuju/{$surat->id}");
+        $response = $this->post("/srt_izin_plt/supervisor/cek_surat/setuju/{$surat->id}");
 
         $response->assertRedirect();
         $response->assertSessionHas('success', 'Surat berhasil disetujui');
@@ -380,14 +418,14 @@ class Surat_Izin_Penelitian_Test extends TestCase
         ]);
     }
 
-    public function test_halaman_manajer_surat_izin_penelitian(): void
+    public function test_halaman_surat_izin_penelitian_oleh_manajer(): void
     {
         $response = $this->get('/srt_izin_plt/manajer');
 
         $response->assertStatus(302);
     }
 
-    public function test_manajer_setuju_srt_izin_plt()
+    public function test_cek_surat_srt_izin_plt_oleh_manajer()
     {
         $faker = \Faker\Factory::create();
 
@@ -399,29 +437,218 @@ class Surat_Izin_Penelitian_Test extends TestCase
 
         $this->actingAs($user);
 
-        $surat = \App\Models\srt_izin_penelitian::factory()->create([
+        $judul = $faker->sentence();
+        if (strlen($judul) > 120) {
+            $judul = substr($judul, 0, 120);
+            $judul = substr($judul, 0, strrpos($judul, ' ')); // Potong pada spasi terakhir
+        }
+
+        $suratId = DB::table('srt_izin_plt')->insertGetId([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
-            'nama_mhw' => $user->nama,
             'semester' => $faker->randomDigitNotNull,
             'almt_lmbg' => $faker->address(),
             'jbt_lmbg' => $faker->jobTitle(),
             'kota_lmbg' => $faker->city(),
             'nama_lmbg' => $faker->company(),
-            'judul_data' => $faker->sentence(),
+            'judul_data' => $judul,
             'jenis_surat' => $faker->randomElement(['Kerja Praktek', 'Tugas Akhir Penelitian Mahasiswa', 'Ijin Penelitian' , 'Survey' , 'Thesis', 'Disertasi']),
             'lampiran' => $faker->randomElement(['1 Eksemplar', '2 Eksemplar']),
             'tanggal_surat' => Carbon::now()->format('Y-m-d'),
         ]);
 
-        $response = $this->post("/srt_izin_plt/manajer/setuju/{$surat->id}");
+        $response = $this->get("/srt_izin_plt/manajer/cek_surat/{$suratId}");
+
+        $response->assertStatus(200);
+    }
+
+    public function test_tolak_surat_izin_penelitian_oleh_manajer()
+    {
+        $admin = \App\Models\User::factory()->create([
+            'email' => 'manajer@example.com',
+            'password' => bcrypt('password'),
+            'role' => 'manajer',
+        ]);
+
+        $this->actingAs($admin);
+
+
+        $surat = \App\Models\srt_izin_penelitian::factory()->create([
+            'catatan_surat' => null,
+            'role_surat' => 'manajer',
+        ]);
+
+        $response = $this->post("/srt_izin_plt/manajer/cek_surat/tolak/{$surat->id}", [
+            'catatan_surat' => 'Dokumen tidak lengkap',
+        ]);
+
+        $response->assertRedirect(route('srt_izin_plt.manajer'));
+        $response->assertSessionHas('success', 'Alasan penolakan telah dikirimkan');
+
+        $this->assertDatabaseHas('srt_izin_plt', [
+            'id' => $surat->id,
+            'catatan_surat' => 'Dokumen tidak lengkap',
+            'role_surat' => 'tolak',
+        ]);
+    }
+
+    public function test_setuju_srt_izin_plt_oleh_manajer()
+    {
+        $faker = \Faker\Factory::create();
+
+        $user = \App\Models\User::factory()->create([
+            'email' => 'manajer@example.com',
+            'password' => bcrypt('password'),
+            'role' => 'manajer',
+        ]);
+
+        $this->actingAs($user);
+
+        $judul = $faker->sentence();
+        if (strlen($judul) > 120) {
+            $judul = substr($judul, 0, 120);
+            $judul = substr($judul, 0, strrpos($judul, ' ')); // Potong pada spasi terakhir
+        }
+
+        $surat = \App\Models\srt_izin_penelitian::factory()->create([
+            'users_id' => $user->id,
+            'prd_id' => $user->prd_id,
+            'semester' => $faker->randomDigitNotNull,
+            'almt_lmbg' => $faker->address(),
+            'jbt_lmbg' => $faker->jobTitle(),
+            'kota_lmbg' => $faker->city(),
+            'nama_lmbg' => $faker->company(),
+            'judul_data' => $judul,
+            'jenis_surat' => $faker->randomElement(['Kerja Praktek', 'Tugas Akhir Penelitian Mahasiswa', 'Ijin Penelitian' , 'Survey' , 'Thesis', 'Disertasi']),
+            'lampiran' => $faker->randomElement(['1 Eksemplar', '2 Eksemplar']),
+            'tanggal_surat' => Carbon::now()->format('Y-m-d'),
+        ]);
+
+        $response = $this->post("/srt_izin_plt/manajer/cek_surat/setuju/{$surat->id}");
 
         $response->assertRedirect();
         $response->assertSessionHas('success', 'Surat berhasil disetujui');
 
         $this->assertDatabaseHas('srt_izin_plt', [
             'id' => $surat->id,
-            'role_surat' => 'manajer_sukses',
+            'role_surat' => 'wd1',
+        ]);
+    }
+
+    public function test_halaman_surat_izin_penelitian_oleh_wd1(): void
+    {
+        $response = $this->get('/srt_izin_plt/wd1');
+
+        $response->assertStatus(302);
+    }
+
+    public function test_cek_surat_srt_izin_plt_oleh_wd1()
+    {
+        $faker = \Faker\Factory::create();
+
+        $user = \App\Models\User::factory()->create([
+            'email' => 'wd1@example.com',
+            'password' => bcrypt('password'),
+            'role' => 'wd1',
+        ]);
+
+        $this->actingAs($user);
+
+        $judul = $faker->sentence();
+        if (strlen($judul) > 120) {
+            $judul = substr($judul, 0, 120);
+            $judul = substr($judul, 0, strrpos($judul, ' ')); // Potong pada spasi terakhir
+        }
+
+        $suratId = DB::table('srt_izin_plt')->insertGetId([
+            'users_id' => $user->id,
+            'prd_id' => $user->prd_id,
+            'semester' => $faker->randomDigitNotNull,
+            'almt_lmbg' => $faker->address(),
+            'jbt_lmbg' => $faker->jobTitle(),
+            'kota_lmbg' => $faker->city(),
+            'nama_lmbg' => $faker->company(),
+            'judul_data' => $judul,
+            'jenis_surat' => $faker->randomElement(['Kerja Praktek', 'Tugas Akhir Penelitian Mahasiswa', 'Ijin Penelitian' , 'Survey' , 'Thesis', 'Disertasi']),
+            'lampiran' => $faker->randomElement(['1 Eksemplar', '2 Eksemplar']),
+            'tanggal_surat' => Carbon::now()->format('Y-m-d'),
+        ]);
+
+        $response = $this->get("/srt_izin_plt/wd1/cek_surat/{$suratId}");
+
+        $response->assertStatus(200);
+    }
+
+    public function test_tolak_surat_izin_penelitian_oleh_wd1()
+    {
+        $admin = \App\Models\User::factory()->create([
+            'email' => 'wd1@example.com',
+            'password' => bcrypt('password'),
+            'role' => 'wd1',
+        ]);
+
+        $this->actingAs($admin);
+
+
+        $surat = \App\Models\srt_izin_penelitian::factory()->create([
+            'catatan_surat' => null,
+            'role_surat' => 'wd1',
+        ]);
+
+        $response = $this->post("/srt_izin_plt/wd1/cek_surat/tolak/{$surat->id}", [
+            'catatan_surat' => 'Dokumen tidak lengkap',
+        ]);
+
+        $response->assertRedirect(route('srt_izin_plt.wd1'));
+        $response->assertSessionHas('success', 'Alasan penolakan telah dikirimkan');
+
+        $this->assertDatabaseHas('srt_izin_plt', [
+            'id' => $surat->id,
+            'catatan_surat' => 'Dokumen tidak lengkap',
+            'role_surat' => 'tolak',
+        ]);
+    }
+
+    public function test_setuju_srt_izin_plt_oleh_wd1()
+    {
+        $faker = \Faker\Factory::create();
+
+        $user = \App\Models\User::factory()->create([
+            'email' => 'wd1@example.com',
+            'password' => bcrypt('password'),
+            'role' => 'wd1',
+        ]);
+
+        $this->actingAs($user);
+
+        $judul = $faker->sentence();
+        if (strlen($judul) > 120) {
+            $judul = substr($judul, 0, 120);
+            $judul = substr($judul, 0, strrpos($judul, ' ')); // Potong pada spasi terakhir
+        }
+
+        $surat = \App\Models\srt_izin_penelitian::factory()->create([
+            'users_id' => $user->id,
+            'prd_id' => $user->prd_id,
+            'semester' => $faker->randomDigitNotNull,
+            'almt_lmbg' => $faker->address(),
+            'jbt_lmbg' => $faker->jobTitle(),
+            'kota_lmbg' => $faker->city(),
+            'nama_lmbg' => $faker->company(),
+            'judul_data' => $judul,
+            'jenis_surat' => $faker->randomElement(['Kerja Praktek', 'Tugas Akhir Penelitian Mahasiswa', 'Ijin Penelitian' , 'Survey' , 'Thesis', 'Disertasi']),
+            'lampiran' => $faker->randomElement(['1 Eksemplar', '2 Eksemplar']),
+            'tanggal_surat' => Carbon::now()->format('Y-m-d'),
+        ]);
+
+        $response = $this->post("/srt_izin_plt/wd1/cek_surat/setuju/{$surat->id}");
+
+        $response->assertRedirect();
+        $response->assertSessionHas('success', 'Surat berhasil disetujui');
+
+        $this->assertDatabaseHas('srt_izin_plt', [
+            'id' => $surat->id,
+            'role_surat' => 'mahasiswa',
         ]);
     }
 }

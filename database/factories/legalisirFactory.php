@@ -19,14 +19,19 @@ class legalisirFactory extends Factory
         return [
             'users_id' => \App\Models\User::factory(),
             'prd_id' => 1,
-            'nama_mhw' => $this->faker->name,
-            'jenis_lgl' => $this->faker->randomElement(['ijazah' ,'transkrip', 'ijazah_transkrip']),
-            'ambil' => $this->faker->randomElement(['ditempat' ,'dikirim']),
+            'jenis_lgl' => $this->faker->randomElement(['ijazah', 'transkrip', 'ijazah_transkrip']),
+            'ambil' => $this->faker->randomElement(['ditempat', 'dikirim']),
             'file_ijazah' => 'file_ijazah.pdf',
             'file_transkrip' => 'file_transkrip.pdf',
-            'keperluan' => $this->faker->sentence(),
+            'keperluan' => 'Untuk Lanjut Pendidikan',
             'tgl_lulus' => $this->faker->date('Y-m-d'),
             'tanggal_surat' => $this->faker->date('Y-m-d'),
+            'almt_kirim' => $this->faker->address(),
+            'kota_kirim' => $this->faker->city(),
+            'kdps_kirim' => 2222,
+            'kcmt_kirim' => $this->faker->randomElement(['Kecamatan A', 'Kecamatan B']),
+            'klh_kirim' => $this->faker->randomElement(['Kelurahan A', 'Kelurahan B']),
+            'role_surat' => $this->faker->randomElement(['mahasiswa', 'admin', 'tolak', 'supervisor_akd', 'dekan']),
         ];
     }
 }

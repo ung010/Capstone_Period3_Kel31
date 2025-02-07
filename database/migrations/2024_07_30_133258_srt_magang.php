@@ -15,7 +15,7 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('no_surat', 50)->nullable();
             // $table->string('nama_mhw', 50)->nullable();
-            $table->string('almt_smg', 80);
+            $table->string('almt_smg', 120);
             $table->tinyInteger('semester')->unsigned();
             $table->tinyInteger('sksk')->unsigned();
             $table->decimal('ipk', 3, 2)->unsigned();

@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('jbt_lmbg', 50);
             $table->string('kota_lmbg', 40);
             $table->string('almt_lmbg', 100);
-            $table->string('judul_data', 45);
+            $table->string('judul_data', 130);
             $table->string('jenis_surat', 35);
             $table->date('tanggal_surat');
             $table->string('catatan_surat', 280)->nullable();

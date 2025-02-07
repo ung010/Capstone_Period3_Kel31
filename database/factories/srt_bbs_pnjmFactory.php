@@ -19,7 +19,6 @@ class srt_bbs_pnjmFactory extends Factory
         return [
             'users_id' => \App\Models\User::factory(),
             'prd_id' => 1,
-            'nama_mhw' => $this->faker->name,
             'dosen_wali' => $this->faker->name(),
             'almt_smg' => $this->faker->address(),
             'tanggal_surat' => $this->faker->date('Y-m-d'),

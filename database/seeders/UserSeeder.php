@@ -27,7 +27,7 @@ class UserSeeder extends Seeder
         $randomImage = $faker->randomElement($imageFiles);
         $imageName = basename($randomImage);
 
-        foreach (range(1, 100) as $index) {
+        foreach (range(1, 50) as $index) {
             $id = mt_rand(1000000000000, 9999999999999);
             $randomImage = $faker->randomElement($imageFiles);
             $imageName = basename($randomImage);

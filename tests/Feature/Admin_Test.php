@@ -3,15 +3,15 @@
 namespace Tests\Feature;
 
 use Carbon\Carbon;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 class Admin_Test extends TestCase
 {
-    
+    use DatabaseTransactions;
+
     public function test_view_halaman_admin(): void
     {
         $response = $this->get('/admin');
@@ -41,7 +41,7 @@ class Admin_Test extends TestCase
 
         $mhw = DB::table('users')->insertGetId([
             'nama' => $faker->name,
-            'nmr_unik' => $faker->unique()->numerify('######'),
+            'nim_nip' => $faker->unique()->numerify('######'),
             'email' => $faker->unique()->safeEmail,
             'password' => Hash::make('mountain082'),
             'kota' => $faker->city,
@@ -75,7 +75,7 @@ class Admin_Test extends TestCase
 
         $mhw = DB::table('users')->insertGetId([
             'nama' => $faker->name(),
-            'nmr_unik' => $faker->unique()->numerify('##########'),
+            'nim_nip' => $faker->unique()->numerify('##########'),
             'email' => $faker->email,
             'password' => Hash::make('mountain082'),
         ]);
@@ -110,7 +110,7 @@ class Admin_Test extends TestCase
 
         $mhw = DB::table('users')->insertGetId([
             'nama' => $faker->name(),
-            'nmr_unik' => $faker->unique()->numerify('##########'),
+            'nim_nip' => $faker->unique()->numerify('##########'),
             'email' => $faker->email,
             'password' => Hash::make('mountain082'),
         ]);
@@ -118,11 +118,11 @@ class Admin_Test extends TestCase
         try {
             $response = $this->post("/admin/user/update/{$mhw}", [
                 'email' => $faker->email,
-                'nmr_unik' => 21120120150155,
+                'nim_nip' => 21120120150155,
                 'password' => Hash::make('12345678'),
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
-            $this->assertEquals('NIM sudah digunakan, silakan masukkan NIM yang lain', $e->validator->errors()->first('nmr_unik'));
+            $this->assertEquals('NIM sudah digunakan, silakan masukkan NIM yang lain', $e->validator->errors()->first('nim_nip'));
             return;
         }
 
@@ -140,22 +140,18 @@ class Admin_Test extends TestCase
     {
         $faker = \Faker\Factory::create();
 
-        $prodi = DB::table('prodi')->insertGetId([
-            'nama_prd' => 'Prodi Test',
-        ]);
-
         $departement = DB::table('departement')->insertGetId([
-            'nama_dpt' => 'Departement Test',
+            'nama_dpt' => 'DPT Test'
         ]);
 
         $prodi = DB::table('prodi')->insertGetId([
-            'nama_prd' => 'Prodi Test',
-            'dpt_id' => $departement,
+            'nama_prd' => 'PRD Test',
+            'dpt_id' => $departement
         ]);
 
         $non_mhw = DB::table('users')->insertGetId([
             'nama' => 'Test User',
-            'nmr_unik' => $faker->unique()->numerify('##########'),
+            'nim_nip' => $faker->unique()->numerify('##########'),
             'email' => 'testuser@example.com',
             'password' => Hash::make('password'),
             'role' => 'non_mahasiswa',
@@ -163,12 +159,11 @@ class Admin_Test extends TestCase
         ]);
 
         $response = $this->get("/admin/verif_user/cekdata/{$non_mhw}");
-
         $response->assertStatus(302);
     }
 
 
-    public function test_setujui_akun()
+    public function test_setuju_akun_non_mahasiswa()
     {
         $admin = \App\Models\User::factory()->create([
             'email' => 'admin@example.com',
@@ -196,7 +191,7 @@ class Admin_Test extends TestCase
         ]);
     }
 
-    public function test_tolak_akun()
+    public function test_tolak_akun_non_mahasiswa()
     {
         $admin = \App\Models\User::factory()->create([
             'email' => 'admin@example.com',
@@ -217,7 +212,7 @@ class Admin_Test extends TestCase
 
         $response->assertRedirect(route('admin.verifikasi'));
         $response->assertStatus(302);
-        $response->assertSessionHas('success', 'Catatan berhasil ditambahkan');
+        $response->assertSessionHas('success', 'Penolakan verifikasi berhasil dilakukan');
 
         $this->assertDatabaseHas('users', [
             'id' => $non_mhw->id,

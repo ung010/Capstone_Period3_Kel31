@@ -29,7 +29,7 @@ class SuratSeeder extends Seeder
 
         $list_role = ['mahasiswa', 'admin', 'supervisor_akd', 'manajer'];
 
-        foreach (range(1, 50) as $index) {
+        foreach (range(1, 20) as $index) {
 
             $random_user_id = $faker_srt_mhw_asn->randomElement($user_ids);
             $user = DB::table('users')->where('id', $random_user_id)->first();
@@ -73,7 +73,7 @@ class SuratSeeder extends Seeder
         $alasan_acak = ['sakit', 'berpegian', 'menjenguk', 'acara keluarga', 'urusan pribadi'];
         $list_role = ['mahasiswa', 'admin', 'supervisor_akd', 'manajer', 'wd1'];
 
-        foreach (range(1, 95) as $index) {
+        foreach (range(1, 25) as $index) {
 
             $random_user_id = $faker_srt_masih_mhw->randomElement($user_ids);
             $user = DB::table('users')->where('id', $random_user_id)->first();
@@ -113,7 +113,7 @@ class SuratSeeder extends Seeder
             ->pluck('id')
             ->toArray();
 
-        foreach (range(1, 50) as $index) {
+        foreach (range(1, 20) as $index) {
             $id = mt_rand(1000000000000, 9999999999999);
             $random_user_id = $faker_srt_magang->randomElement($user_ids);
             $user = DB::table('users')->where('id', $random_user_id)->first();
@@ -161,7 +161,7 @@ class SuratSeeder extends Seeder
             'Disertasi'
         ];
 
-        foreach (range(1, 50) as $index) {
+        foreach (range(1, 20) as $index) {
             $id = mt_rand(1000000000000, 9999999999999);
             $random_user_id = $faker_srt_plt->randomElement($user_ids);
             $user = DB::table('users')->where('id', $random_user_id)->first();
@@ -230,7 +230,7 @@ class SuratSeeder extends Seeder
             ->pluck('id')
             ->toArray();
 
-        foreach (range(1, 50) as $index) {
+        foreach (range(1, 20) as $index) {
             $id = mt_rand(1000000000000, 9999999999999);
             $random_user_id = $faker_srt_bbs_pnjm->randomElement($user_ids);
             $user = DB::table('users')->where('id', $random_user_id)->first();
@@ -263,10 +263,10 @@ class SuratSeeder extends Seeder
             ->toArray();
 
         $urusan = ['Bekerja di luar negeri', 'Melamar Kerja', 'Melamar Istri', 'Ambil pendidikan tinggi di LN'];
-        $jenis_legalisir = ['ijazah', 'transkrip', 'ijazah_transkrip'];
+        $kecamatan = ['Kecamatan 1', 'Kecamatan 2', 'Kecamatan 3'];
+        $kelurahan = ['Kelurahan 1', 'Kelurahan 2', 'Kelurahan 3'];
 
-
-        foreach (range(1, 95) as $index) {
+        foreach (range(1, 25) as $index) {
             $id = mt_rand(1000000000000, 9999999999999);
             $random_user_id = $faker_lgl->randomElement($user_ids);
             $user = DB::table('users')->where('id', $random_user_id)->first();
@@ -278,13 +278,17 @@ class SuratSeeder extends Seeder
             DB::table('legalisir')->insert([
                 'id' => $id,
                 'users_id' => $random_user_id,
-                // 'nama_mhw' => $nama_mhw,
                 'tgl_lulus' => $tanggal_lulus,
                 'keperluan' => $keperluan,
-                'jenis_lgl' => $faker_lgl->randomElement($jenis_legalisir),
-                'ambil' => $faker_lgl->randomElement(['ditempat', 'dikirim']),
-                'role_surat' => $faker_lgl->randomElement(['admin', 'supervisor_akd', 'dekan']),
+                'jenis_lgl' => $faker_lgl->randomElement(['ijazah', 'transkrip', 'ijazah_transkrip']),
+                'ambil' => $faker_lgl->randomElement(['dikirim', 'ditempat']),
+                'role_surat' => $faker_lgl->randomElement(['admin']),
                 'prd_id' => $user->prd_id,
+                'almt_kirim' => $faker_lgl->address(),
+                'kota_kirim' => $faker_lgl->city(),
+                'kdps_kirim' => $faker_lgl->postcode(),
+                'kcmt_kirim' => $faker_lgl->randomElement($kecamatan),
+                'klh_kirim' => $faker_lgl->randomElement($kelurahan),
                 'tanggal_surat' => $tanggal_surat,
             ]);
         }

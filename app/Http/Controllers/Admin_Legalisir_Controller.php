@@ -75,6 +75,7 @@ class Admin_Legalisir_Controller extends Controller
 
     function cek_kirim_ijazah($id)
     {
+        $legalisir = legalisir::findOrFail($id);
         $legalisir = DB::table('legalisir')
             ->join('prodi', 'legalisir.prd_id', '=', 'prodi.id')
             ->join('users', 'legalisir.users_id', '=', 'users.id')
