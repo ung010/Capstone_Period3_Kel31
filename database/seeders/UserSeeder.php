@@ -35,7 +35,7 @@ class UserSeeder extends Seeder
                 'id' => $id,
                 'nama' => $faker->firstName . ' ' . $faker->lastName,
                 'nim_nip' => '211201' . $faker->unique()->numerify('########'),
-                'email' => Str::lower($faker->firstName) . '@students.undip.ac.id',
+                'email' => Str::lower($faker->unique()->firstName) . '@students.undip.ac.id',
                 'password' => Hash::make('1234567'),
                 'role' => $faker->randomElement(['non_mahasiswa', 'mahasiswa']),
                 'status' => $faker->randomElement(['mahasiswa', 'alumni']),

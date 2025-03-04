@@ -187,12 +187,12 @@ class Surat_Masih_Mahasiswa_Test extends TestCase
 
     public function test_halaman_surat_masih_mhw_manajer_oleh_admin(): void
     {
-        $response = $this->get('/srt_masih_mhw/admin/manajer');
+        $response = $this->get('/srt_masih_mhw/admin');
 
         $response->assertStatus(302);
     }
 
-    public function test_setuju_surat_masih_mhw_manajer_oleh_admin()
+    public function test_setuju_surat_masih_mhw_oleh_admin()
     {
         $admin = \App\Models\User::factory()->create([
             'email' => 'admin@example.com',
@@ -207,7 +207,7 @@ class Surat_Masih_Mahasiswa_Test extends TestCase
             'role_surat' => 'admin',
         ]);
 
-        $response = $this->post("/srt_masih_mhw/admin/manajer/cek_surat/setuju/{$srtMhwAsn->id}", [
+        $response = $this->post("/srt_masih_mhw/admin/cek_surat/setuju/{$srtMhwAsn->id}", [
             'no_surat' => '123456789',
         ]);
 
@@ -221,7 +221,7 @@ class Surat_Masih_Mahasiswa_Test extends TestCase
         ]);
     }
 
-    public function test_cek_surat_masih_mhw_manajer_oleh_admin()
+    public function test_cek_surat_masih_mhw_oleh_admin()
     {
         $admin = \App\Models\User::factory()->create([
             'email' => 'admin@example.com',
@@ -242,12 +242,12 @@ class Surat_Masih_Mahasiswa_Test extends TestCase
             'prd_id' => 1,
         ]);
 
-        $response = $this->get("/srt_masih_mhw/admin/manajer/cek_surat/{$suratId}");
+        $response = $this->get("/srt_masih_mhw/admin/cek_surat/{$suratId}");
 
         $response->assertStatus(200);
     }
 
-    public function test_tolak_surat_masih_mhw_manajer_oleh_admin()
+    public function test_tolak_surat_masih_mhw_oleh_admin()
     {
         $admin = \App\Models\User::factory()->create([
             'email' => 'admin@example.com',
@@ -263,103 +263,11 @@ class Surat_Masih_Mahasiswa_Test extends TestCase
             'role_surat' => 'admin',
         ]);
 
-        $response = $this->post("/srt_masih_mhw/admin/manajer/cek_surat/tolak/{$srtMhwAsn->id}", [
+        $response = $this->post("/srt_masih_mhw/admin/cek_surat/tolak/{$srtMhwAsn->id}", [
             'catatan_surat' => 'Dokumen tidak lengkap',
         ]);
 
         $response->assertRedirect(route('srt_masih_mhw.admin'));
-        $response->assertSessionHas('success', 'Alasan penolakan telah dikirimkan');
-
-        $this->assertDatabaseHas('srt_masih_mhw', [
-            'id' => $srtMhwAsn->id,
-            'catatan_surat' => 'Dokumen tidak lengkap',
-            'role_surat' => 'tolak',
-        ]);
-    }
-
-    public function test_halaman_surat_masih_mhw_wd_oleh_admin(): void
-    {
-        $response = $this->get('/srt_masih_mhw/admin/wd');
-
-        $response->assertStatus(302);
-    }
-
-    public function test_cek_srt_masih_mhw_wd_oleh_admin()
-    {
-        $admin = \App\Models\User::factory()->create([
-            'email' => 'admin@example.com',
-            'password' => bcrypt('password'),
-            'role' => 'admin',
-        ]);
-
-        $this->actingAs($admin);
-
-        $suratId = DB::table('srt_masih_mhw')->insertGetId([
-            'users_id' => $admin->id,
-            'thn_awl' => 2020,
-            'thn_akh' => 2024,
-            'semester' => 6,
-            'tujuan_buat_srt' => 'Berkeluarga',
-            'almt_smg' => 'Semarang',
-            'tanggal_surat' => Carbon::now()->format('Y-m-d'),
-            'prd_id' => 1,
-        ]);
-
-        $response = $this->get("/srt_masih_mhw/admin/wd/cek_surat/{$suratId}");
-
-        $response->assertStatus(200);
-    }
-
-    public function test_setuju_surat_masih_mhw_wd_oleh_admin()
-    {
-        $admin = \App\Models\User::factory()->create([
-            'email' => 'admin@example.com',
-            'password' => bcrypt('password'),
-            'role' => 'admin',
-        ]);
-
-        $this->actingAs($admin);
-
-        $srtMhwAsn = \App\Models\srt_masih_mhw::factory()->create([
-            'no_surat' => null,
-            'role_surat' => 'admin',
-        ]);
-
-        $response = $this->post("/srt_masih_mhw/admin/wd/cek_surat/setuju/{$srtMhwAsn->id}", [
-            'no_surat' => '123456789',
-        ]);
-
-        $response->assertRedirect(route('srt_masih_mhw.wd'));
-        $response->assertSessionHas('success', 'No surat berhasil ditambahkan');
-
-        $this->assertDatabaseHas('srt_masih_mhw', [
-            'id' => $srtMhwAsn->id,
-            'no_surat' => '123456789',
-            'role_surat' => 'supervisor_akd',
-        ]);
-    }
-
-    public function test_tolak_surat_masih_mhw_wd_oleh_admin()
-    {
-        $admin = \App\Models\User::factory()->create([
-            'email' => 'admin@example.com',
-            'password' => bcrypt('password'),
-            'role' => 'admin',
-        ]);
-
-        $this->actingAs($admin);
-
-
-        $srtMhwAsn = \App\Models\srt_masih_mhw::factory()->create([
-            'catatan_surat' => null,
-            'role_surat' => 'admin',
-        ]);
-
-        $response = $this->post("/srt_masih_mhw/admin/wd/cek_surat/tolak/{$srtMhwAsn->id}", [
-            'catatan_surat' => 'Dokumen tidak lengkap',
-        ]);
-
-        $response->assertRedirect(route('srt_masih_mhw.wd'));
         $response->assertSessionHas('success', 'Alasan penolakan telah dikirimkan');
 
         $this->assertDatabaseHas('srt_masih_mhw', [
@@ -573,39 +481,12 @@ class Surat_Masih_Mahasiswa_Test extends TestCase
         $response = $this->post("/srt_masih_mhw/manajer/cek_surat/setuju/{$surat->id}");
 
         $response->assertRedirect();
-        $response->assertSessionHas('success', 'Surat berhasil disetujui');
+        $response->assertSessionHas('success', 'Surat dikirim ke mahasiswa yang bersangkutan');
 
         $this->assertDatabaseHas('srt_masih_mhw', [
             'id' => $surat->id,
             'role_surat' => 'mahasiswa',
         ]);
-    }
-
-    public function test_cek_surat_masih_mhw_untuk_wd_oleh_manajer()
-    {
-        $manajer = \App\Models\User::factory()->create([
-            'email' => 'manajer@example.com',
-            'password' => bcrypt('password'),
-            'role' => 'manajer',
-        ]);
-
-        $this->actingAs($manajer);
-
-        $suratId = DB::table('srt_masih_mhw')->insertGetId([
-            'users_id' => $manajer->id,
-            'thn_awl' => 2020,
-            'thn_akh' => 2024,
-            'semester' => 6,
-            'tujuan_akhir' => 'wd',
-            'tujuan_buat_srt' => 'Berkeluarga',
-            'almt_smg' => 'Semarang',
-            'tanggal_surat' => Carbon::now()->format('Y-m-d'),
-            'prd_id' => 1,
-        ]);
-
-        $response = $this->get("/srt_masih_mhw/manajer/wd/cek_surat/{$suratId}");
-
-        $response->assertStatus(200);
     }
 
     public function test_tolak_surat_masih_mhw_untuk_wd_oleh_manajer()
@@ -664,7 +545,7 @@ class Surat_Masih_Mahasiswa_Test extends TestCase
         $response = $this->post("/srt_masih_mhw/manajer/wd/cek_surat/setuju/{$surat->id}");
 
         $response->assertRedirect();
-        $response->assertSessionHas('success', 'Surat berhasil disetujui');
+        $response->assertSessionHas('success', 'Surat dilanjutkan ke Wakil Dekan');
 
         $this->assertDatabaseHas('srt_masih_mhw', [
             'id' => $surat->id,
@@ -762,7 +643,7 @@ class Surat_Masih_Mahasiswa_Test extends TestCase
         $response = $this->post("/srt_masih_mhw/wd1/cek_surat/setuju/{$surat->id}");
 
         $response->assertRedirect();
-        $response->assertSessionHas('success', 'Surat berhasil disetujui');
+        $response->assertSessionHas('success', 'Surat dikirim ke mahasiswa yang bersangkutan');
 
         $this->assertDatabaseHas('srt_masih_mhw', [
             'id' => $surat->id,

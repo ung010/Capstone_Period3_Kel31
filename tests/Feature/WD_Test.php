@@ -25,14 +25,15 @@ class WD_Test extends TestCase
         $response->assertStatus(302);
     }
 
-    public function test_edit_akun_wakil_dekan1(): void
+    public function test_edit_akun_wakil_dekan(): void
     {
         $this->withoutExceptionHandling();
         $faker = \Faker\Factory::create();
 
         $user = \App\Models\User::factory()->create([
-            'email' => 'wd1@gmail.com',
+            'email' => 'wd1@test.com',
             'password' => bcrypt('mountain082'),
+            'role' => 'wd1'
         ]);
 
         $this->actingAs($user);
@@ -52,7 +53,7 @@ class WD_Test extends TestCase
         $faker = \Faker\Factory::create();
 
         \App\Models\User::factory()->create([
-            'email' => 'wd1@gmail.com',
+            'email' => 'wd1@test.com',
             'password' => bcrypt('mountain082'),
             'role' => 'wd1'
         ]);

@@ -19,7 +19,7 @@
                                 <th class="col-md-1">No</th>
                                 <th class="col-md-1">Nama Mahasiswa</th>
                                 <th class="col-md-1">Keperluan</th>
-                                <th class="col-md-1">Tujuan Surat</th>
+                                <th class="col-md-1">Tujuan TTD</th>
                                 <th class="col-md-1">Cek Data</th>
                             </tr>
                         </thead>
@@ -33,18 +33,13 @@
                                     <td>
                                         @if ($item->tujuan_akhir === 'wd')
                                             Wakil Dekan
-                                        @elseif ($item->tujuan_akhir === 'manajer')
+                                        @else
                                             Manajer
                                         @endif
                                     </td>
                                     <td>
-                                        @if ($item->tujuan_akhir == 'manajer')
-                                            <a href='{{ url('/srt_masih_mhw/manajer/cek_surat/' . $item->id) }}'
-                                                class="btn btn-warning btn-sm">Cek Data</a>
-                                        @elseif($item->tujuan_akhir == 'wd')
-                                            <a href='{{ url('/srt_masih_mhw/manajer/wd/cek_surat/' . $item->id) }}'
-                                                class="btn btn-warning btn-sm">Cek Data</a>
-                                        @endif
+                                        <a href='{{ url('/srt_masih_mhw/manajer/cek_surat/' . $item->id) }}'
+                                            class="btn btn-warning btn-sm">Cek Data</a>
                                     </td>
                                 </tr>
                             @endforeach

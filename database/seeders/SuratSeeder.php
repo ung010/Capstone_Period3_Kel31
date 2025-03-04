@@ -71,7 +71,7 @@ class SuratSeeder extends Seeder
             ->toArray();
 
         $alasan_acak = ['sakit', 'berpegian', 'menjenguk', 'acara keluarga', 'urusan pribadi'];
-        $list_role = ['mahasiswa', 'admin', 'supervisor_akd', 'manajer', 'wd1'];
+        $list_role = ['manajer', 'admin'];
 
         foreach (range(1, 25) as $index) {
 

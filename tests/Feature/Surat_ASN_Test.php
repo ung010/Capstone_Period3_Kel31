@@ -162,14 +162,14 @@ class Surat_ASN_Test extends TestCase
         ]);
     }
 
-    // public function test_download_surat_asn()
-    // {
-    //     $id = 1;
+    public function test_download_surat_asn()
+    {
+        $id = 1;
 
-    //     $response = $this->get("/srt_mhw_asn/download/{$id}");
+        $response = $this->get("/srt_mhw_asn/download/{$id}");
 
-    //     $response->assertStatus(302);
-    // }
+        $response->assertStatus(302);
+    }
 
     public function test_view_halaman_surat_asn_admin(): void
     {

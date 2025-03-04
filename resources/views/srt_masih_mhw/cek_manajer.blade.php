@@ -37,11 +37,19 @@
                 </div>
                 <br>
                 <div class="d-flex justify-content-center align-items-center align-content-center gap-3">
-                    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#tolakModal">Tolak</button>
-                    <form action="{{ route('srt_masih_mhw.setuju_manajer', $srt_masih_mhw->id) }}" method="POST">
-                        @csrf
-                        <button class="btn btn-success" type="submit">Setujui</button>
-                    </form>
+                    @if ($srt_masih_mhw->tujuan_akhir == 'manajer')
+                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#tolakModal">Tolak</button>
+                        <form action="{{ route('srt_masih_mhw.setuju_manajer', $srt_masih_mhw->id) }}" method="POST">
+                            @csrf
+                            <button class="btn btn-success" type="submit">Dikirim ke Mahasiswa</button>
+                        </form>
+                    @else
+                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#tolakwdModal">Tolak</button>
+                        <form action="{{ route('srt_masih_mhw.setuju_manajer_wd', $srt_masih_mhw->id) }}" method="POST">
+                            @csrf
+                            <button class="btn btn-success" type="submit">Dilanjutkan ke Wakil Dekan 1</button>
+                        </form>
+                    @endif
                 </div>
             </div>
         </div>

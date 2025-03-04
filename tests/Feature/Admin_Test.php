@@ -37,6 +37,10 @@ class Admin_Test extends TestCase
             'role' => 'admin',
         ]);
 
+        $phoneNumber = $faker->numerify('##############');
+
+        $phoneNumber = substr($phoneNumber, 0, 12);
+
         $this->actingAs($user);
 
         $mhw = DB::table('users')->insertGetId([
@@ -47,7 +51,7 @@ class Admin_Test extends TestCase
             'kota' => $faker->city,
             'tanggal_lahir' => $faker->date,
             'status' => 'mahasiswa',
-            'nowa' => $faker->phoneNumber,
+            'nowa' => $phoneNumber,
             'nama_ibu' => $faker->name,
             'almt_asl' => $faker->address,
             'prd_id' => 5,

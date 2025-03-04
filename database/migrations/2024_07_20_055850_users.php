@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nama', 50);
             $table->string('nim_nip', 50)->unique();
             $table->string('nowa', 15)->nullable();
-            $table->string('email', 80);
+            $table->string('email', 80)->unique();
             $table->string('kota', 50)->nullable();
             $table->date('tanggal_lahir')->nullable();
             $table->string('almt_asl', 120)->nullable();

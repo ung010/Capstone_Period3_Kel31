@@ -35,6 +35,10 @@ class Surat_Izin_Magang_Test extends TestCase
 
         $this->actingAs($user);
 
+        $jobTitle = $faker->jobTitle();
+
+        $shortJobTitle = explode(' ', $jobTitle)[0];
+
         $response = $this->post('/srt_magang/create', [
             'ipk' => '3.50',
             'sksk' => 150,
@@ -42,7 +46,7 @@ class Surat_Izin_Magang_Test extends TestCase
             'almt_smg' => $faker->address(),
             'almt_lmbg' => $faker->address(),
             'nama_lmbg' => $faker->company(),
-            'jbt_lmbg' => $faker->jobTitle(),
+            'jbt_lmbg' => $shortJobTitle,
             'kota_lmbg' => $faker->city(),
             'tanggal_surat' => $faker->date('Y-m-d'),
         ]);
@@ -65,6 +69,10 @@ class Surat_Izin_Magang_Test extends TestCase
 
         $this->actingAs($user);
 
+        $jobTitle = $faker->jobTitle();
+
+        $shortJobTitle = explode(' ', $jobTitle)[0];
+
         try {
             $response = $this->post('/srt_magang/create', [
                 'ipk' => '3.50',
@@ -73,7 +81,7 @@ class Surat_Izin_Magang_Test extends TestCase
                 'almt_smg' => $faker->address(),
                 'almt_lmbg' => $faker->address(),
                 'nama_lmbg' => $faker->company(),
-                'jbt_lmbg' => $faker->jobTitle(),
+                'jbt_lmbg' => $shortJobTitle,
                 'tanggal_surat' => $faker->date('Y-m-d'),
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
@@ -96,6 +104,10 @@ class Surat_Izin_Magang_Test extends TestCase
             'prd_id' => 1,
         ]);
 
+        $jobTitle = $faker->jobTitle();
+
+        $shortJobTitle = explode(' ', $jobTitle)[0];
+
         $this->actingAs($user);
         $hashids = new Hashids('nilai-salt-unik-anda-di-sini', 7);
         $surat = DB::table('srt_magang')->insertGetId([
@@ -107,7 +119,7 @@ class Surat_Izin_Magang_Test extends TestCase
             'almt_smg' => $faker->address(),
             'almt_lmbg' => $faker->address(),
             'nama_lmbg' => $faker->company(),
-            'jbt_lmbg' => $faker->jobTitle(),
+            'jbt_lmbg' => $shortJobTitle,
             'kota_lmbg' => $faker->city(),
             'tanggal_surat' => Carbon::now()->format('Y-m-d'),
         ]);
@@ -134,6 +146,10 @@ class Surat_Izin_Magang_Test extends TestCase
         ]);
         $this->actingAs($user);
 
+        $jobTitle = $faker->jobTitle();
+
+        $shortJobTitle = explode(' ', $jobTitle)[0];
+
         $surat = DB::table('srt_magang')->insertGetId([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
@@ -143,7 +159,7 @@ class Surat_Izin_Magang_Test extends TestCase
             'almt_smg' => $faker->address(),
             'almt_lmbg' => $faker->address(),
             'nama_lmbg' => $faker->company(),
-            'jbt_lmbg' => $faker->jobTitle(),
+            'jbt_lmbg' => $shortJobTitle,
             'kota_lmbg' => $faker->city(),
             'tanggal_surat' => Carbon::now()->format('Y-m-d'),
         ]);
@@ -155,7 +171,7 @@ class Surat_Izin_Magang_Test extends TestCase
             'almt_smg' => $faker->address(),
             'almt_lmbg' => $faker->address(),
             'nama_lmbg' => $faker->company(),
-            'jbt_lmbg' => $faker->jobTitle(),
+            'jbt_lmbg' => $shortJobTitle,
             'kota_lmbg' => $faker->city(),
         ]);
 
@@ -196,6 +212,10 @@ class Surat_Izin_Magang_Test extends TestCase
 
         $this->actingAs($user);
 
+        $jobTitle = $faker->jobTitle();
+
+        $shortJobTitle = explode(' ', $jobTitle)[0];
+
         $suratId = DB::table('srt_magang')->insertGetId([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
@@ -205,7 +225,7 @@ class Surat_Izin_Magang_Test extends TestCase
             'almt_smg' => $faker->address(),
             'almt_lmbg' => $faker->address(),
             'nama_lmbg' => $faker->company(),
-            'jbt_lmbg' => $faker->jobTitle(),
+            'jbt_lmbg' => $shortJobTitle,
             'kota_lmbg' => $faker->city(),
             'tanggal_surat' => Carbon::now()->format('Y-m-d'),
         ]);
@@ -323,6 +343,10 @@ class Surat_Izin_Magang_Test extends TestCase
 
         $this->actingAs($user);
 
+        $jobTitle = $faker->jobTitle();
+
+        $shortJobTitle = explode(' ', $jobTitle)[0];
+
         $suratId = DB::table('srt_magang')->insertGetId([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
@@ -332,7 +356,7 @@ class Surat_Izin_Magang_Test extends TestCase
             'almt_smg' => $faker->address(),
             'almt_lmbg' => $faker->address(),
             'nama_lmbg' => $faker->company(),
-            'jbt_lmbg' => $faker->jobTitle(),
+            'jbt_lmbg' => $shortJobTitle,
             'kota_lmbg' => $faker->city(),
             'tanggal_surat' => Carbon::now()->format('Y-m-d'),
         ]);
@@ -354,6 +378,10 @@ class Surat_Izin_Magang_Test extends TestCase
 
         $this->actingAs($user);
 
+        $jobTitle = $faker->jobTitle();
+
+        $shortJobTitle = explode(' ', $jobTitle)[0];
+
         $surat = \App\Models\srt_magang::factory()->create([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
@@ -363,7 +391,7 @@ class Surat_Izin_Magang_Test extends TestCase
             'almt_smg' => $faker->address(),
             'almt_lmbg' => $faker->address(),
             'nama_lmbg' => $faker->company(),
-            'jbt_lmbg' => $faker->jobTitle(),
+            'jbt_lmbg' => $shortJobTitle,
             'kota_lmbg' => $faker->city(),
             'tanggal_surat' => Carbon::now()->format('Y-m-d'),
         ]);
@@ -428,6 +456,10 @@ class Surat_Izin_Magang_Test extends TestCase
 
         $this->actingAs($user);
 
+        $jobTitle = $faker->jobTitle();
+
+        $shortJobTitle = explode(' ', $jobTitle)[0];
+
         $suratId = DB::table('srt_magang')->insertGetId([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
@@ -437,7 +469,7 @@ class Surat_Izin_Magang_Test extends TestCase
             'almt_smg' => $faker->address(),
             'almt_lmbg' => $faker->address(),
             'nama_lmbg' => $faker->company(),
-            'jbt_lmbg' => $faker->jobTitle(),
+            'jbt_lmbg' => $shortJobTitle,
             'kota_lmbg' => $faker->city(),
             'tanggal_surat' => Carbon::now()->format('Y-m-d'),
         ]);
@@ -459,6 +491,10 @@ class Surat_Izin_Magang_Test extends TestCase
 
         $this->actingAs($user);
 
+        $jobTitle = $faker->jobTitle();
+
+        $shortJobTitle = explode(' ', $jobTitle)[0];
+
         $surat = \App\Models\srt_magang::factory()->create([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
@@ -468,7 +504,7 @@ class Surat_Izin_Magang_Test extends TestCase
             'almt_smg' => $faker->address(),
             'almt_lmbg' => $faker->address(),
             'nama_lmbg' => $faker->company(),
-            'jbt_lmbg' => $faker->jobTitle(),
+            'jbt_lmbg' => $shortJobTitle,
             'kota_lmbg' => $faker->city(),
             'tanggal_surat' => Carbon::now()->format('Y-m-d'),
         ]);
@@ -533,6 +569,10 @@ class Surat_Izin_Magang_Test extends TestCase
 
         $this->actingAs($user);
 
+        $jobTitle = $faker->jobTitle();
+
+        $shortJobTitle = explode(' ', $jobTitle)[0];
+
         $suratId = DB::table('srt_magang')->insertGetId([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
@@ -542,7 +582,7 @@ class Surat_Izin_Magang_Test extends TestCase
             'almt_smg' => $faker->address(),
             'almt_lmbg' => $faker->address(),
             'nama_lmbg' => $faker->company(),
-            'jbt_lmbg' => $faker->jobTitle(),
+            'jbt_lmbg' => $shortJobTitle,
             'kota_lmbg' => $faker->city(),
             'tanggal_surat' => Carbon::now()->format('Y-m-d'),
         ]);
@@ -564,6 +604,10 @@ class Surat_Izin_Magang_Test extends TestCase
 
         $this->actingAs($user);
 
+        $jobTitle = $faker->jobTitle();
+
+        $shortJobTitle = explode(' ', $jobTitle)[0];
+
         $surat = \App\Models\srt_magang::factory()->create([
             'users_id' => $user->id,
             'prd_id' => $user->prd_id,
@@ -573,7 +617,7 @@ class Surat_Izin_Magang_Test extends TestCase
             'almt_smg' => $faker->address(),
             'almt_lmbg' => $faker->address(),
             'nama_lmbg' => $faker->company(),
-            'jbt_lmbg' => $faker->jobTitle(),
+            'jbt_lmbg' => $shortJobTitle,
             'kota_lmbg' => $faker->city(),
             'tanggal_surat' => Carbon::now()->format('Y-m-d'),
         ]);

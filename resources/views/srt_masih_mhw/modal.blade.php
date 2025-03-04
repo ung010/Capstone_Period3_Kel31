@@ -40,7 +40,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="setujuwdModal" tabindex="-1" aria-labelledby="setujuwdModallLabel" aria-hidden="true">
+{{-- <div class="modal fade" id="setujuwdModal" tabindex="-1" aria-labelledby="setujuwdModallLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <form action="{{ route('srt_masih_mhw.wd_setuju', $srt_masih_mhw->id) }}" method="POST">
@@ -80,7 +80,7 @@
             </form>
         </div>
     </div>
-</div>
+</div> --}}
 
 <script>
     function updateCharacterCount() {

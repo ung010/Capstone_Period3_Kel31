@@ -7,14 +7,7 @@
                 <div class="card d-inline-block intersection-card">
                     <div class="card-body d-flex gap-2 align-items-center">
                         <img src="{{ asset('asset/icons/big mail.png') }}" alt="big mail" class="heading-image">
-                        <p class="heading-card">SURAT KETERANGAN MASIH MAHASISWA OLEH MANAJER</p>
-                    </div>
-                </div>
-                <br>
-                <div class="card d-inline-block">
-                    <div class="card-header d-flex align-items-center gap-2">
-                        <a href="/srt_masih_mhw/admin/manajer" class="btn btn-secondary btn-fixed-size-one">MANAJER</a>
-                        <a href="/srt_masih_mhw/admin/wd" class="btn btn-secondary btn-fixed-size-one">WAKIL DEKAN</a>
+                        <p class="heading-card">SURAT KETERANGAN MASIH MAHASISWA</p>
                     </div>
                 </div>
             </div>
@@ -25,6 +18,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Nama Mahasiswa</th>
+                                <th>Tujuan TTD</th>
                                 <th>Cek Data</th>
                             </tr>
                         </thead>
@@ -35,7 +29,14 @@
                                     <td>{{ $no++ }}</td>
                                     <td>{{ $item->nama_mhw }}</td>
                                     <td>
-                                        <a href='{{ url('/srt_masih_mhw/admin/manajer/cek_surat/' . $item->id) }}'
+                                        @if ($item->tujuan_akhir == 'manajer')
+                                            Manajer
+                                        @else
+                                            Wakil Dekan
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <a href='{{ url('/srt_masih_mhw/admin/cek_surat/' . $item->id) }}'
                                             class="btn btn-warning btn-sm">Cek Data</a>
                                     </td>
                                 </tr>

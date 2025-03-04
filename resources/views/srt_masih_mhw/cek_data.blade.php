@@ -6,14 +6,7 @@
             <div class="card d-inline-block intersection-card">
                 <div class="card-body d-flex gap-2 align-items-center">
                     <img src="{{ asset('asset/icons/big mail.png') }}" alt="big mail" class="heading-image">
-                    <p class="heading-card">SURAT KETERANGAN MASIH MAHASISWA OLEH MANAJER</p>
-                </div>
-            </div>
-            <br>
-            <div class="card d-inline-block">
-                <div class="card-header d-flex align-items-center gap-2">
-                    <a href="/srt_masih_mhw/admin/manajer" class="btn btn-secondary btn-fixed-size-one">MANAJER</a>
-                    <a href="/srt_masih_mhw/admin/wd" class="btn btn-secondary btn-fixed-size-one">WAKIL DEKAN</a>
+                    <p class="heading-card">SURAT KETERANGAN MASIH MAHASISWA</p>
                 </div>
             </div>
         </div>
@@ -31,6 +24,13 @@
                     <p>Program Studi: {{ $srt_masih_mhw->nama_prd }}</p>
                     <p>No Whatsapp: {{ $srt_masih_mhw->nowa }}</p>
                     <p>Alasan Pembuatan Surat: {{ $srt_masih_mhw->tujuan_buat_srt }}</p>
+                    <p>Tujuan Tandat Tngan:
+                        @if ($srt_masih_mhw->tujuan_akhir == 'manajer')
+                            Manajer
+                        @else
+                            Wakil Dekan
+                        @endif
+                    </p>
                     <p>Kartu Tanda Mahasiswa</p>
                     <img src="{{ $srt_masih_mhw->foto ? asset('storage/foto/mahasiswa/' . $srt_masih_mhw->foto) : asset('asset/Rectangle 8.png') }}"
                         alt="ktm" class="w-50">
